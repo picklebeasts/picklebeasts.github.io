@@ -1,8 +1,9 @@
 import Phaser from 'phaser';
 export type MatchResult={won:boolean,score:string};
 export class CourtScene extends Phaser.Scene{
- private player!:Phaser.GameObjects.Arc;private rival!:Phaser.GameObjects.Arc;private ball!:Phaser.GameObjects.Arc;private scoreText!:Phaser.GameObjects.Text;private score=[0,0];private vx=0;private vy=3;private rallies=0;private done=false;private finish!:(r:MatchResult)=>void;private keys!:Phaser.Types.Input.Keyboard.CursorKeys;private target={x:0,y:0};
+ private player!:Phaser.GameObjects.Arc;private rival!:Phaser.GameObjects.Arc;private ball!:Phaser.GameObjects.Arc;private scoreText!:Phaser.GameObjects.Text;private score=[0,0];private vx=0;private vy=3;private rallies=0;private done=false;private finish!:(r:MatchResult)=>void;private keys!:Phaser.Types.Input.Keyboard.CursorKeys;private target={x:0,y:0};private shot:'drive'|'dink'|'lob'='drive';
  constructor(){super('court')}
+ setShot(s:'drive'|'dink'|'lob'){this.shot=s}
  create(d:{finish:(r:MatchResult)=>void;handicap?:number}){
   this.finish=d.finish;this.score=[0,d.handicap||0];const w=this.scale.width,h=this.scale.height;
   this.add.rectangle(w/2,h/2,w,h,0x182326);
@@ -14,7 +15,7 @@ export class CourtScene extends Phaser.Scene{
   this.add.text(w/2,h*.1,'SOLARA CLUB · PARTIDO A 5 PUNTOS',{fontSize:'10px',fontStyle:'bold',color:'#b9f227'}).setOrigin(.5).setDepth(10);
   this.add.text(w/2,h*.93,'TOCA TU MITAD PARA MOVERTE · TOCA LA MITAD RIVAL PARA GOLPEAR',{fontSize:'8px',color:'#f4f5f0'}).setOrigin(.5).setDepth(10);
   this.keys=this.input.keyboard!.createCursorKeys();this.input.keyboard!.addKeys('W,A,S,D');
-  this.input.on('pointerdown',(p:Phaser.Input.Pointer)=>{if(p.y>h*.56){this.target.x=Phaser.Math.Clamp(p.x,w*.08,w*.92);this.target.y=Phaser.Math.Clamp(p.y,h*.59,h*.87)}else if(this.ball.y>h*.55&&this.ball.y<h*.88){this.vx=(p.x-this.player.x)*.012;this.vy=-4.4;this.rallies++}});
+  this.input.on('pointerdown',(p:Phaser.Input.Pointer)=>{if(p.y>h*.56){this.target.x=Phaser.Math.Clamp(p.x,w*.08,w*.92);this.target.y=Phaser.Math.Clamp(p.y,h*.59,h*.87)}else if(this.ball.y>h*.55&&this.ball.y<h*.88){this.vx=(p.x-this.player.x)*.012;this.vy=this.shot==='dink'?-3.2:this.shot==='lob'?-6.1:-4.6;this.rallies++}});
   this.serve();
  }
  private serve(){this.ball.setPosition(this.scale.width*.5,this.scale.height*.5);this.vx=Phaser.Math.Between(-2,2);this.vy=3.5;this.rallies=0}
