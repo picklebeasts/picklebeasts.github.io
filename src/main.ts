@@ -79,7 +79,7 @@ function hit(){
  aim=null;
  const court=app!.querySelector('.pb-court-wrap');if(court){const old=app!.querySelector('#court');old?.remove();court.insertAdjacentHTML('afterbegin',courtSvg());}
  app!.querySelector('[data-hit]')?.setAttribute('disabled','');
- app!.querySelector('#court')?.addEventListener('pointerdown',(ev)=>{
+ app!.querySelector('#court')?.addEventListener('pointerdown',(ev:PointerEvent)=>{
   const svg=ev.currentTarget as SVGSVGElement,pt=svg.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;const p=pt.matrixTransform(svg.getScreenCTM()!.inverse());
   const x=(p.x-30)/3,y=(p.y-38)/4.35;if(x>=0&&x<=100&&y>=0&&y<=50){aim=[Math.round(x),Math.round(y)];const wrap=app!.querySelector('.pb-court-wrap');wrap?.querySelector('#court')?.remove();wrap?.insertAdjacentHTML('afterbegin',courtSvg());app!.querySelector('[data-hit]')?.removeAttribute('disabled');const f=app!.querySelector('#feedback');if(f)f.textContent='Nuevo objetivo seleccionado. ¡Prueba otra vez!';}
  });
