@@ -2,7 +2,7 @@
   "id": "/",
   "name": "PickleBeasts",
   "short_name": "PickleBeasts",
-  "description": "The world is your court.",
+  "description": "El mundo es tu pista.",
   "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
