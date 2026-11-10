@@ -1,0 +1,15 @@
+{
+  "id": "/",
+  "name": "PickleBeasts",
+  "short_name": "PickleBeasts",
+  "description": "The world is your court.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f4f1e8",
+  "theme_color": "#f4f1e8",
+  "icons": [
+    {"src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}
+  ]
+}
