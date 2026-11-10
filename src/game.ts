@@ -32,7 +32,10 @@ export class CourtScene extends Phaser.Scene{
  private keys!:Phaser.Types.Input.Keyboard.CursorKeys;
  private dragging=false;
  private aim={x:0,y:0};
- private serveReady=true;
+ private joystickPointer=-1;
+ private joystickBase={x:0,y:0};
+ private joystickRing!:Phaser.GameObjects.Arc;
+ private joystickKnob!:Phaser.GameObjects.Arc;
  private rallyHits=0;
  private lastHitter:Team|null=null;
 
@@ -68,21 +71,32 @@ export class CourtScene extends Phaser.Scene{
   this.statusText=this.add.text(w/2,top+30,'DOBLES · PRIMER A 11 · DIFERENCIA DE 2',{fontSize:'9px',fontStyle:'bold',color:'#b9f227'}).setOrigin(.5).setDepth(10);
   this.keys=this.input.keyboard!.createCursorKeys();
   this.input.keyboard!.addKeys('W,A,S,D');
+  this.joystickBase={x:w*.18,y:h*.82};
+  this.joystickRing=this.add.circle(this.joystickBase.x,this.joystickBase.y,43,0x101719,.48).setStrokeStyle(2,0xf4f5f0,.55).setDepth(20);
+  this.joystickKnob=this.add.circle(this.joystickBase.x,this.joystickBase.y,18,0xb9f227,.9).setStrokeStyle(2,0xffffff).setDepth(21);
   this.input.on('pointerdown',(p:Phaser.Input.Pointer)=>{
    if(this.done)return;
-   if(p.y>h*.54){
-    this.target.x=Phaser.Math.Clamp(p.x,left+18,right-18);
-    this.target.y=Phaser.Math.Clamp(p.y,net+nvz+18,bottom-18);
-    if(Phaser.Math.Distance.Between(this.player.x,this.player.y,this.bx,this.by)<68&&this.z<28)this.tryPlayerHit(p.x,p.y);
-   }else if(Phaser.Math.Distance.Between(this.player.x,this.player.y,this.bx,this.by)<68){
-    this.tryPlayerHit(p.x,p.y);
+   if(p.x<w*.31&&p.y>h*.66){
+    this.joystickPointer=p.id;this.moveJoystick(p.x,p.y);return;
    }
-   this.aim={x:p.x,y:p.y};this.dragging=true;
+   if(p.y>net+nvz+15){
+    this.target.x=Phaser.Math.Clamp(p.x,left+18,right-18);
+    this.target.y=Phaser.Math.Clamp(p.y,net+nvz+15,bottom-18);
+   }
+   this.dragging=Phaser.Math.Distance.Between(this.player.x,this.player.y,this.bx,this.by)<78&&this.z<38;
+   this.aim={x:p.x,y:p.y};
+  });
+  this.input.on('pointermove',(p:Phaser.Input.Pointer)=>{
+   if(p.id===this.joystickPointer){this.moveJoystick(p.x,p.y);return}
+   if(this.dragging)this.aim={x:p.x,y:p.y};
   });
   this.input.on('pointerup',(p:Phaser.Input.Pointer)=>{
+   if(p.id===this.joystickPointer){
+    this.joystickPointer=-1;this.joystickKnob.setPosition(this.joystickBase.x,this.joystickBase.y);return;
+   }
    if(!this.dragging||this.done)return;
    this.dragging=false;
-   if(Phaser.Math.Distance.Between(this.player.x,this.player.y,this.bx,this.by)<72&&this.z<34)this.tryPlayerHit(p.x,p.y);
+   if(Phaser.Math.Distance.Between(this.player.x,this.player.y,this.bx,this.by)<82&&this.z<38)this.tryPlayerHit(this.aim.x,this.aim.y);
   });
   this.serve();
  }
@@ -98,9 +112,16 @@ export class CourtScene extends Phaser.Scene{
   this.bx=serverX;this.by=fromBottom?h*.82:h*.18;this.z=0;
   this.vx=(fromBottom?-1:1)*(w*.0015);this.vy=fromBottom?-h*.0045:h*.0045;this.vz=5.6;
   this.ball.setPosition(this.bx,this.by);
-  this.serveReady=false;
+  this.lastHitter=this.servingTeam;
   this.refreshScore();
   this.statusText.setText(fromBottom?'TU EQUIPO SACA':'SACA EL EQUIPO RIVAL');
+ }
+ private moveJoystick(x:number,y:number){
+  const dx=x-this.joystickBase.x,dy=y-this.joystickBase.y,len=Math.max(1,Math.hypot(dx,dy)),scale=Math.min(1,43/len);
+  const nx=dx*scale,ny=dy*scale;
+  this.joystickKnob.setPosition(this.joystickBase.x+nx,this.joystickBase.y+ny);
+  this.target.x=Phaser.Math.Clamp(this.player.x+nx*2.2,this.scale.width*.11,this.scale.width*.89);
+  this.target.y=Phaser.Math.Clamp(this.player.y+ny*2.2,this.scale.height*.59,this.scale.height*.88);
  }
  private tryPlayerHit(tx:number,ty:number){
   if(this.done||this.z>38)return;
@@ -137,7 +158,6 @@ export class CourtScene extends Phaser.Scene{
   this.target.y=Phaser.Math.Clamp(this.target.y,net+nvz+15,h*.88);
   this.player.x=Phaser.Math.Linear(this.player.x,this.target.x,.14);
   this.player.y=Phaser.Math.Linear(this.player.y,this.target.y,.14);
-  const near=this.bx>w*.5?this.partner:this.player;
   this.partner.x=Phaser.Math.Linear(this.partner.x,Phaser.Math.Clamp(this.bx+w*.12,w*.12,w*.88),.045);
   this.partner.y=Phaser.Math.Linear(this.partner.y,Phaser.Math.Clamp(this.by+h*.08,net+nvz+12,h*.87),.045);
   this.rivals.forEach((r,i)=>{
