@@ -2,7 +2,12 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icons/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#f4f1e8">
 <title>PickleBeasts — The world is your court</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,6 +25,51 @@
 .footer{border-top:1px solid var(--line);padding:14px 0 20px;display:flex;justify-content:space-between;color:#96998e;font:8px 'DM Mono',monospace;letter-spacing:.8px}
 @media(max-width:850px){.app{padding:0 20px}.layout{display:flex;flex-direction:column;gap:15px;padding:20px 0 35px}.sidebar{order:2;flex-direction:row;overflow:auto;padding:7px 0;border-top:1px solid var(--line);position:sticky;bottom:0;background:var(--paper);z-index:10}.side-label,.sidebar-note{display:none}.nav{flex:1;justify-content:center;min-width:58px;padding:9px 5px;flex-direction:column;gap:3px;font-size:8px}.nav .nicon{font-size:16px}.main{order:1}.below{grid-template-columns:1fr}.club-layout{grid-template-columns:1fr}.club-info{min-height:280px}.level-list{grid-template-columns:repeat(5,minmax(54px,1fr));overflow-x:auto}.collection-grid{grid-template-columns:repeat(2,1fr)}.topbar{height:65px}.resource{font-size:9px}.scene,.scene-svg{min-height:330px;height:330px}.hero-head{align-items:flex-start}.page-head h1{font-size:36px}}
 @media(max-width:480px){.app{padding:0 13px}.top-right{gap:9px}.brand-name{font-size:15px}.resource{gap:4px}.resource:nth-child(2){display:none}.hero-head h1{font-size:37px}.chapter-tag{font-size:8px;padding:6px}.scene-head{top:13px;left:13px;right:13px}.scene-foot{left:12px;right:12px;bottom:10px}.weather{font-size:8px}.btn-primary{padding:10px 12px;font-size:9px}.mission-card{padding:13px}.reward{display:none}.page-head{align-items:flex-start;gap:10px;flex-direction:column}.page-head h1{font-size:34px}.profile-grid{grid-template-columns:1fr}.footer span:nth-child(2){display:none}}
+
+/* Mobile app shell: designed for touch and safe-area screens */
+@media(max-width:850px){
+ html,body{min-height:100%;overscroll-behavior-y:contain}
+ body{padding-bottom:env(safe-area-inset-bottom)}
+ .app{width:100%;max-width:none;min-height:100svh;padding:0 0 calc(76px + env(safe-area-inset-bottom))}
+ .topbar{height:58px;padding:0 16px;padding-top:env(safe-area-inset-top);box-sizing:content-box}
+ .layout{display:flex;flex-direction:column;gap:14px;padding:17px 14px 28px}
+ .sidebar{position:fixed;left:0;right:0;bottom:0;z-index:50;order:2;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;padding:7px 8px calc(7px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:#f4f1f1f2;backdrop-filter:blur(16px);box-shadow:0 -6px 24px #26332e0c}
+ .side-label,.sidebar-note{display:none}
+ .nav{min-width:0;width:100%;justify-content:center;align-items:center;flex-direction:column;gap:3px;padding:7px 2px;border-radius:7px;font-size:9px;line-height:1.1}
+ .nav .nicon{font-size:19px;width:auto;line-height:1.1}
+ .main{order:1;width:100%;min-width:0}
+ .footer{display:none}
+ .scene{min-height:0;height:auto;aspect-ratio:1.16/1}
+ .scene-svg{height:100%;min-height:0}
+ .club-layout{grid-template-columns:minmax(0,1fr)}
+ .club-map{min-height:260px}
+ .club-info{min-height:0}
+ .page-head{margin-bottom:15px}
+}
+@media(max-width:480px){
+ .app{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+ .topbar{padding-left:14px;padding-right:14px}
+ .brand-mark{width:29px;height:29px}
+ .layout{padding:14px 12px 20px}
+ .hero-head{gap:8px;margin-bottom:13px}
+ .hero-head h1{font-size:clamp(32px,9vw,40px);letter-spacing:-2px}
+ .scene{aspect-ratio:1/1.05}
+ .scene-head{top:11px;left:11px;right:11px}
+ .scene-foot{left:10px;right:10px;bottom:9px}
+ .mission-card{margin-top:12px}
+ .below{gap:12px}
+ .nav{font-size:8px}
+ .nav .nicon{font-size:18px}
+ .level-list{grid-template-columns:repeat(5,minmax(54px,1fr))}
+ .collection-grid{gap:9px}
+ .item-card{padding:9px}
+ .item-art{min-height:90px}
+ .club-map{min-height:230px}
+}
+@media(display-mode:standalone){
+ .topbar{padding-top:env(safe-area-inset-top)}
+}
+
 </style>
 </head>
 <body>
@@ -122,5 +172,6 @@ function openModal(title,copy,action){document.getElementById('modal-title').tex
 function closeModal(){modal.classList.remove('open');}
 document.getElementById('modal-close').addEventListener('click',closeModal);document.getElementById('modal-cancel').addEventListener('click',closeModal);document.getElementById('modal-main').addEventListener('click',closeModal);modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 </script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));}</script>
 </body>
 </html>
