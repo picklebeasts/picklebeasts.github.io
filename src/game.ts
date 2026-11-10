@@ -178,11 +178,12 @@ export class CourtScene extends Phaser.Scene{
   });
   if(this.waitingForServe){this.ball.setPosition(this.bx,this.by);return}
   this.bx+=this.vx;this.by+=this.vy;this.z+=this.vz;this.vz-=this.gravity;
-  if(this.z<=0){
-   this.z=0;this.vz=0;
+  if(this.z<=0&&this.vz<0){
+   this.z=0;
    const side:Team=this.by>net?0:1;
    if(!this.bounces[side]){this.bounces[side]=true;this.totalBounces++}
    else {this.endRally(side===0?1:0);return}
+   this.vz=2.7;
    this.vx*=.88;this.vy*=.88;
   }
   this.ball.setPosition(this.bx,this.by-this.z);
