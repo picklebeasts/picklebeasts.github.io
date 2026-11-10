@@ -84,7 +84,7 @@ const dx=tx-b.x,dy=ty-b.y,frames=target==='opponent'?(state.shot==='dink'?56:sta
 b.vx=dx/frames;b.vy=dy/frames;b.vz=target==='opponent'?(state.shot==='lob'?3.4:state.shot==='dink'?1.4:2.2):2.2;b.owner=target;b.moving=true;b.bounces=0;
 }
 function movePlayer(dt){
-const p=state.player,step=.0045*dt;let dx=0,dy=0;
+const p=state.player,step=.0012*dt;let dx=0,dy=0;
 if(state.keys.ArrowLeft||state.keys.a||state.move.left)dx-=1;if(state.keys.ArrowRight||state.keys.d||state.move.right)dx+=1;
 if(state.keys.ArrowUp||state.keys.w||state.move.up)dy-=1;if(state.keys.ArrowDown||state.keys.s||state.move.down)dy+=1;
 if(dx||dy){const len=Math.hypot(dx,dy);p.x=clamp(p.x+dx/len*step,-.82,.82);p.y=clamp(p.y+dy/len*step,.12,.91);}
@@ -94,7 +94,7 @@ const b=state.ball;if(!b.moving)return;
 b.x+=b.vx;b.y+=b.vy;b.z+=b.vz;b.vz-=.105;
 if(b.z<=0){b.z=0;b.bounces++;if(b.bounces===1){if(b.owner==='opponent'){if(Math.hypot(b.x-state.player.x,b.y-state.player.y)<.36){$('status').textContent='¡TU TURNO!';}else $('status').textContent='MUÉVETE Y GOLPEA';}else $('status').textContent='SOFÍA PREPARA LA DEVOLUCIÓN';}
 if(b.bounces>=2){if(b.owner==='opponent')finishPoint('ai','La pelota botó dos veces.');else finishPoint('you','Sofía no pudo devolverla.');return;}
-b.vz=Math.abs(b.vz)*.48;if(b.owner==='you'){b.owner='opponent';}
+b.vz=Math.abs(b.vz)*.48;
 }
 if(b.y<-.97||b.y>.97||Math.abs(b.x)>.98){finishPoint(b.owner==='opponent'?'ai':'you','La pelota salió de la pista.');return;}
 if(b.owner==='opponent'&&b.y<-.08&&b.z<20){
