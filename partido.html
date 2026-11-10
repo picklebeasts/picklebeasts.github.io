@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f1e8">
+<title>PickleBeasts — Solara Court</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f4f1e8;--ink:#26332e;--lime:#b9f227;--coral:#f4775b;--blue:#7199c5;--line:#d8d2c5;--muted:#7b8278;--white:#fffdf7}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif}.wrap{max-width:1120px;margin:auto;padding:0 24px}.top{height:68px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.brand{font:800 17px Manrope;letter-spacing:-.7px}.brand b{font-weight:500}.back{color:var(--ink);text-decoration:none;font-size:11px;font-weight:700}.eyebrow{font:500 9px 'DM Mono';letter-spacing:1.4px;color:var(--muted);text-transform:uppercase}.heading{display:flex;justify-content:space-between;align-items:end;margin:26px 0 16px;gap:16px}h1{font:700 clamp(30px,5vw,45px)/1 Manrope;letter-spacing:-2px;margin:7px 0 0}h1 em{font-style:normal;color:#809b4b}.chapter{font:500 9px/1.7 'DM Mono';text-align:right;border:1px solid var(--line);padding:8px 11px}.scorebar{display:flex;align-items:center;justify-content:space-between;background:var(--ink);color:var(--paper);padding:12px 16px;margin-bottom:10px}.playerlabel{font:500 9px 'DM Mono';letter-spacing:.7px;color:#c7cdbf}.score{font:700 25px Manrope;letter-spacing:-1px}.score small{font:500 10px 'DM Mono';color:#c7cdbf}.court-shell{position:relative;background:#e7dfce;border:1px solid #d7cfbd;overflow:hidden}.court{display:block;width:100%;height:auto;aspect-ratio:900/560;touch-action:none}.hud{position:absolute;top:13px;left:15px;right:15px;display:flex;justify-content:space-between;pointer-events:none}.pill{background:#fffdf0e8;padding:7px 10px;font:500 9px 'DM Mono';letter-spacing:.4px}.message{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);background:#26332eeF;color:#fffdf7;padding:13px 19px;text-align:center;min-width:210px;box-shadow:4px 4px 0 #b9f227;pointer-events:none}.message strong{display:block;font:700 17px Manrope}.message span{font-size:10px;color:#d6ddcf}.message.hidden{display:none}.controls{display:grid;grid-template-columns:1fr 1.2fr;gap:12px;margin:12px 0}.movement,.shots{background:#ebe6d9;padding:12px}.control-title{font:500 8px 'DM Mono';letter-spacing:1.2px;color:var(--muted);margin-bottom:9px}.pad{display:grid;grid-template-columns:repeat(3,42px);grid-template-rows:repeat(2,35px);gap:4px;justify-content:center}.pad button,.shot{border:1px solid #c9c2b3;background:var(--white);color:var(--ink);font-weight:800;touch-action:none}.pad button{font-size:14px}.pad .up{grid-column:2}.pad .left{grid-column:1;grid-row:2}.pad .down{grid-column:2;grid-row:2}.pad .right{grid-column:3;grid-row:2}.pad button:active,.shot:active{background:var(--lime);transform:translateY(1px)}.shotrow{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.shot{padding:10px 5px;text-align:center}.shot strong{display:block;font:700 12px Manrope}.shot small{font:8px 'DM Mono';color:var(--muted)}.shot.selected{background:var(--lime);border-color:var(--ink)}.bottomline{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:24px}.hint{font-size:10px;line-height:1.5;color:var(--muted);max-width:600px}.reset{border:1px solid var(--ink);background:transparent;padding:10px 13px;font-size:9px;font-weight:800;white-space:nowrap}.rules{border-top:1px solid var(--line);padding:15px 0 25px;font-size:10px;line-height:1.6;color:var(--muted)}.rules strong{color:var(--ink)}@media(max-width:600px){.wrap{padding:0 12px}.heading{margin-top:19px}.chapter{font-size:8px}.scorebar{padding:10px}.score{font-size:21px}.controls{grid-template-columns:1fr;gap:8px}.movement{display:flex;align-items:center;justify-content:space-between;gap:12px}.control-title{margin:0}.pad{grid-template-columns:repeat(3,37px);grid-template-rows:repeat(2,31px)}.court{min-height:300px}.hud{top:8px;left:8px;right:8px}.pill{font-size:8px;padding:6px}.bottomline{align-items:flex-start}.hint{font-size:9px}}
+</style></head>
+<body><div class="wrap">
+<header class="top"><div class="brand">PICKLE<b>BEASTS</b></div><a class="back" href="./index.html">← VOLVER A SOLARA CLUB</a></header>
+<div class="heading"><div><div class="eyebrow">SOLARA COAST / ENTRENAMIENTO 01</div><h1>Own the <em>court.</em></h1></div><div class="chapter">ROOKIE CIRCUIT<br>PARTIDO DE PRUEBA · 1 VS 1</div></div>
+<div class="scorebar"><div><div class="playerlabel">TÚ · SOLARA ROOKIE</div><div class="score" id="youScore">0</div></div><div style="text-align:center"><div class="playerlabel">PRIMERA A 11 · GANA POR 2</div><div class="score"><small id="rally">SAQUE</small></div></div><div style="text-align:right"><div class="playerlabel">SOFÍA VEGA</div><div class="score" id="aiScore">0</div></div></div>
+<div class="court-shell"><canvas id="court" class="court" width="900" height="560" aria-label="Pista isométrica de pickleball interactiva"></canvas><div class="hud"><div class="pill" id="shotLabel">GOLPE: DRIVE</div><div class="pill" id="status">PREPARA EL SAQUE</div></div><div class="message" id="message"><strong>¿Listo para jugar?</strong><span>Pulsa SAQUE para empezar el punto</span></div></div>
+<div class="controls"><section class="movement"><div class="control-title">MOVER JUGADOR</div><div class="pad"><button class="up" data-move="up" aria-label="Arriba">↑</button><button class="left" data-move="left" aria-label="Izquierda">←</button><button class="down" data-move="down" aria-label="Abajo">↓</button><button class="right" data-move="right" aria-label="Derecha">→</button></div></section><section class="shots"><div class="control-title">ELIGE TU GOLPE</div><div class="shotrow"><button class="shot selected" data-shot="drive"><strong>DRIVE</strong><small>RÁPIDO</small></button><button class="shot" data-shot="dink"><strong>DINK</strong><small>CORTO</small></button><button class="shot" data-shot="lob"><strong>GLOBO</strong><small>ALTO</small></button></div><div style="display:flex;gap:8px;margin-top:8px"><button class="shot" id="serve" style="flex:1;background:var(--lime);border-color:var(--ink)"><strong>SAQUE / GOLPE</strong><small>ESPACIO</small></button></div></section></div>
+<div class="bottomline"><div class="hint">Teclas: WASD o flechas para moverte. Espacio para sacar o golpear. En móvil, usa el pad y el botón de golpe. Colócate cerca de la pelota antes de golpear.</div><button class="reset" id="restart">REINICIAR PARTIDO ↻</button></div>
+<div class="rules"><strong>Cómo se juega:</strong> gana el primero que llegue a 11 puntos con dos de ventaja. Elige drive para atacar, dink para dejar la pelota corta o globo para desplazar a Sofía. El primer prototipo utiliza una pista individual de entrenamiento; iremos ampliando reglas, dobles y profundidad táctica en las siguientes iteraciones.</div>
+</div>
+<script>
+(function(){
+const canvas=document.getElementById('court'),ctx=canvas.getContext('2d');
+const $=id=>document.getElementById(id);
+const state={you:0,ai:0,player:{x:0,y:.78},opponent:{x:0,y:.22},ball:{x:0,y:.78,z:0,vx:0,vy:0,vz:0,owner:'you',moving:false,bounces:0},shot:'drive',started:false,pointOver:false,serve:true,last:0,keys:{},move:{},messageTimer:0};
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function project(x,y,z){return {x:450+x*355+y*80,y:280+y*205-x*28-z};}
+function line(a,b,color,width){ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
+function polygon(points,fill,stroke,width){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width||2;ctx.stroke();}}
+function drawCourt(){
+ctx.clearRect(0,0,900,560);
+ctx.fillStyle='#e7dfce';ctx.fillRect(0,0,900,560);
+for(let i=0;i<10;i++){ctx.fillStyle=i%2?'#e4dbc8':'#e9e1d1';ctx.fillRect(0,i*56,900,56);}
+const corners=[project(-1,-1,0),project(1,-1,0),project(1,1,0),project(-1,1,0)];
+polygon(corners,'#7199c5','#f9f4e8',5);
+const inner=[project(-.88,-.9,0),project(.88,-.9,0),project(.88,.9,0),project(-.88,.9,0)];
+polygon(inner,'#83a5cb','#f7f2e8',2);
+line(project(-.88,0,0),project(.88,0,0),'#fff9ec',3);
+line(project(-.88,-.42,0),project(.88,-.42,0),'#fff9ec',2);
+line(project(-.88,.42,0),project(.88,.42,0),'#fff9ec',2);
+line(project(0,-1,0),project(0,1,0),'#fff9ec',2);
+line(project(-.88,-.04,0),project(.88,-.04,0),'#26332e',5);
+line(project(-.88,-.04,0),project(.88,-.04,0),'#f8f3e8',2);
+const shade=ctx.createLinearGradient(0,20,0,500);shade.addColorStop(0,'#ffffff12');shade.addColorStop(1,'#26332e12');polygon(corners,'rgba(0,0,0,0)');
+ctx.fillStyle='#526b52';ctx.font='500 10px monospace';ctx.fillText('SOLARA COAST',35,38);
+}
+function drawPlayer(p,color,shirt,label){
+const q=project(p.x,p.y,0);ctx.fillStyle='#26332e22';ctx.beginPath();ctx.ellipse(q.x,q.y+9,17,7,0,0,Math.PI*2);ctx.fill();
+ctx.fillStyle='#d2a17e';ctx.beginPath();ctx.arc(q.x,q.y-28,9,0,Math.PI*2);ctx.fill();
+ctx.fillStyle=shirt;ctx.beginPath();ctx.moveTo(q.x-12,q.y-19);ctx.lineTo(q.x+12,q.y-19);ctx.lineTo(q.x+15,q.y+5);ctx.lineTo(q.x-15,q.y+5);ctx.closePath();ctx.fill();
+ctx.strokeStyle='#26332e';ctx.lineWidth=5;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(q.x-7,q.y+5);ctx.lineTo(q.x-10,q.y+19);ctx.moveTo(q.x+7,q.y+5);ctx.lineTo(q.x+10,q.y+19);ctx.stroke();
+ctx.strokeStyle='#26332e';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(q.x+9,q.y-13);ctx.lineTo(q.x+22,q.y-22);ctx.stroke();
+ctx.save();ctx.translate(q.x+27,q.y-25);ctx.rotate(-.35);ctx.fillStyle='#d8c9a8';ctx.strokeStyle='#26332e';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,0,6,12,0,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.restore();
+ctx.fillStyle='#26332e';ctx.font='700 10px sans-serif';ctx.textAlign='center';ctx.fillText(label,q.x,q.y+34);ctx.textAlign='left';
+}
+function drawBall(){const b=state.ball,q=project(b.x,b.y,b.z);const ground=project(b.x,b.y,0);ctx.fillStyle='#26332e30';ctx.beginPath();ctx.ellipse(ground.x,ground.y+3,6,3,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#d9f34d';ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(q.x,q.y,6,0,Math.PI*2);ctx.fill();ctx.stroke();}
+function draw(){
+drawCourt();
+drawPlayer(state.opponent,'#f4775b','#f4775b','SOFÍA');
+drawPlayer(state.player,'#b9f227','#b9f227','TÚ');
+drawBall();
+}
+function say(title,sub){const m=$('message');m.innerHTML='<strong>'+title+'</strong><span>'+sub+'</span>';m.classList.remove('hidden');clearTimeout(state.messageTimer);state.messageTimer=setTimeout(()=>m.classList.add('hidden'),1800);}
+function updateScore(){ $('youScore').textContent=state.you;$('aiScore').textContent=state.ai;$('rally').textContent=state.ball.moving?'INTERCAMBIO':'SAQUE';}
+function resetBall(){const b=state.ball;b.x=state.player.x;b.y=state.player.y-.02;b.z=0;b.vx=0;b.vy=0;b.vz=0;b.owner='you';b.moving=false;b.bounces=0;state.serve=true;state.pointOver=false;$('status').textContent='PREPARA EL SAQUE';$('message').classList.remove('hidden');$('message').innerHTML='<strong>Nuevo punto</strong><span>Colócate y pulsa SAQUE / GOLPE</span>';updateScore();}
+function finishPoint(winner,reason){if(state.pointOver)return;state.pointOver=true;state.ball.moving=false;if(winner==='you')state.you++;else state.ai++;updateScore();$('status').textContent=winner==='you'?'PUNTO PARA TI':'PUNTO PARA SOFÍA';const won=(state.you>=11||state.ai>=11)&&Math.abs(state.you-state.ai)>=2;if(won){say(winner==='you'?'¡Partido ganado!':'Sofía se lleva el partido',winner==='you'?'Has superado tu primer reto de Solara.':'Vuelve a intentarlo: ajusta la colocación y el tipo de golpe.');$('status').textContent='PARTIDO FINALIZADO';}else{say(winner==='you'?'¡Buen punto!':'Punto para Sofía',reason||'Prepara el siguiente saque');setTimeout(()=>{if(!won)resetBall();},1450);}}
+function chooseShot(s){state.shot=s;document.querySelectorAll('[data-shot]').forEach(b=>b.classList.toggle('selected',b.dataset.shot===s));$('shotLabel').textContent='GOLPE: '+(s==='drive'?'DRIVE':s==='dink'?'DINK':'GLOBO');}
+function hit(){
+const b=state.ball,p=state.player;if(state.pointOver)return;
+if(state.serve){state.started=true;state.serve=false;b.x=p.x;b.y=p.y-.04;b.z=0;sendBall('opponent');$('status').textContent='PELOTA EN JUEGO';$('message').classList.add('hidden');return;}
+if(!b.moving||b.owner!=='you')return;
+const dist=Math.hypot(b.x-p.x,(b.y-p.y)*1.05);if(dist>.30){say('Llega a la pelota','Muévete hasta acercarte para golpear');return;}
+sendBall('opponent');
+}
+function sendBall(target){
+const b=state.ball,opp=state.opponent,player=state.player;
+let tx,ty;
+if(target==='opponent'){
+if(state.shot==='dink'){tx=clamp(opp.x+(Math.random()-.5)*.22,-.75,.75);ty=-.12;}
+else if(state.shot==='lob'){tx=clamp(opp.x+(Math.random()-.5)*.7,-.8,.8);ty=-.82;}
+else{tx=clamp(opp.x+(Math.random()-.5)*.75,-.82,.82);ty=-.72;}
+}else{tx=clamp(player.x+(Math.random()-.5)*.7,-.82,.82);ty=.72;}
+const dx=tx-b.x,dy=ty-b.y,frames=target==='opponent'?(state.shot==='dink'?56:state.shot==='lob'?88:48):52;
+b.vx=dx/frames;b.vy=dy/frames;b.vz=target==='opponent'?(state.shot==='lob'?3.4:state.shot==='dink'?1.4:2.2):2.2;b.owner=target;b.moving=true;b.bounces=0;
+}
+function movePlayer(dt){
+const p=state.player,step=.0045*dt;let dx=0,dy=0;
+if(state.keys.ArrowLeft||state.keys.a||state.move.left)dx-=1;if(state.keys.ArrowRight||state.keys.d||state.move.right)dx+=1;
+if(state.keys.ArrowUp||state.keys.w||state.move.up)dy-=1;if(state.keys.ArrowDown||state.keys.s||state.move.down)dy+=1;
+if(dx||dy){const len=Math.hypot(dx,dy);p.x=clamp(p.x+dx/len*step,-.82,.82);p.y=clamp(p.y+dy/len*step,.12,.91);}
+}
+function updateBall(){
+const b=state.ball;if(!b.moving)return;
+b.x+=b.vx;b.y+=b.vy;b.z+=b.vz;b.vz-=.105;
+if(b.z<=0){b.z=0;b.bounces++;if(b.bounces===1){if(b.owner==='opponent'){if(Math.hypot(b.x-state.player.x,b.y-state.player.y)<.36){$('status').textContent='¡TU TURNO!';}else $('status').textContent='MUÉVETE Y GOLPEA';}else $('status').textContent='SOFÍA PREPARA LA DEVOLUCIÓN';}
+if(b.bounces>=2){if(b.owner==='opponent')finishPoint('ai','La pelota botó dos veces.');else finishPoint('you','Sofía no pudo devolverla.');return;}
+b.vz=Math.abs(b.vz)*.48;if(b.owner==='you'){b.owner='opponent';}
+}
+if(b.y<-.97||b.y>.97||Math.abs(b.x)>.98){finishPoint(b.owner==='opponent'?'ai':'you','La pelota salió de la pista.');return;}
+if(b.owner==='opponent'&&b.y<-.08&&b.z<20){
+const targetX=clamp(b.x+(Math.random()-.5)*.24,-.78,.78);
+state.opponent.x+=clamp(targetX-state.opponent.x,-.018,.018);
+if(b.bounces>=1&&b.z===0&&Math.abs(b.x-state.opponent.x)<.28){sendBall('you');$('status').textContent='SOFÍA DEVUELVE';}
+}
+if(b.owner==='you'&&b.y>.08&&b.z<20&&b.bounces>=1){if(Math.hypot(b.x-state.player.x,b.y-state.player.y)<.2){$('status').textContent='¡GOLPEA!';}}
+}
+function frame(t){const dt=Math.min(40,t-(state.last||t));state.last=t;movePlayer(dt);updateBall();draw();requestAnimationFrame(frame);}
+document.addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();state.keys[e.key]=true;if(e.key===' '){hit();}});
+document.addEventListener('keyup',e=>{state.keys[e.key]=false;});
+document.querySelectorAll('[data-move]').forEach(btn=>{const key=btn.dataset.move;const start=e=>{e.preventDefault();state.move[key]=true;};const stop=e=>{e.preventDefault();state.move[key]=false;};btn.addEventListener('pointerdown',start);btn.addEventListener('pointerup',stop);btn.addEventListener('pointerleave',stop);btn.addEventListener('pointercancel',stop);});
+document.querySelectorAll('[data-shot]').forEach(btn=>btn.addEventListener('click',()=>chooseShot(btn.dataset.shot)));
+$('serve').addEventListener('click',hit);$('restart').addEventListener('click',()=>{state.you=0;state.ai=0;state.player={x:0,y:.78};state.opponent={x:0,y:.22};resetBall();say('Partido nuevo','Primer saque: decide cómo quieres jugar.');});
+resetBall();draw();requestAnimationFrame(frame);
+})();
+</script></body></html>
