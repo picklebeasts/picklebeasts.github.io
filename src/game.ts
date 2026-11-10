@@ -154,7 +154,7 @@ export class CourtScene extends Phaser.Scene{
   this.vx=Phaser.Math.Clamp(dx*.025,-4.5,4.5);
   this.vy=dy*speed;
   this.vz=this.shot==='lob'?7.2:this.shot==='dink'?3.8:5.6;
-  this.lastHitter=team;this.rallyHits++;this.bounces[team]=false;
+  this.lastHitter=team;this.rallyHits++;this.bounces[1-team]=false;
   this.statusText.setText(this.shot==='drive'?'DRIVE':this.shot==='dink'?'DINK':'GLOBO');
  }
  update(){
@@ -211,7 +211,7 @@ export class CourtScene extends Phaser.Scene{
   if(team===0&&y>h*.5-h*.082&&y<h*.5+h*.082&&this.z<5){this.endRally(1);return}
   const targetX=team===0?Phaser.Math.Between(w*.15,w*.85):Phaser.Math.Between(w*.15,w*.85);
   this.bx=x;this.by=y;this.z=16;this.vx=(targetX-x)*.012;this.vy=team===0?-9.0:9.0;this.vz=5.6;
-  this.lastHitter=team;this.rallyHits++;this.bounces[team]=false;
+  this.lastHitter=team;this.rallyHits++;this.bounces[1-team]=false;
  }
  private endRally(winner:Team){
   if(this.done)return;
