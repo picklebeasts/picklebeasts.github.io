@@ -2,6 +2,18 @@ import Phaser from 'phaser';
 import './style.css';
 import {LEVELS,INITIAL,ITEMS,type Save,type Level} from './data';
 import {CourtScene,type MatchResult} from './game';
+const showFatalError=(reason:unknown)=>{
+ const message=reason instanceof Error?reason.stack||reason.message:String(reason);
+ console.error('PickleBeasts runtime error:',reason);
+ const root=document.querySelector<HTMLDivElement>('#app');
+ if(!root)return;
+ root.innerHTML='<main style="min-height:100dvh;background:#171b1d;color:#f4f5f0;padding:28px 20px;font-family:system-ui,sans-serif;display:flex;flex-direction:column;justify-content:center;gap:14px"><div style="color:#b9f227;font-weight:900;letter-spacing:2px">PICKLEBEASTS</div><h1 style="font-size:26px;margin:0">No hemos podido iniciar el juego</h1><p style="color:#b8c1ba;line-height:1.5;margin:0">La aplicación ha encontrado un error. Tu progreso guardado no se ha borrado. Copia el detalle y envíamelo para corregirlo.</p><pre id="pb-error" style="white-space:pre-wrap;overflow-wrap:anywhere;background:#242b2d;padding:12px;border-radius:10px;color:#ffb49f;font-size:11px;max-height:28vh;overflow:auto"></pre><button id="pb-reload" style="padding:14px;border:0;border-radius:10px;background:#b9f227;color:#171b1d;font-weight:900">Volver a intentar</button><button id="pb-copy" style="padding:12px;border:1px solid #596260;border-radius:10px;background:#242b2d;color:#f4f5f0">Copiar error</button></main>';
+ const detail=root.querySelector<HTMLElement>('#pb-error');if(detail)detail.textContent=message;
+ root.querySelector('#pb-reload')?.addEventListener('click',()=>location.reload());
+ root.querySelector('#pb-copy')?.addEventListener('click',()=>{void navigator.clipboard?.writeText(message)});
+};
+window.addEventListener('error',event=>showFatalError(event.error||event.message));
+window.addEventListener('unhandledrejection',event=>showFatalError(event.reason));
 const KEY='picklebeasts-save-v1';
 function load():Save{try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s)return Object.assign(JSON.parse(JSON.stringify(INITIAL)),s,{attributes:Object.assign({},INITIAL.attributes,s.attributes),club:Object.assign({},INITIAL.club,s.club),stats:Object.assign({},INITIAL.stats,s.stats)})}catch{}return JSON.parse(JSON.stringify(INITIAL))}
 let state=load(),tab='inicio',phaser:Phaser.Game|null=null;
@@ -37,5 +49,10 @@ function playSeries(l:Level,round:number){const total=l.kind==='final'?3:2;const
 function finish(l:Level,won:boolean){if(!won){const e=modal('<div class="tag">PARTIDO FINALIZADO</div><h2>Buen intento</h2><p>El resultado forma parte del aprendizaje. Puedes volver a intentarlo.</p><button class="btn" id="retry" style="width:100%">Reintentar</button>');e.querySelector('#retry')!.addEventListener('click',()=>{e.remove();openLevel(l)});return}if(!state.completed.includes(l.id)){state.completed.push(l.id);state.xp+=l.xp;state.coins+=l.coins;state.level=Math.max(1,1+Math.floor(state.xp/250));if(l.id===2)state.attributes.control=Math.min(100,state.attributes.control+2);if(l.id===3){state.club.court=1;state.club.members=8;state.club.prestige+=10}if(l.id===6){state.club.court=2;state.club.members=16;state.club.prestige+=20}if(l.id===5){state.materials+=2;state.attributes.tactics=Math.min(100,state.attributes.tactics+2)}if(l.id===7){state.inventory.push('cup');state.stats.titles++}if(l.id===8){state.inventory.push('solara');state.attributes.power=Math.min(100,state.attributes.power+2);state.attributes.reflexes=Math.min(100,state.attributes.reflexes+2)}if(l.id===9)state.club.academy=true}if(l.id===10)completeChapter();save();render();const e=modal('<div class="tag">NIVEL '+l.id+' COMPLETADO</div><h2>¡Buen trabajo!</h2><p>'+l.title+'</p><div class="card"><div class="row"><span>Experiencia</span><b>+'+l.xp+' XP</b></div><div class="row"><span>Monedas</span><b>+'+l.coins+'</b></div></div><button class="btn" id="ok" style="width:100%;margin-top:12px">Continuar</button>');e.querySelector('#ok')!.addEventListener('click',()=>e.remove())}
 function completeChapter(){state.chapterComplete=true;state.xp+=2000;state.coins+=1500;state.inventory.push('solara','cup');state.club.court=2;state.club.reception=1;state.club.academy=true;state.club.prestige+=30;state.stats.titles++;save();setTimeout(()=>{const e=modal('<div class="tag">CAPÍTULO COMPLETADO</div><h2>BACK TO THE COURT</h2><p>Has recuperado Solara y conseguido tu primera victoria en el circuito.</p><div class="card"><b>SOLARA ROOKIE CUP</b><p>+2.000 XP · +1.500 monedas · Trofeo · Pala Solara</p><p>Nuevo destino desbloqueado: PACIFIC HEIGHTS</p></div><button class="btn" id="next" style="width:100%">Ver carrera</button>');e.querySelector('#next')!.addEventListener('click',()=>{e.remove();tab='carrera';render()})},50)}
 function upgrade(key:string){const cost:Record<string,number>={court:150,reception:180,academy:250};const c=cost[key];if(!c||state.coins<c)return toast('No tienes monedas suficientes');state.coins-=c;if(key==='court'){state.club.court=1;state.club.members=8;state.club.prestige+=10}if(key==='reception')state.club.reception=1;if(key==='academy')state.club.academy=true;save();render();toast('Mejora aplicada')}
-if(!state.onboarded||!state.playerName)intro();else render();
-if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+try{
+ if(!state.onboarded||!state.playerName)intro();else render();
+}catch(error){showFatalError(error)}
+if('serviceWorker'in navigator)window.addEventListener('load',()=>{
+ navigator.serviceWorker.getRegistration().then(reg=>reg?.update()).catch(()=>{});
+ navigator.serviceWorker.register('/sw.js',{updateViaCache:'none'}).catch(()=>{});
+});
