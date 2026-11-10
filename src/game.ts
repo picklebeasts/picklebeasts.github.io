@@ -38,6 +38,7 @@ export class CourtScene extends Phaser.Scene{
  private joystickKnob!:Phaser.GameObjects.Arc;
  private rallyHits=0;
  private lastHitter:Team|null=null;
+ private waitingForServe=false;
 
  constructor(){super('court')}
  setShot(s:Shot){this.shot=s}
@@ -81,7 +82,7 @@ export class CourtScene extends Phaser.Scene{
    }
    if(p.y>net+nvz+15){
     this.target.x=Phaser.Math.Clamp(p.x,left+18,right-18);
-    this.target.y=Phaser.Math.Clamp(p.y,net+nvz+15,bottom-18);
+    this.target.y=Phaser.Math.Clamp(p.y,net+10,bottom-18);
    }
    this.dragging=Phaser.Math.Distance.Between(this.player.x,this.player.y,this.bx,this.by)<78&&this.z<38;
    this.aim={x:p.x,y:p.y};
@@ -103,6 +104,7 @@ export class CourtScene extends Phaser.Scene{
  private refreshScore(){
   this.scoreText.setText(this.score[0]+' — '+this.score[1]+' · '+this.serverNumber);
  }
+ public serveNow(){if(this.waitingForServe&&this.servingTeam===0)this.launchServe()}
  private serve(){
   if(this.done)return;
   this.bounces=[false,false];this.totalBounces=0;this.rallyHits=0;this.lastHitter=null;
@@ -110,26 +112,35 @@ export class CourtScene extends Phaser.Scene{
   const fromBottom=this.servingTeam===0;
   const serverX=fromBottom?(this.score[0]%2===0?w*.68:w*.32):(this.score[1]%2===0?w*.32:w*.68);
   this.bx=serverX;this.by=fromBottom?h*.82:h*.18;this.z=0;
-  this.vx=(fromBottom?-1:1)*(w*.0015);this.vy=fromBottom?-h*.0045:h*.0045;this.vz=5.6;
+  this.vx=0;this.vy=0;this.vz=0;
   this.ball.setPosition(this.bx,this.by);
   this.lastHitter=this.servingTeam;
+  this.waitingForServe=true;
   this.refreshScore();
-  this.statusText.setText(fromBottom?'TU EQUIPO SACA':'SACA EL EQUIPO RIVAL');
+  this.statusText.setText(fromBottom?'PULSA SACAR':'EL RIVAL SE PREPARA PARA SACAR');
+  if(this.servingTeam===1)this.time.delayedCall(700,()=>this.launchServe());
+ }
+ private launchServe(){
+  if(this.done||!this.waitingForServe)return;
+  this.waitingForServe=false;
+  const w=this.scale.width,h=this.scale.height,fromBottom=this.servingTeam===0;
+  this.vx=fromBottom?-3.1:3.1;this.vy=fromBottom?-h*.014:h*.014;this.vz=5.6;
+  this.statusText.setText(fromBottom?'SAQUE EN JUEGO':'DEVUELVE EL SAQUE');
  }
  private moveJoystick(x:number,y:number){
   const dx=x-this.joystickBase.x,dy=y-this.joystickBase.y,len=Math.max(1,Math.hypot(dx,dy)),scale=Math.min(1,43/len);
   const nx=dx*scale,ny=dy*scale;
   this.joystickKnob.setPosition(this.joystickBase.x+nx,this.joystickBase.y+ny);
   this.target.x=Phaser.Math.Clamp(this.player.x+nx*2.2,this.scale.width*.11,this.scale.width*.89);
-  this.target.y=Phaser.Math.Clamp(this.player.y+ny*2.2,this.scale.height*.59,this.scale.height*.88);
+  this.target.y=Phaser.Math.Clamp(this.player.y+ny*2.2,this.scale.height*.51,this.scale.height*.88);
  }
  private tryPlayerHit(tx:number,ty:number){
-  if(this.done||this.z>38)return;
+  if(this.done||this.waitingForServe||this.z>38)return;
   const team:Team=0;
   const currentSide=this.by>this.scale.height*.5?0:1;
   if(this.totalBounces<2&&!this.bounces[currentSide])return;
   const px=this.player.x,py=this.player.y;
-  if(this.shot==='drive'&&py>this.scale.height*.5-this.scale.height*.082&&py<this.scale.height*.5+this.scale.height*.082&&this.z<5){
+  if(!this.bounces[0]&&py>this.scale.height*.5&&py<this.scale.height*.5+this.scale.height*.082){
    this.endRally(1);return;
   }
   this.launchShot(team,px,py,tx,ty);
@@ -138,11 +149,11 @@ export class CourtScene extends Phaser.Scene{
   const w=this.scale.width,h=this.scale.height;
   const dx=Phaser.Math.Clamp(tx-px,-w*.45,w*.45);
   const dy=team===0?-1:1;
-  const speed=this.shot==='drive'?7.2:this.shot==='dink'?4.5:5.7;
+  const speed=this.shot==='drive'?9.3:this.shot==='dink'?8.5:7.2;
   this.bx=px;this.by=py- (team===0?12:-12);this.z=20;
   this.vx=Phaser.Math.Clamp(dx*.025,-4.5,4.5);
   this.vy=dy*speed;
-  this.vz=this.shot==='lob'?7.8:this.shot==='dink'?3.2:4.8;
+  this.vz=this.shot==='lob'?7.2:this.shot==='dink'?3.8:5.6;
   this.lastHitter=team;this.rallyHits++;this.bounces[team]=false;
   this.statusText.setText(this.shot==='drive'?'DRIVE':this.shot==='dink'?'DINK':'GLOBO');
  }
@@ -155,7 +166,7 @@ export class CourtScene extends Phaser.Scene{
   if(k?.checkDown(this.keys.up))this.target.y-=4;
   if(k?.checkDown(this.keys.down))this.target.y+=4;
   this.target.x=Phaser.Math.Clamp(this.target.x,w*.11,w*.89);
-  this.target.y=Phaser.Math.Clamp(this.target.y,net+nvz+15,h*.88);
+  this.target.y=Phaser.Math.Clamp(this.target.y,net+10,h*.88);
   this.player.x=Phaser.Math.Linear(this.player.x,this.target.x,.14);
   this.player.y=Phaser.Math.Linear(this.player.y,this.target.y,.14);
   this.partner.x=Phaser.Math.Linear(this.partner.x,Phaser.Math.Clamp(this.bx+w*.12,w*.12,w*.88),.045);
@@ -165,6 +176,7 @@ export class CourtScene extends Phaser.Scene{
    const y=Phaser.Math.Clamp(this.by-h*.08,h*.12,net-nvz-12);
    r.x=Phaser.Math.Linear(r.x,x,.07);r.y=Phaser.Math.Linear(r.y,y,.07);
   });
+  if(this.waitingForServe){this.ball.setPosition(this.bx,this.by);return}
   this.bx+=this.vx;this.by+=this.vy;this.z+=this.vz;this.vz-=this.gravity;
   if(this.z<=0){
    this.z=0;this.vz=0;
@@ -197,7 +209,7 @@ export class CourtScene extends Phaser.Scene{
   const w=this.scale.width,h=this.scale.height;
   if(team===0&&y>h*.5-h*.082&&y<h*.5+h*.082&&this.z<5){this.endRally(1);return}
   const targetX=team===0?Phaser.Math.Between(w*.15,w*.85):Phaser.Math.Between(w*.15,w*.85);
-  this.bx=x;this.by=y;this.z=16;this.vx=(targetX-x)*.012;this.vy=team===0?-5.2:5.2;this.vz=Phaser.Math.Between(3,6);
+  this.bx=x;this.by=y;this.z=16;this.vx=(targetX-x)*.012;this.vy=team===0?-9.0:9.0;this.vz=5.6;
   this.lastHitter=team;this.rallyHits++;this.bounces[team]=false;
  }
  private endRally(winner:Team){
