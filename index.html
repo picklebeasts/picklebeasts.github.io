@@ -1,2 +1,43 @@
 <!doctype html>
-<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#171B1D"><meta name="description" content="PickleBeasts — El mundo es tu pista"><link rel="manifest" href="/manifest.webmanifest"><link rel="icon" href="/icons/icon.svg" type="image/svg+xml"><meta name="apple-mobile-web-app-capable" content="yes"><title>PickleBeasts — Back to the Court</title></head><body><div id="app"></div><script type="module" src="/src/main.ts"></script></body></html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#171B1D">
+<meta name="description" content="PickleBeasts — El mundo es tu pista">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>PickleBeasts — Back to the Court</title>
+<style>
+html,body{margin:0;min-height:100%;background:#171B1D;color:#F4F5F0;font-family:Arial,sans-serif}
+#app{min-height:100vh}
+.pb-startup{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;box-sizing:border-box;text-align:center}
+.pb-startup strong{font-size:25px;letter-spacing:2px}.pb-startup strong span{color:#C7F36B}
+.pb-startup p{color:#B9C0B8;line-height:1.5;max-width:320px}
+.pb-startup small{color:#C7F36B}
+.pb-startup-error{color:#FFB4A9!important;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<div id="app"><div class="pb-startup"><strong>PICKLE<span>BEASTS</span></strong><p>Preparando la pista...</p><small>BACK TO THE COURT</small></div></div>
+<script>
+(function(){
+ const app=document.getElementById('app');
+ let ready=false;
+ function showError(message){
+  if(ready)return;
+  app.innerHTML='<div class="pb-startup"><strong>PICKLE<span>BEASTS</span></strong><p>No hemos podido iniciar el juego.</p><p class="pb-startup-error">'+String(message||'Error desconocido').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})+'</p><small>Haz una captura de esta pantalla y envíamela.</small></div>';
+ }
+ window.addEventListener('pb-ready',function(){ready=true;});
+ window.addEventListener('error',function(event){
+  if(event.target&&event.target!==window){showError('No se ha podido cargar un archivo del juego.');}
+  else{showError(event.message||'Error de JavaScript');}
+ },true);
+ window.addEventListener('unhandledrejection',function(event){showError(event.reason&&event.reason.message||String(event.reason||'Error al iniciar'));});
+ setTimeout(function(){if(!ready)showError('El juego no ha respondido después de 12 segundos.');},12000);
+})();
+</script>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
