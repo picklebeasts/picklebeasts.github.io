@@ -2,112 +2,99 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f4f1e8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#d9c49e">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
 <title>PickleBeasts — El mundo es tu pista</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:light;--paper:#f4f1e8;--surface:#fffdf7;--ink:#26332e;--muted:#788078;--line:#ded8ca;--lime:#b9f227;--coral:#f4775b;--blue:#7199c5;--sand:#e7ddc9;--shadow:0 12px 32px #26332e0c}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font-family:"DM Sans",sans-serif;-webkit-tap-highlight-color:transparent}body{min-height:100svh;padding-bottom:calc(78px + env(safe-area-inset-bottom))}button{font:inherit;color:inherit;cursor:pointer}button:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
-.app{width:100%;max-width:560px;min-height:100svh;margin:auto;position:relative}.topbar{height:62px;padding:env(safe-area-inset-top) 18px 0;display:flex;align-items:center;justify-content:space-between;background:var(--paper);position:sticky;top:0;z-index:5}.brand{display:flex;align-items:center;gap:9px;font:800 15px Manrope;letter-spacing:-.6px}.brand-mark{width:29px;height:29px;border-radius:50%;background:var(--lime);display:grid;place-items:center;font:800 17px Manrope;transform:rotate(-12deg)}.top-meta{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.5px}.content{padding:12px 16px 30px}.screen{display:none;animation:appear .22s ease}.screen.active{display:block}@keyframes appear{from{opacity:.45;transform:translateY(5px)}to{opacity:1;transform:none}}
-.kicker{font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);font-weight:800}.heading{font:800 36px/.98 Manrope;letter-spacing:-1.8px;margin:8px 0 0}.heading em{font-style:normal;color:#819a4e}.subheading{font-size:12px;line-height:1.6;color:var(--muted);margin:10px 0 0;max-width:340px}
-.world{height:340px;margin:19px -16px 0;position:relative;overflow:hidden;background:#f3c99e}.world svg{width:100%;height:100%;display:block}.world-label{position:absolute;top:15px;left:18px;right:18px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}.world-title{font:800 15px Manrope}.world-caption{font-size:8px;letter-spacing:1.2px;color:#536455;margin-top:3px}.weather{font-size:9px;font-weight:700;color:#536455;background:#fff8e8c9;padding:7px 9px;border-radius:30px}.world-bottom{position:absolute;left:17px;right:17px;bottom:15px;display:flex;align-items:end;justify-content:space-between}.location{font-size:9px;font-weight:700;letter-spacing:.6px;color:#42594b;text-shadow:0 1px 4px #fff8}.round-tag{background:var(--ink);color:var(--paper);border-radius:30px;padding:7px 10px;font-size:8px;font-weight:800;letter-spacing:.8px}
-.section-row{display:flex;align-items:center;justify-content:space-between;margin:22px 0 10px}.section-title{font:800 16px Manrope;letter-spacing:-.4px}.text-button{border:0;background:none;color:#718b45;font-size:10px;font-weight:800;padding:8px 0}
-.mission{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow)}.mission-top{display:flex;justify-content:space-between;align-items:center}.tag{font-size:8px;letter-spacing:1px;text-transform:uppercase;font-weight:800;color:#bd614c}.step{font-size:9px;color:var(--muted);font-weight:700}.mission h2{font:800 21px Manrope;letter-spacing:-.8px;margin:9px 0 5px}.mission p{font-size:11px;line-height:1.55;color:var(--muted);margin:0}.mission-foot{display:flex;align-items:center;justify-content:space-between;margin-top:15px;gap:10px}.reward{font-size:9px;color:var(--muted);font-weight:700}.reward strong{display:block;color:var(--ink);font:800 13px Manrope;margin-top:3px}.primary{border:0;border-radius:12px;background:var(--lime);min-height:44px;padding:0 16px;font-size:11px;font-weight:800;box-shadow:0 3px 0 #26332e;transition:transform .12s}.primary:active{transform:translateY(2px);box-shadow:0 1px 0 #26332e}
-.progress{background:#eae5d9;border-radius:16px;padding:15px;margin-top:12px}.progress-head{display:flex;justify-content:space-between;align-items:center}.progress-title{font:800 13px Manrope}.progress-number{font-size:9px;color:var(--muted);font-weight:700}.track{height:5px;background:#d7d0c2;border-radius:9px;margin:11px 0 7px;overflow:hidden}.track span{display:block;width:12%;height:100%;background:var(--blue);border-radius:9px}.progress-foot{display:flex;justify-content:space-between;font-size:8px;color:var(--muted);font-weight:700}
-.club-preview{display:flex;align-items:center;gap:13px;padding:13px;background:#e9e4d8;border-radius:16px}.club-thumb{width:76px;height:76px;flex:none;border-radius:12px;overflow:hidden;background:#c9d2ad}.club-thumb svg{width:100%;height:100%}.club-preview h3{font:800 13px Manrope;margin:0 0 4px}.club-preview p{font-size:10px;color:var(--muted);line-height:1.5;margin:0}.club-arrow{margin-left:auto;font-size:19px;color:#75826e}
-.page-intro{margin-bottom:19px}.page-intro .heading{font-size:34px}.chapter{background:#e8e2d5;border-radius:18px;padding:17px;margin-bottom:14px}.chapter-head{display:flex;justify-content:space-between;align-items:start}.chapter h2{font:800 20px Manrope;margin:6px 0 4px}.chapter p{font-size:10px;color:var(--muted);line-height:1.55;margin:0}.chapter-number{font:800 30px Manrope;color:#a5ad91}.level-list{display:grid;gap:9px}.level{display:flex;align-items:center;gap:12px;padding:13px;background:var(--surface);border:1px solid var(--line);border-radius:14px}.level.current{border-color:var(--ink);background:#f7f8e9}.level-dot{width:34px;height:34px;border-radius:50%;background:#e9e4d8;display:grid;place-items:center;font:800 12px Manrope;flex:none}.level.current .level-dot{background:var(--lime)}.level-copy{min-width:0;flex:1}.level-copy strong{font:800 12px Manrope;display:block}.level-copy small{font-size:9px;color:var(--muted)}.level-state{font-size:9px;color:var(--muted);font-weight:800}
-.club-scene{height:230px;border-radius:18px;overflow:hidden;background:#e7d8bc;margin-bottom:15px}.club-scene svg{width:100%;height:100%;display:block}.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.stat{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:12px}.stat strong{font:800 18px Manrope;display:block}.stat small{font-size:8px;color:var(--muted);font-weight:700}.upgrade{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);gap:12px}.upgrade:last-child{border:0}.upgrade strong{font:800 12px Manrope}.upgrade p{font-size:9px;color:var(--muted);margin:4px 0 0}.lock{font-size:9px;color:var(--muted);font-weight:800;white-space:nowrap}
-.profile-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px}.profile-top{display:flex;align-items:center;gap:13px}.player-icon{width:54px;height:54px;border-radius:50%;background:#e7b99b;display:grid;place-items:center;font-size:25px}.profile-name{font:800 19px Manrope}.profile-meta{font-size:9px;color:var(--muted);margin-top:4px}.profile-line{display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line);font-size:10px;color:var(--muted)}.profile-line strong{color:var(--ink)}
-.empty-state{padding:28px 18px;background:#eae5d9;border-radius:17px;text-align:center}.empty-state .symbol{font-size:27px}.empty-state h3{font:800 15px Manrope;margin:8px 0 5px}.empty-state p{font-size:10px;color:var(--muted);line-height:1.6;margin:0}
-.nav{position:fixed;bottom:0;left:0;right:0;z-index:10;display:grid;grid-template-columns:repeat(5,1fr);padding:7px 8px calc(7px + env(safe-area-inset-bottom));background:#f8f6f0ed;backdrop-filter:blur(16px);border-top:1px solid var(--line);max-width:560px;margin:auto}.nav button{border:0;background:none;border-radius:12px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#858b80;font-size:8px;font-weight:800}.nav button span{font-size:19px;line-height:1}.nav button.active{color:var(--ink);background:#e9edda}.nav button.active span{color:#6e8d3d}
-.note{font-size:9px;line-height:1.6;color:var(--muted);margin-top:15px}
-@media(min-width:700px){body{padding:0}.app{max-width:560px;border-left:1px solid #e7e1d5;border-right:1px solid #e7e1d5}.nav{border-left:1px solid var(--line);border-right:1px solid var(--line)}}
+:root{--tinta:#26332e;--lima:#c5f13a;--crema:#f6f0df;--coral:#f4775b}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#d9c49e;color:var(--tinta);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;overscroll-behavior:none;touch-action:none}button{font:inherit;color:inherit;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}#game{position:fixed;inset:0;width:100%;height:100%;display:block}
+.hud{position:fixed;z-index:3;top:0;left:0;right:0;padding:calc(env(safe-area-inset-top) + 12px) 15px 0;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}.brand{display:flex;align-items:center;gap:8px;font-weight:950;font-size:13px;letter-spacing:-.5px;text-shadow:0 1px 8px #fff8}.mark{width:31px;height:31px;border-radius:11px;background:var(--lima);display:grid;place-items:center;font-size:19px;box-shadow:0 3px 0 #26332e55}.hud-right{display:flex;gap:7px}.pill{background:#fff1d9e8;border:1px solid #fff9;border-radius:30px;padding:8px 11px;font-size:10px;font-weight:850;box-shadow:0 3px 12px #453b2818;backdrop-filter:blur(8px)}
+.quest{position:fixed;z-index:3;top:calc(env(safe-area-inset-top) + 60px);left:15px;max-width:min(250px,67vw);padding:10px 13px;border-radius:14px;background:#fff3dfe8;box-shadow:0 5px 18px #4b3e2a20;pointer-events:none}.quest small{display:block;font-size:8px;letter-spacing:1.3px;font-weight:900;color:#a35d45}.quest strong{display:block;font-size:13px;margin-top:3px}.quest span{display:block;font-size:9px;color:#657064;margin-top:2px}
+.controls{position:fixed;z-index:4;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 13px);height:135px;pointer-events:none}.joystick{position:absolute;left:18px;bottom:0;width:112px;height:112px;border-radius:50%;background:#fff5df55;border:2px solid #fff9;box-shadow:inset 0 0 0 1px #26332e12;pointer-events:auto;touch-action:none}.stick{position:absolute;width:43px;height:43px;left:33px;top:33px;border-radius:50%;background:#f8f0df;border:2px solid #fff;box-shadow:0 4px 10px #26332e44;pointer-events:none}.control-hint{position:absolute;left:18px;bottom:116px;font-size:8px;letter-spacing:1px;font-weight:900;color:#fff;text-shadow:0 1px 4px #26332e;pointer-events:none}.action{position:absolute;right:19px;bottom:8px;width:76px;height:76px;border-radius:50%;background:var(--lima);border:3px solid #fff;box-shadow:0 5px 0 #61752e,0 8px 20px #26332e33;font-size:10px;font-weight:950;pointer-events:auto;touch-action:manipulation}.action:active{transform:translateY(3px);box-shadow:0 2px 0 #61752e}.action b{display:block;font-size:23px;line-height:1.1}
+.dock{position:fixed;z-index:5;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 10px);display:flex;gap:5px;padding:6px;border-radius:20px;background:#26332ee8;box-shadow:0 6px 25px #1c2a2460;backdrop-filter:blur(12px)}.dock button{width:43px;height:43px;border-radius:14px;background:transparent;color:#f8f2e5;display:grid;place-items:center;font-size:19px}.dock button:active,.dock button.selected{background:var(--lima);color:var(--tinta)}.dock-label{position:fixed;z-index:5;bottom:calc(env(safe-area-inset-bottom) + 62px);left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:1px;font-weight:900;color:#fff;text-shadow:0 1px 5px #26332e;white-space:nowrap;pointer-events:none}
+.toast{position:fixed;z-index:8;left:50%;top:43%;transform:translate(-50%,-50%);background:#26332ef2;color:#fff8e8;padding:13px 17px;border-radius:15px;font-size:12px;font-weight:750;box-shadow:0 8px 30px #26332e55;opacity:0;transition:opacity .2s;pointer-events:none;text-align:center;max-width:80vw}.toast.show{opacity:1}
+.panel-back{position:fixed;z-index:9;inset:0;background:#1d292b66;display:none;align-items:flex-end;justify-content:center;padding:12px 12px calc(env(safe-area-inset-bottom) + 10px)}.panel-back.open{display:flex}.panel{width:min(100%,520px);background:var(--crema);border-radius:24px;padding:18px 18px 20px;box-shadow:0 15px 60px #101b1a55;animation:up .22s ease;max-height:72dvh;overflow:auto;touch-action:pan-y}.handle{width:38px;height:4px;border-radius:9px;background:#c9c0ad;margin:0 auto 15px}.panel-head{display:flex;justify-content:space-between;align-items:center}.panel-kicker{font-size:8px;letter-spacing:1.5px;font-weight:950;color:#8b7656}.panel h2{font-size:25px;letter-spacing:-1px;margin:5px 0 6px}.panel p{font-size:12px;line-height:1.55;color:#687269;margin:0}.close{width:32px;height:32px;border-radius:50%;background:#e7dfcf;font-size:19px}.panel-action{margin-top:16px;width:100%;border-radius:13px;background:var(--lima);padding:14px;font-size:12px;font-weight:950;box-shadow:0 3px 0 #758b38}.panel-action:active{transform:translateY(2px);box-shadow:0 1px 0 #758b38}.panel-stats{display:flex;gap:8px;margin-top:15px}.panel-stat{flex:1;background:#e9e2d2;border-radius:12px;padding:11px}.panel-stat b{display:block;font-size:18px}.panel-stat small{font-size:8px;color:#788078;font-weight:850}
+@keyframes up{from{transform:translateY(25px);opacity:.5}to{transform:none;opacity:1}}
+@media(min-width:700px){.controls{left:max(0px,calc((100vw - 520px)/2));right:max(0px,calc((100vw - 520px)/2))}.dock{bottom:20px}.dock-label{bottom:72px}}
 </style>
 </head>
 <body>
-<div class="app">
-<header class="topbar"><div class="brand"><div class="brand-mark">P</div>PICKLEBEASTS</div><div class="top-meta">COSTA SOLARA&nbsp; · &nbsp;CAPÍTULO 01</div></header>
-<main class="content">
-<section class="screen active" id="inicio">
- <div class="kicker">Tu aventura empieza aquí</div><h1 class="heading">De vuelta a la <em>pista.</em></h1>
- <p class="subheading">Un nuevo comienzo en la costa. Una pista por recuperar. Una carrera por construir.</p>
- <div class="world">
-  <svg viewBox="0 0 560 370" preserveAspectRatio="xMidYMid slice" aria-label="Ilustración isométrica de un club de pickleball junto al mar">
-   <defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#f5bd91"/><stop offset="1" stop-color="#f8dfb8"/></linearGradient><linearGradient id="sea" x2="0" y2="1"><stop stop-color="#83b4bb"/><stop offset="1" stop-color="#5d9298"/></linearGradient></defs>
-   <rect width="560" height="370" fill="url(#sky)"/><circle cx="438" cy="70" r="31" fill="#fff0c7"/><path d="M0 155Q95 127 180 153T360 145T560 153V370H0Z" fill="url(#sea)"/><path d="M0 195Q90 180 185 196T375 190T560 199" stroke="#c6ded4" stroke-width="3" fill="none" opacity=".7"/>
-   <path d="M0 222 160 163 560 300 560 370H0Z" fill="#d5c29f"/><path d="M0 255 170 189 560 327 560 370H0Z" fill="#c9b58f"/>
-   <path d="M34 177 160 112 281 166 154 232Z" fill="#e7d5b8"/><path d="M34 177v61l120 55v-61Z" fill="#c98d70"/><path d="m154 232 127-66v61l-127 66Z" fill="#b97860"/><path d="m58 174 102-52 99 45-105 54Z" fill="#f7ead3"/><path d="M78 171v36l19 9v-55Zm52-27v55l18 8v-72Zm66 4v53l17-9v-52Z" fill="#71918c"/>
-   <path d="m257 250 169-82 125 56-170 83Z" fill="#b5a486"/><path d="m272 244 153-74 110 49-154 75Z" fill="#7099c3"/><path d="m288 244 137-65 94 42-137 66Z" fill="#83a9ce"/><path d="m288 244 94 43 137-66m-94-42-11 108m-57-88 94 43" stroke="#f8f3e6" stroke-width="2.5" fill="none"/><path d="m350 214 96 43" stroke="#26332e" stroke-width="3"/><path d="m350 214 96 43" stroke="#fff" stroke-width="1" stroke-dasharray="3 3"/>
-   <g fill="#537d56"><circle cx="32" cy="125" r="29"/><circle cx="67" cy="110" r="24"/><circle cx="18" cy="98" r="22"/><circle cx="498" cy="151" r="31"/><circle cx="530" cy="134" r="24"/></g><g fill="#7c9a63"><circle cx="40" cy="115" r="18"/><circle cx="510" cy="139" r="20"/></g><g stroke="#8b674b" stroke-width="6"><path d="M42 146v49M506 163v50"/></g>
-   <path d="M206 263q-3-24 3-42m0 12q-22-12-31-27m31 27q20-19 34-17" fill="none" stroke="#527a55" stroke-width="5" stroke-linecap="round"/><circle cx="211" cy="211" r="16" fill="#668b5c"/>
-   <path d="M226 299q-2-18 3-33m0 9q-18-9-24-21m24 21q18-14 28-12" fill="none" stroke="#527a55" stroke-width="4" stroke-linecap="round"/><circle cx="230" cy="264" r="13" fill="#78985e"/>
-   <g transform="translate(384 272)"><ellipse cy="20" rx="12" ry="4" fill="#5b6d5d" opacity=".3"/><circle cy="-1" r="7" fill="#bd825f"/><path d="M-8 8h16l4 19h-24Z" fill="#f4775b"/><path d="M-3 27v13m8-13v13" stroke="#26332e" stroke-width="4"/><path d="M8 11 19 1" stroke="#26332e" stroke-width="3"/><ellipse cx="21" cy="-2" rx="5" ry="8" fill="#b9f227" stroke="#26332e" stroke-width="2"/></g>
-   <g transform="translate(0 0)" opacity=".35"><path d="M0 320 560 320" stroke="#fff" stroke-width="2"/></g>
-  </svg>
-  <div class="world-label"><div><div class="world-title">Club Solara</div><div class="world-caption">UN LUGAR AL QUE PERTENECER</div></div><div class="weather">☀ &nbsp; 24°</div></div>
-  <div class="world-bottom"><div class="location">COSTA SOLARA<br>EST. TEMPORADA 01</div><span class="round-tag">TU NUEVO HOGAR</span></div>
- </div>
- <div class="section-row"><h2 class="section-title">Tu siguiente paso</h2><span class="step">01 / 10</span></div>
- <article class="mission"><div class="mission-top"><span class="tag">Inicio de carrera</span><span class="step">PRIMER CAPÍTULO</span></div><h2>Conoce la pista</h2><p>Marcus Reed te espera para enseñarte los fundamentos y preparar tu primer partido.</p><div class="mission-foot"><div class="reward">RECOMPENSA<strong>Experiencia · Primer equipo</strong></div><button class="primary" data-go="carrera">Ver capítulo <span aria-hidden="true">↗</span></button></div></article>
- <div class="progress"><div class="progress-head"><span class="progress-title">Tu carrera</span><span class="progress-number">NOVATO · NIVEL 1</span></div><div class="track"><span></span></div><div class="progress-foot"><span>Primeros pasos</span><span>El camino empieza hoy</span></div></div>
- <div class="section-row"><h2 class="section-title">Un club por recuperar</h2><button class="text-button" data-go="club">Ver mi club ↗</button></div>
- <div class="club-preview"><div class="club-thumb"><svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#e7d5b8"/><path d="M0 60 50 35 100 60 50 86Z" fill="#7199c5"/><path d="M10 59 50 39 90 59 50 79Z" fill="#8aafd0"/><path d="M10 59 50 79 90 59" fill="none" stroke="#fff" stroke-width="2"/><path d="M15 25 42 12 67 24 40 38Z" fill="#f4ead7"/><path d="M15 25v18l25 13V38Z" fill="#c98d70"/><path d="m40 38 27-14v18L40 56Z" fill="#b97860"/></svg></div><div><h3>Solara Club</h3><p>Su mejor época quedó atrás. Con tu esfuerzo, volverá a ser un referente.</p></div><span class="club-arrow">›</span></div>
-</section>
-<section class="screen" id="carrera">
- <div class="page-intro"><div class="kicker">Tu camino como jugador</div><h1 class="heading">La <em>carrera.</em></h1><p class="subheading">Entrena, compite y demuestra que tienes lo necesario para llegar a lo más alto.</p></div>
- <div class="chapter"><div class="chapter-head"><div><div class="kicker">Capítulo 01 · Costa Solara</div><h2>De vuelta a la pista</h2><p>Diez desafíos para dar tus primeros pasos en el circuito.</p></div><div class="chapter-number">01</div></div></div>
- <div class="level-list">
-  <div class="level current"><div class="level-dot">01</div><div class="level-copy"><strong>Primeros pasos</strong><small>Conoce a Marcus · Fundamentos</small></div><span class="level-state">ACTUAL</span></div>
-  <div class="level"><div class="level-dot">02</div><div class="level-copy"><strong>Encuentra tu ritmo</strong><small>Control y precisión</small></div><span class="level-state">DESPUÉS</span></div>
-  <div class="level"><div class="level-dot">03</div><div class="level-copy"><strong>El club</strong><small>Conoce a Naomi · Tu club</small></div><span class="level-state">DESPUÉS</span></div>
-  <div class="level"><div class="level-dot">04</div><div class="level-copy"><strong>Una nueva rival</strong><small>Tu primer partido contra Sofía</small></div><span class="level-state">DESPUÉS</span></div>
-  <div class="level"><div class="level-dot">05</div><div class="level-copy"><strong>Domina la zona de no volea</strong><small>Aprende a dominar la zona de no volea</small></div><span class="level-state">DESPUÉS</span></div>
- </div>
- <p class="note">La carrera será el eje principal del juego. Los capítulos posteriores ampliarán el circuito, los rivales y los destinos.</p>
-</section>
-<section class="screen" id="club">
- <div class="page-intro"><div class="kicker">Un proyecto que es tuyo</div><h1 class="heading">Mi <em>club.</em></h1><p class="subheading">No tienes que construirlo todo hoy. Cada logro deportivo te ayudará a devolverle la vida.</p></div>
- <div class="club-scene"><svg viewBox="0 0 520 250" preserveAspectRatio="xMidYMid slice"><rect width="520" height="250" fill="#f0d3ad"/><path d="M0 155 520 95v155H0Z" fill="#c6b48e"/><path d="m95 156 205-100 185 84-205 100Z" fill="#7199c5"/><path d="m117 155 183-88 161 74-184 88Z" fill="#83a9ce"/><path d="m117 155 160 74 184-88m-161-74-23 162" stroke="#fff" stroke-width="3" fill="none"/><path d="m205 113 160 74" stroke="#26332e" stroke-width="4"/><path d="m205 113 160 74" stroke="#fff" stroke-width="1" stroke-dasharray="4 4"/><path d="M0 90 92 43 183 83 90 130Z" fill="#f5e8d0"/><path d="M0 90v62l90 42v-64Z" fill="#c98d70"/><path d="m90 130 93-47v62l-93 47Z" fill="#b97860"/><g fill="#628458"><circle cx="445" cy="45" r="30"/><circle cx="480" cy="62" r="26"/><circle cx="28" cy="53" r="27"/></g><g stroke="#8b674b" stroke-width="6"><path d="M445 70v42M480 82v40M28 80v50"/></g></svg></div>
- <div class="stat-grid"><div class="stat"><strong>01</strong><small>PISTA</small></div><div class="stat"><strong>0</strong><small>SOCIOS</small></div><div class="stat"><strong>—</strong><small>REPUTACIÓN</small></div></div>
- <article class="mission"><div class="kicker">Primera etapa</div><h2>Recuperar la pista principal</h2><p>Antes de pensar en ampliar el club, tendrás que ganarte un lugar en la comunidad y demostrar tu compromiso.</p></article>
- <div class="section-row"><h2 class="section-title">Próximas mejoras</h2></div>
- <div class="mission">
-  <div class="upgrade"><div><strong>Zona de descanso</strong><p>Un lugar para reunirse después de los partidos.</p></div><span class="lock">POR DESCUBRIR</span></div>
-  <div class="upgrade"><div><strong>Recepción y vestuarios</strong><p>Mejora la bienvenida y comodidad de los socios.</p></div><span class="lock">POR DESCUBRIR</span></div>
-  <div class="upgrade"><div><strong>Academia</strong><p>Abre las puertas a nuevos jugadores y competiciones.</p></div><span class="lock">MÁS ADELANTE</span></div>
- </div>
-</section>
-<section class="screen" id="coleccion">
- <div class="page-intro"><div class="kicker">Tu equipo · Tu estilo</div><h1 class="heading">La <em>colección.</em></h1><p class="subheading">Palas, equipación y recuerdos de cada etapa de tu carrera.</p></div>
- <div class="empty-state"><div class="symbol">◇</div><h3>Tu colección empieza vacía</h3><p>Conseguirás tus primeros objetos al completar entrenamientos y desafíos. Aquí podrás organizarlos y personalizar tu equipación.</p></div>
-</section>
-<section class="screen" id="perfil">
- <div class="page-intro"><div class="kicker">Tu jugador</div><h1 class="heading">Mi <em>perfil.</em></h1><p class="subheading">Tu identidad dentro y fuera de la pista.</p></div>
- <div class="profile-card"><div class="profile-top"><div class="player-icon">◒</div><div><div class="profile-name">Nuevo jugador</div><div class="profile-meta">NIVEL 1 · NOVATO · COSTA SOLARA</div></div></div><div style="height:18px"></div><div class="profile-line"><span>Partidos jugados</span><strong>—</strong></div><div class="profile-line"><span>Victorias</span><strong>—</strong></div><div class="profile-line"><span>Torneos ganados</span><strong>—</strong></div><div class="profile-line"><span>Estilo de juego</span><strong>Por definir</strong></div></div>
- <p class="note">La creación y personalización del jugador se diseñarán como parte del inicio de la aventura.</p>
-</section>
-</main>
-<nav class="nav" aria-label="Navegación principal">
- <button class="active" data-tab="inicio"><span>⌂</span>Inicio</button>
- <button data-tab="carrera"><span>↗</span>Carrera</button>
- <button data-tab="club"><span>▱</span>Mi club</button>
- <button data-tab="coleccion"><span>◇</span>Colección</button>
- <button data-tab="perfil"><span>◎</span>Perfil</button>
-</nav>
-</div>
+<canvas id="game" aria-label="Mundo de juego isométrico de PickleBeasts"></canvas>
+<div class="hud"><div class="brand"><div class="mark">P</div><span>PICKLEBEASTS</span></div><div class="hud-right"><div class="pill">✦ <span id="xp">0</span> XP</div><div class="pill">NIV. 1</div></div></div>
+<div class="quest"><small>PRIMERA MISIÓN</small><strong id="quest-title">Explora el club</strong><span id="quest-sub">Acércate a la pista y conoce tu nuevo hogar.</span></div>
+<div class="control-hint">MOVER PERSONAJE</div>
+<div class="controls"><div class="joystick" id="joystick"><div class="stick" id="stick"></div></div><button class="action" id="action"><b>↗</b>INTERACTUAR</button></div>
+<div class="dock-label">EXPLORA TU MUNDO</div>
+<nav class="dock" aria-label="Menú del juego"><button data-panel="carrera" aria-label="Carrera">⚑</button><button data-panel="club" aria-label="Club">⌂</button><button data-panel="coleccion" aria-label="Colección">◇</button><button data-panel="perfil" aria-label="Jugador">☺</button></nav>
+<div class="toast" id="toast"></div>
+<div class="panel-back" id="panel-back"><section class="panel" id="panel"><div class="handle"></div><div class="panel-head"><div class="panel-kicker" id="panel-kicker">TU AVENTURA</div><button class="close" id="close" aria-label="Cerrar">×</button></div><h2 id="panel-title">Tu carrera</h2><p id="panel-copy"></p><div class="panel-stats" id="panel-stats"></div><button class="panel-action" id="panel-action">Continuar</button></section></div>
 <script>
-const tabs=[...document.querySelectorAll('[data-tab]')],screens=[...document.querySelectorAll('.screen')];
-function go(id){screens.forEach(s=>s.classList.toggle('active',s.id===id));tabs.forEach(b=>b.classList.toggle('active',b.dataset.tab===id));window.scrollTo({top:0,behavior:'instant'});}
-tabs.forEach(b=>b.addEventListener('click',()=>go(b.dataset.tab)));
-document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
-if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+(()=>{
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d'),joy=document.getElementById('joystick'),stick=document.getElementById('stick');
+let W=0,H=0,dpr=1,px=0,py=0,moveX=0,moveY=0,joyId=null,near='',xp=0,toastTimer=0,worldTime=0;
+const player={x:0,y:0,dir:0,walk:0};
+const hotspots=[
+ {id:'pista',x:.69,y:.49,label:'Pista principal'},
+ {id:'club',x:.29,y:.43,label:'Casa club'},
+ {id:'muelle',x:.86,y:.24,label:'Mirador'},
+];
+const panels={
+ carrera:{k:'TU AVENTURA',t:'La carrera empieza aquí',p:'Tu primera misión es conocer la pista, aprender los golpes básicos y disputar tu primer partido. Cada desafío te abrirá nuevas zonas y rivales.',stats:[['01','CAPÍTULO'],['10','DESAFÍOS'],['0','VICTORIAS']],a:'Comenzar entrenamiento'},
+ club:{k:'TU REFUGIO',t:'Club Solara',p:'Un pequeño club junto al mar que necesita recuperar su antiguo esplendor. Tu progreso en la pista permitirá devolverle la vida.',stats:[['01','PISTA'],['0','SOCIOS'],['1','NIVEL']],a:'Visitar la pista'},
+ coleccion:{k:'TUS OBJETOS',t:'Una colección por descubrir',p:'Palas, ropa y recuerdos que conseguirás jugando. No hay atajos: cada objeto se gana en la pista.',stats:[['0','PALAS'],['0','EQUIPOS'],['0','RECUERDOS']],a:'Seguir explorando'},
+ perfil:{k:'TU JUGADOR',t:'Un nuevo comienzo',p:'Tu personaje todavía está dando sus primeros pasos. A medida que juegues, definirás tu estilo, tus habilidades y tu reputación.',stats:[['1','NIVEL'],['0','PARTIDOS'],['0','TÍTULOS']],a:'Volver al mundo'}
+};
+function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0);player.x=W*.48;player.y=H*.68}
+addEventListener('resize',resize);resize();
+function poly(points,fill,stroke=null,lw=1){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw;ctx.stroke()}}
+function ellipse(x,y,rx,ry,c){ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fillStyle=c;ctx.fill()}
+function line(points,c,w=2){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.strokeStyle=c;ctx.lineWidth=w;ctx.lineCap='round';ctx.stroke()}
+function tree(x,y,s=1){ellipse(x,y+10*s,19*s,6*s,'#5e7650');line([[x,y-5*s],[x,y+15*s]],'#8a6344',5*s);ellipse(x-8*s,y-11*s,14*s,16*s,'#64875a');ellipse(x+8*s,y-17*s,15*s,18*s,'#789866');ellipse(x,y-28*s,13*s,15*s,'#88a56d')}
+function building(x,y,s=1){ctx.save();ctx.translate(x,y);ctx.scale(s,s);
+poly([[-75,0],[0,-38],[76,0],[0,39]],'#f4e5c9');poly([[-75,0],[-75,54],[0,96],[0,39]],'#c88769');poly([[0,39],[76,0],[76,54],[0,96]],'#b97860');
+poly([[-85,-5],[0,-51],[87,-5],[0,43]],'#fff0d7');poly([[-85,-5],[0,-51],[87,-5],[0,7],[-85,7]],'#d4a17b');
+poly([[-46,12],[-24,0],[-24,40],[-46,51]],'#6e9690');poly([[22,25],[48,11],[48,47],[22,61]],'#6e9690');line([[-46,12],[-24,0]],'#f7e8d1',3);line([[22,25],[48,11]],'#f7e8d1',3);
+ctx.restore()}
+function court(x,y,s=1){ctx.save();ctx.translate(x,y);ctx.scale(s,s);
+poly([[-126,0],[0,-63],[132,0],[0,66]],'#a98f6d');poly([[-116,-1],[0,-58],[121,0],[0,60]],'#7099c2');poly([[-98,0],[0,-48],[103,0],[0,50]],'#83acd0');
+line([[-98,0],[0,50],[103,0]],'#fff6df',2);line([[0,-48],[0,50]],'#fff6df',2);line([[-51,-24],[51,25]],'#fff6df',2);line([[-5,-59],[-5,59]],'#26332e',3);line([[-5,-59],[-5,59]],'#fff',1);
+poly([[-7,-59],[-3,-61],[7,-55],[3,-53]],'#26332e');ctx.restore()}
+function person(x,y,scale=1,shirt='#f4775b',isPlayer=false){ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);ellipse(0,4,12,4,'#26332e30');line([[-5,-2],[-7,12]],'#26332e',4);line([[5,-2],[7,12]],'#26332e',4);poly([[-8,-18],[8,-18],[11,-2],[-10,-2]],shirt);ellipse(0,-25,7,8,'#bd8968');ellipse(-1,-31,8,5,'#5a4637');line([[8,-14],[16,-8]],'#bd8968',3);if(isPlayer){ctx.strokeStyle='#c5f13a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,-10,19,0,Math.PI*2);ctx.stroke()}ctx.restore()}
+function draw(){worldTime+=.016;ctx.clearRect(0,0,W,H);
+const sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#f3c89e');sky.addColorStop(.55,'#f1d6ad');sky.addColorStop(1,'#d8c39e');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+ellipse(W*.79,H*.17,28,28,'#fff0c9');poly([[0,H*.33],[W*.25,H*.26],[W*.48,H*.32],[W*.72,H*.25],[W,H*.32],[W,H*.52],[0,H*.52]],'#85b6b5');
+for(let i=0;i<5;i++)line([[W*.08+i*W*.19,H*.39+i%2*7],[W*.27+i*W*.17,H*.39+i%2*7]],'#c4ddd0',1.5);
+poly([[0,H*.46],[W*.3,H*.39],[W,H*.52],[W,H],[0,H]],'#d7c49e');
+poly([[0,H*.7],[W*.4,H*.48],[W,H*.73],[W,H],[0,H]],'#c9b58e');
+building(W*.24,H*.48,Math.min(1,W/430));court(W*.69,H*.55,Math.min(1,W/430));
+tree(W*.08,H*.39,.95);tree(W*.43,H*.43,.75);tree(W*.91,H*.44,.9);tree(W*.53,H*.68,.65);
+ellipse(W*.84,H*.25,23,5,'#7d9770');line([[W*.84,H*.25],[W*.84,H*.3]],'#896b4d',4);poly([[W*.78,H*.24],[W*.84,H*.18],[W*.9,H*.24],[W*.84,H*.3]],'#f5e6c7');
+person(W*.34,H*.62,.92,'#7199c5');person(W*.74,H*.67,.86,'#e6b94f');
+const dx=player.x,dy=player.y;
+person(dx,dy,1,'#f4775b',true);
+ctx.fillStyle='#fff';ctx.font='800 9px system-ui';ctx.textAlign='center';ctx.fillText('TÚ',dx,dy-43);
+for(const h of hotspots){const hx=W*h.x,hy=H*h.y;const d=Math.hypot(player.x-hx,player.y-hy);if(d<Math.min(W,H)*.19){near=h.id;ellipse(hx,hy-38,13,13,'#c5f13a');ctx.fillStyle='#26332e';ctx.font='bold 15px system-ui';ctx.textAlign='center';ctx.fillText('+',hx,hy-33)}}
+if(!hotspots.some(h=>Math.hypot(player.x-W*h.x,player.y-H*h.y)<Math.min(W,H)*.19))near='';
+requestAnimationFrame(draw)}
+requestAnimationFrame(draw);
+function move(){const len=Math.hypot(moveX,moveY);if(len>.08){player.x+=moveX/Math.max(1,len)*2.2;player.y+=moveY/Math.max(1,len)*2.2;player.x=Math.max(22,Math.min(W-22,player.x));player.y=Math.max(H*.27,Math.min(H*.86,player.y))}}
+setInterval(move,16);
+function showToast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),1900)}
+function interact(){if(near==='pista'){openPanel('carrera')}else if(near==='club'){openPanel('club')}else if(near==='muelle'){showToast('Desde aquí descubrirás nuevos lugares de la costa.')}else{showToast('Acércate a la pista o a la casa club para interactuar.')}}
+document.getElementById('action').addEventListener('click',interact);
+function openPanel(id){const p=panels[id];if(!p)return;document.getElementById('panel-kicker').textContent=p.k;document.getElementById('panel-title').textContent=p.t;document.getElementById('panel-copy').textContent=p.p;document.getElementById('panel-action').textContent=p.a;document.getElementById('panel-stats').innerHTML=p.stats.map(s=>'<div class="panel-stat"><b>'+s[0]+'</b><small>'+s[1]+'</small></div>').join('');document.getElementById('panel-back').classList.add('open')}
+function closePanel(){document.getElementById('panel-back').classList.remove('open')}
+document.getElementById('close').addEventListener('click',closePanel);document.getElementById('panel-back').addEventListener('click',e=>{if(e.target.id==='panel-back')closePanel()});
+document.getElementById('panel-action').addEventListener('click',()=>{closePanel();if(near==='pista'){xp+=10;document.getElementById('xp').textContent=xp;document.getElementById('quest-title').textContent='¡Primer entrenamiento!';document.getElementById('quest-sub').textContent='Has dado el primer paso. Sigue explorando.';showToast('+10 XP · Entrenamiento iniciado')}else showToast('¡Sigue explorando el club!')});
+document.querySelectorAll('[data-panel]').forEach(b=>b.addEventListener('click',()=>openPanel(b.dataset.panel)));
+joy.addEventListener('pointerdown',e=>{joyId=e.pointerId;joy.setPointerCapture(joyId);updateJoy(e)});joy.addEventListener('pointermove',e=>{if(e.pointerId===joyId)updateJoy(e)});function updateJoy(e){const r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;let x=e.clientX-cx,y=e.clientY-cy;const m=Math.hypot(x,y),max=34;if(m>max){x=x/m*max;y=y/m*max}moveX=x/max;moveY=y/max;stick.style.transform='translate('+x+'px,'+y+'px)'}function endJoy(e){if(e.pointerId!==joyId)return;joyId=null;moveX=moveY=0;stick.style.transform='translate(0,0)'}joy.addEventListener('pointerup',endJoy);joy.addEventListener('pointercancel',endJoy);
+canvas.addEventListener('pointerdown',e=>{if(e.clientY<H*.76){const tx=e.clientX,ty=e.clientY;const vx=tx-player.x,vy=ty-player.y,len=Math.hypot(vx,vy);if(len>24){moveX=vx/len;moveY=vy/len;setTimeout(()=>{moveX=moveY=0},Math.min(900,len/2.2*16))}}});
+addEventListener('keydown',e=>{if(e.key==='ArrowUp'||e.key==='w')moveY=-1;if(e.key==='ArrowDown'||e.key==='s')moveY=1;if(e.key==='ArrowLeft'||e.key==='a')moveX=-1;if(e.key==='ArrowRight'||e.key==='d')moveX=1;if(e.key===' '||e.key==='Enter')interact()});addEventListener('keyup',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','w','a','s','d'].includes(e.key)){moveX=moveY=0}});
+})();
 </script>
 </body>
 </html>
