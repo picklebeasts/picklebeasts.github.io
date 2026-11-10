@@ -50,7 +50,7 @@ function game(){
  app!.querySelector('[data-back]')?.addEventListener('click',home);
  app!.querySelector('[data-reset]')?.addEventListener('click',()=>openLevel(l.id));
  app!.querySelectorAll<HTMLElement>('[data-shot]').forEach(b=>b.addEventListener('click',()=>{shot=b.dataset.shot as Shot;game();}));
- app!.querySelector('#court')?.addEventListener('pointerdown',(ev)=>{
+ app!.querySelector('#court')?.addEventListener('pointerdown',(ev:PointerEvent)=>{
   const svg=ev.currentTarget as SVGSVGElement,pt=svg.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;
   const p=pt.matrixTransform(svg.getScreenCTM()!.inverse());
   const x=(p.x-30)/3,y=(p.y-38)/4.35;
