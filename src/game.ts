@@ -9,7 +9,7 @@ export class CourtScene extends Phaser.Scene{
   this.add.ellipse(w/2,h*.54,w*.88,h*.82,0x263b34);
   const g=this.add.graphics();g.fillStyle(0x4d83c7);g.fillPoints([new Phaser.Geom.Point(w*.1,h*.2),new Phaser.Geom.Point(w*.9,h*.2),new Phaser.Geom.Point(w*.98,h*.85),new Phaser.Geom.Point(w*.02,h*.85)],true);g.lineStyle(3,0xf4f5f0);g.strokePoints([new Phaser.Geom.Point(w*.1,h*.2),new Phaser.Geom.Point(w*.9,h*.2),new Phaser.Geom.Point(w*.98,h*.85),new Phaser.Geom.Point(w*.02,h*.85)],true);g.lineBetween(w*.5,h*.2,w*.5,h*.85);g.lineBetween(w*.06,h*.55,w*.94,h*.55);
   this.add.rectangle(w/2,h*.55,w*.9,5,0x171b1d);this.add.rectangle(w/2,h*.55,w*.9,2,0xffffff);
-  this.rival=this.add.circle(w*.5,h*.34,17,0xff704d).setStrokeStyle(3,0xffffff);this.player=this.add.circle(w*.5,h*.77,18,0xb9f227).setStrokeStyle(3,0xffffff);this.ball=this.add.circle(w*.5,h*.49,7,0xd9ff45).setStrokeStyle(2,0x26332e).setDepth(5);
+  this.rival=this.add.circle(w*.5,h*.34,17,0xff704d).setStrokeStyle(3,0xffffff);this.player=this.add.circle(w*.5,h*.77,18,0xb9f227).setStrokeStyle(3,0xffffff);this.target={x:w*.5,y:h*.77};this.ball=this.add.circle(w*.5,h*.49,7,0xd9ff45).setStrokeStyle(2,0x26332e).setDepth(5);
   this.scoreText=this.add.text(16,15,'0  —  '+this.score[1],{fontSize:'25px',fontStyle:'bold',color:'#f4f5f0'}).setDepth(10);
   this.add.text(w/2,h*.1,'SOLARA CLUB · PARTIDO A 5 PUNTOS',{fontSize:'10px',fontStyle:'bold',color:'#b9f227'}).setOrigin(.5).setDepth(10);
   this.add.text(w/2,h*.93,'TOCA TU MITAD PARA MOVERTE · TOCA LA MITAD RIVAL PARA GOLPEAR',{fontSize:'8px',color:'#f4f5f0'}).setOrigin(.5).setDepth(10);
@@ -20,8 +20,8 @@ export class CourtScene extends Phaser.Scene{
  private serve(){this.ball.setPosition(this.scale.width*.5,this.scale.height*.5);this.vx=Phaser.Math.Between(-2,2);this.vy=3.5;this.rallies=0}
  update(){
   if(this.done)return;const w=this.scale.width,h=this.scale.height;const k=this.input.keyboard;
-  if(k?.checkDown(this.keys.left))this.player.x-=4;if(k?.checkDown(this.keys.right))this.player.x+=4;if(k?.checkDown(this.keys.up))this.player.y-=4;if(k?.checkDown(this.keys.down))this.player.y+=4;
-  this.player.x=Phaser.Math.Linear(this.player.x,this.target.x,.035);this.player.y=Phaser.Math.Linear(this.player.y,this.target.y,.035);
+  const keyboardMove=!!(k?.checkDown(this.keys.left)||k?.checkDown(this.keys.right)||k?.checkDown(this.keys.up)||k?.checkDown(this.keys.down));if(k?.checkDown(this.keys.left))this.player.x-=4;if(k?.checkDown(this.keys.right))this.player.x+=4;if(k?.checkDown(this.keys.up))this.player.y-=4;if(k?.checkDown(this.keys.down))this.player.y+=4;
+  if(keyboardMove){this.target.x=this.player.x;this.target.y=this.player.y}else{this.player.x=Phaser.Math.Linear(this.player.x,this.target.x,.035);this.player.y=Phaser.Math.Linear(this.player.y,this.target.y,.035)}
   this.player.x=Phaser.Math.Clamp(this.player.x,w*.08,w*.92);this.player.y=Phaser.Math.Clamp(this.player.y,h*.59,h*.88);
   this.rival.x=Phaser.Math.Linear(this.rival.x,this.ball.x,.045);this.rival.y=Phaser.Math.Linear(this.rival.y,Phaser.Math.Clamp(this.ball.y-h*.1,h*.27,h*.43),.05);
   this.ball.x+=this.vx;this.ball.y+=this.vy;this.vx*=.997;
