@@ -34,6 +34,7 @@ export class CourtScene extends Phaser.Scene{
  private aim={x:0,y:0};
  private joystickPointer=-1;
  private joystickBase={x:0,y:0};
+ private joystickVector={x:0,y:0};
  private joystickRing!:Phaser.GameObjects.Arc;
  private joystickKnob!:Phaser.GameObjects.Arc;
  private rallyHits=0;
@@ -93,7 +94,7 @@ export class CourtScene extends Phaser.Scene{
   });
   this.input.on('pointerup',(p:Phaser.Input.Pointer)=>{
    if(p.id===this.joystickPointer){
-    this.joystickPointer=-1;this.joystickKnob.setPosition(this.joystickBase.x,this.joystickBase.y);return;
+    this.joystickPointer=-1;this.joystickVector={x:0,y:0};this.joystickKnob.setPosition(this.joystickBase.x,this.joystickBase.y);return;
    }
    if(!this.dragging||this.done)return;
    this.dragging=false;
@@ -131,8 +132,7 @@ export class CourtScene extends Phaser.Scene{
   const dx=x-this.joystickBase.x,dy=y-this.joystickBase.y,len=Math.max(1,Math.hypot(dx,dy)),scale=Math.min(1,43/len);
   const nx=dx*scale,ny=dy*scale;
   this.joystickKnob.setPosition(this.joystickBase.x+nx,this.joystickBase.y+ny);
-  this.target.x=Phaser.Math.Clamp(this.player.x+nx*2.2,this.scale.width*.11,this.scale.width*.89);
-  this.target.y=Phaser.Math.Clamp(this.player.y+ny*2.2,this.scale.height*.51,this.scale.height*.88);
+  this.joystickVector={x:nx/43,y:ny/43};
  }
  private tryPlayerHit(tx:number,ty:number){
   if(this.done||this.waitingForServe||this.z>38)return;
@@ -165,6 +165,8 @@ export class CourtScene extends Phaser.Scene{
   if(k?.checkDown(this.keys.right))this.target.x+=4;
   if(k?.checkDown(this.keys.up))this.target.y-=4;
   if(k?.checkDown(this.keys.down))this.target.y+=4;
+  this.target.x+=this.joystickVector.x*4;
+  this.target.y+=this.joystickVector.y*4;
   this.target.x=Phaser.Math.Clamp(this.target.x,w*.11,w*.89);
   this.target.y=Phaser.Math.Clamp(this.target.y,net+10,h*.88);
   this.player.x=Phaser.Math.Linear(this.player.x,this.target.x,.14);
@@ -172,8 +174,8 @@ export class CourtScene extends Phaser.Scene{
   this.partner.x=Phaser.Math.Linear(this.partner.x,Phaser.Math.Clamp(this.bx+w*.12,w*.12,w*.88),.045);
   this.partner.y=Phaser.Math.Linear(this.partner.y,Phaser.Math.Clamp(this.by+h*.08,net+nvz+12,h*.87),.045);
   this.rivals.forEach((r,i)=>{
-   const x=Phaser.Math.Clamp(this.bx+(i===0?-w*.1:w*.1),w*.12,w*.88);
-   const y=Phaser.Math.Clamp(this.by-h*.08,h*.12,net-nvz-12);
+   const x=Phaser.Math.Clamp(this.bx+(i===0?-w*.035:w*.035),w*.12,w*.88);
+   const y=Phaser.Math.Clamp(this.by+h*.025,h*.12,net-nvz-12);
    r.x=Phaser.Math.Linear(r.x,x,.07);r.y=Phaser.Math.Linear(r.y,y,.07);
   });
   if(this.waitingForServe){this.ball.setPosition(this.bx,this.by);return}
@@ -194,14 +196,14 @@ export class CourtScene extends Phaser.Scene{
   if(this.by>net&&this.lastHitter===1){
    const candidates=[this.player,this.partner];
    const nearest=candidates.sort((a,b)=>Phaser.Math.Distance.Between(a.x,a.y,this.bx,this.by)-Phaser.Math.Distance.Between(b.x,b.y,this.bx,this.by))[0];
-   if(Phaser.Math.Distance.Between(nearest.x,nearest.y,this.bx,this.by)<31&&this.z<25&&this.canVolley(0)){
+   if(Phaser.Math.Distance.Between(nearest.x,nearest.y,this.bx,this.by)<42&&this.z<25&&this.canVolley(0)){
     if(nearest===this.player){this.statusText.setText('¡TU TURNO! TOCA PARA GOLPEAR')}
     else this.aiHit(0,nearest.x,nearest.y);
    }
   }
   if(this.by<net&&this.lastHitter===0){
    const nearest=this.rivals.reduce((a,b)=>Phaser.Math.Distance.Between(a.x,a.y,this.bx,this.by)<Phaser.Math.Distance.Between(b.x,b.y,this.bx,this.by)?a:b);
-   if(Phaser.Math.Distance.Between(nearest.x,nearest.y,this.bx,this.by)<32&&this.z<24&&this.canVolley(1))this.aiHit(1,nearest.x,nearest.y);
+   if(Phaser.Math.Distance.Between(nearest.x,nearest.y,this.bx,this.by)<42&&this.z<24&&this.canVolley(1))this.aiHit(1,nearest.x,nearest.y);
   }
   // The first two bounces are compulsory: no one may volley until both sides have bounced.
  }
