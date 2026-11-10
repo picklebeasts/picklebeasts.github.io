@@ -14,7 +14,7 @@ export class CourtScene extends Phaser.Scene{
   this.add.text(w/2,h*.1,'SOLARA CLUB · PARTIDO A 5 PUNTOS',{fontSize:'10px',fontStyle:'bold',color:'#b9f227'}).setOrigin(.5).setDepth(10);
   this.add.text(w/2,h*.93,'TOCA TU MITAD PARA MOVERTE · TOCA LA MITAD RIVAL PARA GOLPEAR',{fontSize:'8px',color:'#f4f5f0'}).setOrigin(.5).setDepth(10);
   this.keys=this.input.keyboard!.createCursorKeys();this.input.keyboard!.addKeys('W,A,S,D');
-  this.input.on('pointerdown',(p:Phaser.Input.Pointer)=>{if(p.y>h*.56){this.target.x=Phaser.Math.Clamp(p.x,w*.08,w*.92);this.target.y=Phaser.Math.Clamp(p.y,h*.59,h*.87)}else if(this.ball.y<h*.56){this.vx=(p.x-this.player.x)*.012;this.vy=4.4;this.rallies++}});
+  this.input.on('pointerdown',(p:Phaser.Input.Pointer)=>{if(p.y>h*.56){this.target.x=Phaser.Math.Clamp(p.x,w*.08,w*.92);this.target.y=Phaser.Math.Clamp(p.y,h*.59,h*.87)}else if(this.ball.y>h*.55&&this.ball.y<h*.88){this.vx=(p.x-this.player.x)*.012;this.vy=-4.4;this.rallies++}});
   this.serve();
  }
  private serve(){this.ball.setPosition(this.scale.width*.5,this.scale.height*.5);this.vx=Phaser.Math.Between(-2,2);this.vy=3.5;this.rallies=0}
