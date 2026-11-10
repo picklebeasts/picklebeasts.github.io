@@ -3,3 +3,63 @@
 .shot-controls{display:flex;justify-content:center;gap:8px;margin-bottom:7px}.shot-controls .btn{min-width:76px;min-height:34px;padding:8px 12px}.shot-controls .selected{background:var(--lime);color:#171b1d}.game-foot{line-height:1.4}
 
 .home-world{background:#e9c49b;isolation:isolate;min-height:215px}.home-world:after{display:none}.world-art{position:absolute;inset:0;width:100%;height:100%;z-index:0}.home-world>div,.home-world>.hero-foot{position:relative;z-index:2}.home-world .eyebrow{color:#43564d}.home-world .title{color:#172321}.home-world p{color:#334b45}
+
+
+/* PickleBeasts puzzle experience */
+.pb-app{height:100dvh;max-width:560px;margin:0 auto;background:#171b1d;color:#f4f5f0;display:flex;flex-direction:column;overflow:hidden;font-family:'DM Sans',system-ui,sans-serif}
+.pb-top{height:58px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 19px;border-bottom:1px solid #30393a;background:#1d2425}
+.pb-brand{border:0;background:none;color:#f4f5f0;font-weight:1000;letter-spacing:1.2px;font-size:14px;padding:8px 0}
+.pb-brand span{color:#b9f227}
+.pb-progress{font-size:9px;color:#aeb9b2;font-weight:900;letter-spacing:1.3px}
+.pb-home,.pb-game,.pb-result{flex:1;min-height:0;overflow:auto;padding:22px 17px calc(env(safe-area-inset-bottom) + 22px)}
+.pb-kicker{font-size:9px;font-weight:900;letter-spacing:2px;color:#b9f227}
+.pb-home h1,.pb-result h1{font-size:clamp(39px,11vw,55px);line-height:.92;letter-spacing:-2.8px;margin:12px 0 13px;font-weight:1000}
+.pb-home h1 em{font-style:normal;color:#b9f227}
+.pb-lead{font-size:13px;line-height:1.55;color:#b4c0b9;max-width:390px;margin:0 0 20px}
+.pb-feature{display:grid;grid-template-columns:76px 1fr auto;align-items:center;gap:11px;padding:12px;background:#252e30;border:1px solid #394446;border-radius:17px}
+.pb-court-mini{height:76px;border-radius:10px;background:#3976a9;position:relative;border:2px solid white;overflow:hidden}
+.pb-court-mini:before,.pb-court-mini:after{content:'';position:absolute;left:0;right:0;height:2px;background:#fff}
+.pb-court-mini:before{top:50%}.pb-court-mini:after{top:35%;opacity:.8}
+.mini-net{position:absolute;top:49%;height:4px;left:0;right:0;background:#171b1d;box-shadow:0 0 0 1px white}
+.mini-ball{position:absolute;z-index:2;width:9px;height:9px;border-radius:50%;background:#d8ff59;left:21px;bottom:13px}
+.mini-target{position:absolute;z-index:2;width:20px;height:20px;border-radius:50%;border:2px dashed #d8ff59;right:10px;top:8px}
+.pb-feature b{display:block;font-size:10px;letter-spacing:.7px}.pb-feature small{display:block;color:#aab6af;font-size:9px;line-height:1.4;margin-top:5px}
+.pb-play,.pb-hit{border:0;border-radius:11px;background:#b9f227;color:#171b1d;font-weight:1000;font-size:10px;letter-spacing:.7px;padding:13px 15px;min-height:44px}
+.pb-section-head{display:flex;justify-content:space-between;align-items:center;margin:23px 1px 9px;font-size:9px;letter-spacing:1px}
+.pb-section-head span{color:#aab6af;letter-spacing:0}
+.pb-levels{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.pb-level{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:7px;text-align:left;background:#252e30;border:1px solid #394446;border-radius:12px;padding:10px 8px;color:#f4f5f0;min-height:54px}
+.pb-level:disabled{opacity:.38}
+.pb-level-no{width:27px;height:27px;display:grid;place-items:center;border-radius:8px;background:#3a4847;color:#b9f227;font-size:10px;font-weight:900}
+.pb-level-name{font-size:10px;font-weight:800;line-height:1.2}
+.pb-stars{grid-column:2;color:#d8ff59;font-size:10px;letter-spacing:1px;white-space:nowrap}
+.pb-level-arrow{grid-column:3;grid-row:1/3;color:#b9f227;font-size:17px}
+.pb-footnote{font-size:10px;color:#84928a;line-height:1.5;margin:17px 2px 0}
+.pb-game{padding-top:12px;display:flex;flex-direction:column;gap:10px}
+.pb-gamebar{display:flex;align-items:center;justify-content:space-between;font-size:9px;letter-spacing:1px;color:#aeb9b2;font-weight:900}
+.pb-back{border:0;background:none;color:#b9f227;padding:8px 0;font-weight:900;font-size:10px;letter-spacing:1px}
+.pb-moves b{color:#d8ff59;font-size:13px}
+.pb-instruction h2{font-size:24px;letter-spacing:-.8px;margin:4px 0}
+.pb-instruction p{font-size:11px;color:#b4c0b9;line-height:1.4;margin:0}
+.pb-court-wrap{position:relative;min-height:0;flex:1;display:flex;align-items:center;justify-content:center;background:#202829;border:1px solid #394446;border-radius:16px;overflow:hidden;padding:4px}
+.pb-court{height:100%;width:100%;max-height:520px;touch-action:pan-y;display:block}
+.pb-court-hint{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:8px;letter-spacing:1.2px;font-weight:900;color:#fff;text-shadow:0 1px 4px #000;pointer-events:none}
+.pb-shot-picker{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pb-shot-picker button{border:1px solid #3c4849;border-radius:12px;background:#252e30;color:#f4f5f0;min-height:58px;display:grid;grid-template-columns:25px 1fr;grid-template-rows:1fr 1fr;align-items:center;text-align:left;padding:7px 10px}
+.pb-shot-picker button.selected{border:2px solid #b9f227;background:#303b32}
+.pb-shot-picker b{grid-row:1/3;font-size:23px;color:#b9f227;text-align:center}
+.pb-shot-picker span{font-size:10px;font-weight:1000;letter-spacing:.7px}
+.pb-shot-picker small{font-size:8px;color:#aeb9b2}
+.pb-actions{display:grid;grid-template-columns:.8fr 1.5fr;gap:8px}
+.pb-reset{border:1px solid #475354;border-radius:11px;background:#2a3334;color:#f4f5f0;font-size:9px;font-weight:900;letter-spacing:.7px;padding:12px}
+.pb-hit:disabled{opacity:.35}
+.pb-feedback{font-size:10px;color:#d1d9d3;text-align:center;min-height:15px;margin:0 0 3px}
+.pb-result{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.pb-result-mark{width:82px;height:82px;border-radius:26px;background:#b9f227;color:#171b1d;display:grid;place-items:center;font-size:49px;margin-bottom:22px;transform:rotate(-7deg)}
+.pb-result h1{font-size:39px}
+.pb-result>p{font-size:13px;line-height:1.5;color:#b4c0b9;max-width:300px}
+.pb-earned{font-size:39px;color:#d8ff59;letter-spacing:5px;margin:18px 0 8px}
+.pb-result-detail{font-size:11px;color:#aeb9b2;margin-bottom:22px}
+.pb-result-actions{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.pb-result-actions>*{min-height:48px}
+@media(max-height:720px){.pb-game{gap:6px}.pb-instruction h2{font-size:20px}.pb-court-wrap{min-height:250px}.pb-court{max-height:420px}.pb-home,.pb-game{padding-top:13px}.pb-feature{padding:9px}.pb-court-mini{height:64px}}
