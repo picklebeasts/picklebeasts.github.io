@@ -50,8 +50,9 @@ function game(){
  app!.querySelector('[data-back]')?.addEventListener('click',home);
  app!.querySelector('[data-reset]')?.addEventListener('click',()=>openLevel(l.id));
  app!.querySelectorAll<HTMLElement>('[data-shot]').forEach(b=>b.addEventListener('click',()=>{shot=b.dataset.shot as Shot;game();}));
- app!.querySelector('#court')?.addEventListener('click',(ev:MouseEvent)=>{
-  const svg=ev.currentTarget as SVGSVGElement,pt=svg.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;
+ app!.querySelector('#court')?.addEventListener('click',(ev:Event)=>{
+  const mouse=ev as MouseEvent;
+  const svg=ev.currentTarget as SVGSVGElement,pt=svg.createSVGPoint();pt.x=mouse.clientX;pt.y=mouse.clientY;
   const p=pt.matrixTransform(svg.getScreenCTM()!.inverse());
   const x=(p.x-30)/3,y=(p.y-38)/4.35;
   if(x<0||x>100||y<0||y>50)return;
@@ -79,8 +80,9 @@ function hit(){
  aim=null;
  const court=app!.querySelector('.pb-court-wrap');if(court){const old=app!.querySelector('#court');old?.remove();court.insertAdjacentHTML('afterbegin',courtSvg());}
  app!.querySelector('[data-hit]')?.setAttribute('disabled','');
- app!.querySelector('#court')?.addEventListener('click',(ev:MouseEvent)=>{
-  const svg=ev.currentTarget as SVGSVGElement,pt=svg.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;const p=pt.matrixTransform(svg.getScreenCTM()!.inverse());
+ app!.querySelector('#court')?.addEventListener('click',(ev:Event)=>{
+  const mouse=ev as MouseEvent;
+  const svg=ev.currentTarget as SVGSVGElement,pt=svg.createSVGPoint();pt.x=mouse.clientX;pt.y=mouse.clientY;const p=pt.matrixTransform(svg.getScreenCTM()!.inverse());
   const x=(p.x-30)/3,y=(p.y-38)/4.35;if(x>=0&&x<=100&&y>=0&&y<=50){aim=[Math.round(x),Math.round(y)];const wrap=app!.querySelector('.pb-court-wrap');wrap?.querySelector('#court')?.remove();wrap?.insertAdjacentHTML('afterbegin',courtSvg());app!.querySelector('[data-hit]')?.removeAttribute('disabled');const f=app!.querySelector('#feedback');if(f)f.textContent='Nuevo objetivo seleccionado. ¡Prueba otra vez!';}
  });
 }
