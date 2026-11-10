@@ -93,7 +93,7 @@ function updateBall(){
 const b=state.ball;if(!b.moving)return;
 b.x+=b.vx;b.y+=b.vy;b.z+=b.vz;b.vz-=.105;
 if(b.z<=0){b.z=0;b.bounces++;if(b.bounces===1){if(b.owner==='opponent'){if(Math.hypot(b.x-state.player.x,b.y-state.player.y)<.36){$('status').textContent='¡TU TURNO!';}else $('status').textContent='MUÉVETE Y GOLPEA';}else $('status').textContent='SOFÍA PREPARA LA DEVOLUCIÓN';}
-if(b.bounces>=2){if(b.owner==='opponent')finishPoint('ai','La pelota botó dos veces.');else finishPoint('you','Sofía no pudo devolverla.');return;}
+if(b.bounces>=2){if(b.owner==='opponent')finishPoint('you','Sofía no llegó a devolverla.');else finishPoint('ai','No llegaste a devolverla a tiempo.');return;}
 b.vz=Math.abs(b.vz)*.48;
 }
 if(b.y<-.97||b.y>.97||Math.abs(b.x)>.98){finishPoint(b.owner==='opponent'?'ai':'you','La pelota salió de la pista.');return;}
