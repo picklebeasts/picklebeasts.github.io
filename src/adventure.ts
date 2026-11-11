@@ -17,7 +17,7 @@ class ClubWorld extends Phaser.Scene{
  private hud!:HTMLElement;
  private messageUntil=0;
  private facing=1;
- private readonly treeObstacles:Array<{x:number;y:number;r:number}>=[{x:75,y:130,r:31},{x:175,y:300,r:31},{x:790,y:145,r:31},{x:790,y:360,r:31},{x:80,y:530,r:31},{x:110,y:900,r:31},{x:780,y:960,r:31},{x:690,y:1120,r:31},{x:250,y:1080,r:31},{x:840,y:780,r:31},{x:560,y:90,r:31},{x:55,y:1100,r:31},{x:520,y:570,r:31},{x:180,y:850,r:31},{x:835,y:1110,r:31}];
+ private readonly treeObstacles:Array<{x:number;y:number;r:number}>=[{x:75,y:130,r:45},{x:175,y:300,r:45},{x:790,y:145,r:45},{x:790,y:360,r:45},{x:80,y:530,r:45},{x:110,y:900,r:45},{x:780,y:960,r:45},{x:690,y:1120,r:45},{x:250,y:1080,r:45},{x:840,y:780,r:45},{x:560,y:90,r:45},{x:55,y:1100,r:45},{x:520,y:570,r:45},{x:180,y:850,r:45},{x:835,y:1110,r:45}];
  constructor(){super('club-world');}
  create(){
   this.cameras.main.setBackgroundColor('#91bd83');
@@ -209,15 +209,13 @@ class ClubWorld extends Phaser.Scene{
  }
  private nearestPlace(x:number,y:number,max:number){let best:Place|undefined,dist=max;for(const p of this.places){const d=Phaser.Math.Distance.Between(x,y,p.x,p.y);if(d<dist){dist=d;best=p;}}return best;}
  private blocked(x:number,y:number){
-  const lake=((x-670)/105)**2+((y-670)/72)**2;
+  const lake=((x-670)/125)**2+((y-670)/90)**2;
   if(lake<1)return true;
   const buildings=[{x:650,y:205},{x:120,y:610},{x:670,y:420}];
-  for(const b of buildings)if(x>b.x-112&&x<b.x+112&&y>b.y-128&&y<b.y+76)return true;
+  for(const b of buildings)if(x>b.x-125&&x<b.x+125&&y>b.y-140&&y<b.y+88)return true;
   for(const t of this.treeObstacles){const dx=x-t.x,dy=y-(t.y-5);if(dx*dx+dy*dy<t.r*t.r)return true;}
   const beds=[[180,205],[730,230],[820,500],[110,760],[760,1050],[250,1120],[550,1000]];
-  for(const [bx,by] of beds)if(Math.abs(x-bx)<39&&Math.abs(y-by)<17)return true;
-  const left=192,right=408,top=204,bottom=636;
-  if(x>left&&x<right&&y>top&&y<bottom)return true;
+  for(const [bx,by] of beds)if(Math.abs(x-bx)<50&&Math.abs(y-by)<26)return true;
   return false;
  }
  private moveTo(x:number,y:number){this.player.setData('target',{x:Phaser.Math.Clamp(x,50,850),y:Phaser.Math.Clamp(y,80,1180)});}
