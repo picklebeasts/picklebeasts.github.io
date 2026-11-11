@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import {CourtScene,MatchResult} from './game';
+import {CourtScene} from './game';
+import type {MatchResult} from './game';
 
 type Progress={talked:boolean;balls:number;courtFixed:boolean;gateOpen:boolean;visited:string[];shirt:number;skinTone:number;hair:number};
 const SAVE_KEY='picklebeasts-adventure-v1';
