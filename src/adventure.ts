@@ -45,45 +45,98 @@ class ClubWorld extends Phaser.Scene{
  private onMap=()=>{this.cameras.main.pan(450,620,350,'Sine.easeInOut');this.time.delayedCall(450,()=>this.cameras.main.startFollow(this.player,true,.08,.08));};
  private drawWorld(){
   const g=this.add.graphics();
-  g.fillStyle(0x83b978);g.fillRect(0,0,900,1250);
-  // Soft park patches
-  for(let i=0;i<28;i++){const x=Phaser.Math.Between(35,850),y=Phaser.Math.Between(40,1200);g.fillStyle(i%2?0x8fc482:0x78ad70,.32);g.fillEllipse(x,y,Phaser.Math.Between(45,100),Phaser.Math.Between(22,55));}
-  // Main winding paths
-  g.lineStyle(74,0xd8c69a,1);g.beginPath();g.moveTo(435,1160);g.lineTo(435,920);g.lineTo(300,790);g.lineTo(300,600);g.lineTo(450,465);g.lineTo(450,240);g.strokePath();
-  g.lineStyle(6,0xe9d9b4,.55);g.beginPath();g.moveTo(435,1160);g.lineTo(435,920);g.lineTo(300,790);g.lineTo(300,600);g.lineTo(450,465);g.lineTo(450,240);g.strokePath();
-  // Court plaza
-  this.drawCourt(g,300,350);
-  // Garden and pond
-  g.fillStyle(0x4f9a9c,1);g.fillEllipse(670,680,170,110);
-  g.lineStyle(8,0xc9d7a1);g.strokeEllipse(670,680,170,110);
-  for(let i=0;i<12;i++){const a=i*Math.PI/6;g.fillStyle(0x4b8d4c);g.fillCircle(670+Math.cos(a)*115,680+Math.sin(a)*80,18);}
-  // Trees around edges
-  for(const [x,y] of [[90,160],[170,300],[780,180],[760,390],[95,510],[120,890],[760,960],[690,1120],[260,1080],[850,760],[560,90],[60,1080]] as number[][])this.drawTree(g,x,y);
-  // boundary fence
-  g.lineStyle(8,0x56734e,.8);g.strokeRoundedRect(18,18,864,1214,36);
-  this.add.text(450,48,'PICKLEBEASTS CLUB',{fontFamily:'Arial',fontSize:'19px',fontStyle:'bold',color:'#f5f4dd',stroke:'#426746',strokeThickness:5}).setOrigin(.5).setDepth(2);
+  // Rich landscaped base with soft terrain variation
+  g.fillStyle(0x7da96d);g.fillRect(0,0,900,1250);
+  for(let i=0;i<90;i++){
+   const x=Phaser.Math.Between(25,875),y=Phaser.Math.Between(25,1225),r=Phaser.Math.Between(12,36);
+   g.fillStyle(i%3===0?0x9ac17b:i%3===1?0x6e9e64:0x87b675,.2);
+   g.fillEllipse(x,y,r*2,r);
+  }
+  // Park border and flower beds
+  g.fillStyle(0x557e50);g.fillRoundedRect(12,12,876,1226,40);
+  g.fillStyle(0x8bb978);g.fillRoundedRect(24,24,852,1202,32);
+  // Main plaza path with layered edges
+  const path=(color:number,width:number)=>{g.lineStyle(width,color,1);g.beginPath();g.moveTo(435,1190);g.lineTo(435,920);g.lineTo(300,790);g.lineTo(300,600);g.lineTo(450,465);g.lineTo(450,220);g.strokePath();};
+  path(0xb69a70,96);path(0xe4d1a8,82);path(0xf0dfbd,3);
+  // Paving joints
+  g.lineStyle(2,0xcbb78f,.65);
+  for(let y=950;y<1180;y+=34)g.lineBetween(393,y,477,y);
+  for(let y=650;y<780;y+=30)g.lineBetween(260,y,340,y);
+  // Central court terrace
+  g.fillStyle(0x45684c,.24);g.fillEllipse(300,455,390,80);
+  g.fillStyle(0xd5c49b);g.fillRoundedRect(104,275,392,260,28);
+  g.fillStyle(0xeee0bd);g.fillRoundedRect(113,284,374,242,22);
+  this.drawCourt(g,300,330);
+  // Clubhouse garden plaza
+  g.fillStyle(0x45684c,.2);g.fillEllipse(450,240,270,70);
+  // Pond and stone rim
+  g.fillStyle(0x547d57);g.fillEllipse(670,680,202,140);
+  g.fillStyle(0xd9c99f);g.fillEllipse(670,674,190,126);
+  g.fillStyle(0x55a7a7);g.fillEllipse(670,670,170,108);
+  g.lineStyle(3,0xc6eeee,.5);g.strokeEllipse(670,670,130,76);g.strokeEllipse(670,670,90,50);
+  for(let i=0;i<8;i++){const a=i*Math.PI/4;g.fillStyle(0x3d7d4d);g.fillEllipse(670+Math.cos(a)*112,680+Math.sin(a)*75,34,23);g.fillStyle(0x9fcf73);g.fillCircle(670+Math.cos(a)*112,680+Math.sin(a)*75,7);}
+  // Flower beds
+  for(const [x,y] of [[180,205],[730,230],[820,500],[110,760],[760,1050],[250,1120],[550,1000]] as number[][])this.drawFlowerBed(g,x,y);
+  // trees and shrubs
+  for(const [x,y] of [[75,130],[175,300],[790,145],[790,360],[80,530],[110,900],[780,960],[690,1120],[250,1080],[840,780],[560,90],[55,1100],[520,570],[180,850],[835,1110]] as number[][])this.drawTree(g,x,y);
+  // Decorative fence with posts
+  g.lineStyle(5,0x536c48,.85);g.strokeRoundedRect(24,24,852,1202,30);
+  for(let x=65;x<850;x+=65){g.fillStyle(0xe2d4ad);g.fillCircle(x,28,4);g.fillCircle(x,1222,4);}
+  this.add.text(450,65,'SOLARA  •  PICKLEBEASTS CLUB',{fontFamily:'Arial',fontSize:'17px',fontStyle:'bold',color:'#fff8df',stroke:'#385b3e',strokeThickness:5}).setOrigin(.5).setDepth(3);
+  this.add.text(300,260,'CENTRAL COURTS',{fontFamily:'Arial',fontSize:'11px',fontStyle:'bold',color:'#fff8df',stroke:'#45684c',strokeThickness:4}).setOrigin(.5).setDepth(4);
  }
  private drawCourt(g:Phaser.GameObjects.Graphics,x:number,y:number){
-  g.fillStyle(0x426d55);g.fillRoundedRect(x-150,y-8,300,220,22);
-  g.fillStyle(0x477db0);g.fillRoundedRect(x-133,y,266,190,9);
-  g.lineStyle(5,0xffffff);g.strokeRect(x-133,y,266,190);
-  g.lineBetween(x,y,x,y+190);g.lineBetween(x-133,y+95,x+133,y+95);
-  g.lineStyle(3,0xf4f4ed);g.lineBetween(x-133,y+62,x+133,y+62);g.lineBetween(x-133,y+128,x+133,y+128);
-  g.fillStyle(0x202b2b);g.fillRect(x-5,y+88,10,14);
-  g.fillStyle(0xffffff,.85);g.fillCircle(x+95,y+145,5);g.fillCircle(x-90,y+45,5);
+  // Court shadow, raised timber frame and blue playing surface
+  g.fillStyle(0x294b38,.25);g.fillRoundedRect(x-157,y+9,314,224,20);
+  g.fillStyle(0x765c43);g.fillRoundedRect(x-153,y-10,306,222,18);
+  g.fillStyle(0x426c51);g.fillRoundedRect(x-145,y-5,290,210,14);
+  g.fillStyle(0x477eae);g.fillRoundedRect(x-134,y+1,268,194,8);
+  g.fillStyle(0x548db9,.45);g.fillRoundedRect(x-125,y+9,250,178,5);
+  // court linework
+  g.lineStyle(4,0xf8f4e5,1);g.strokeRect(x-126,y+8,252,180);
+  g.lineStyle(3,0xf8f4e5,.95);g.lineBetween(x,y+8,x,y+188);g.lineBetween(x-126,y+98,x+126,y+98);
+  g.lineStyle(2,0xf8f4e5,.9);g.lineBetween(x-126,y+62,x+126,y+62);g.lineBetween(x-126,y+134,x+126,y+134);
+  // kitchen tint
+  g.fillStyle(0x315d83,.22);g.fillRect(x-126,y+62,252,72);
+  // net with posts and cord
+  g.fillStyle(0xf0ead7);g.fillRoundedRect(x-3,y+89,6,17,2);g.fillStyle(0x334b49);g.fillRect(x-137,y+91,5,13);g.fillRect(x+132,y+91,5,13);
+  g.lineStyle(3,0xf6f0dc);g.lineBetween(x-136,y+94,x+136,y+94);
+  // perimeter lights and ball basket
+  g.fillStyle(0x303f38);g.fillRoundedRect(x-166,y+18,12,35,4);g.fillRoundedRect(x+154,y+18,12,35,4);
+  g.fillStyle(0xd9e5e8);g.fillCircle(x-160,y+16,6);g.fillCircle(x+160,y+16,6);
+  g.fillStyle(0x9a704d);g.fillRoundedRect(x+145,y+157,25,28,5);
+  for(let i=0;i<3;i++){g.fillStyle(0xd9f05a);g.fillCircle(x+151+i*7,y+166,3);}
  }
  private drawTree(g:Phaser.GameObjects.Graphics,x:number,y:number){
-  g.fillStyle(0x604d37);g.fillRect(x-5,y+8,10,27);
-  g.fillStyle(0x39754a);g.fillCircle(x,y,27);g.fillStyle(0x57985b);g.fillCircle(x-10,y-10,18);g.fillStyle(0x75ad66);g.fillCircle(x+10,y-13,13);
+  // Soft cast shadow and layered canopy
+  g.fillStyle(0x29472e,.22);g.fillEllipse(x+8,y+24,72,34);
+  g.fillStyle(0x75583d);g.fillRoundedRect(x-7,y-2,14,42,5);
+  g.fillStyle(0x3c7047);g.fillCircle(x,y-12,34);
+  g.fillStyle(0x4d8951);g.fillCircle(x-13,y-22,23);g.fillCircle(x+13,y-23,22);
+  g.fillStyle(0x69a75d);g.fillCircle(x-8,y-32,15);g.fillCircle(x+12,y-34,13);
+  g.fillStyle(0x9acb70,.8);g.fillCircle(x-12,y-38,5);g.fillCircle(x+8,y-42,4);
+  g.fillStyle(0x315f3c,.35);g.fillEllipse(x+10,y-2,23,12);
+ }
+ private drawFlowerBed(g:Phaser.GameObjects.Graphics,x:number,y:number){
+  g.fillStyle(0x557b4c,.25);g.fillEllipse(x,y+12,78,25);
+  g.fillStyle(0x9d825e);g.fillRoundedRect(x-34,y-12,68,26,12);
+  g.fillStyle(0x527d48);g.fillRoundedRect(x-30,y-9,60,19,9);
+  for(let i=0;i<7;i++){const px=x-23+i*7;g.fillStyle(i%2?0xf4c5a0:0xe9d87c);g.fillCircle(px,y-5-(i%3)*4,4);g.fillStyle(0xe9e5ca);g.fillCircle(px+2,y-8-(i%3)*4,2);}
  }
  private makePlayer(){
-  const shadow=this.add.ellipse(0,16,36,15,0x243d2c,.28);
-  const legs=this.add.rectangle(0,10,16,20,0x263b48);
-  const torso=this.add.rectangle(0,-5,28,28,0xb9f227).setStrokeStyle(2,0x344b31);
-  const head=this.add.circle(0,-27,13,0xdba77d).setStrokeStyle(2,0x654a37);
-  const hair=this.add.arc(0,-31,13,185,355,false,0x49372e);
-  const cap=this.add.rectangle(0,-39,25,5,0x202c2c);
-  this.player=this.add.container(435,1030,[shadow,legs,torso,head,hair,cap]).setDepth(1030);
+  const shadow=this.add.ellipse(0,18,42,19,0x1f3829,.3);
+  const legs=this.add.container(0,9,[this.add.ellipse(-7,9,10,15,0x263b48),this.add.ellipse(7,9,10,15,0x263b48),this.add.ellipse(-9,17,13,7,0xf4eee0),this.add.ellipse(9,17,13,7,0xf4eee0)]);
+  const torso=this.add.ellipse(0,-3,31,34,0xb9f227).setStrokeStyle(3,0x405a36);
+  const strap=this.add.rectangle(7,-2,6,26,0x263e40).setAngle(-16);
+  const armL=this.add.ellipse(-17,1,10,21,0xd9a77d).setAngle(-15);
+  const armR=this.add.ellipse(17,1,10,21,0xd9a77d).setAngle(15);
+  const head=this.add.circle(0,-29,14,0xe0b58e).setStrokeStyle(2,0x694b38);
+  const hair=this.add.arc(0,-34,14,185,355,false,0x49372e);
+  const cap=this.add.ellipse(0,-41,30,9,0x243a38);
+  const brim=this.add.ellipse(7,-39,20,4,0x172b2b);
+  const eyes=this.add.container(0,-28,[this.add.circle(-5,0,1.8,0x25302c),this.add.circle(5,0,1.8,0x25302c)]);
+  const paddle=this.add.container(23,-3,[this.add.rectangle(0,10,5,17,0x80563c).setAngle(-18),this.add.ellipse(0,-2,15,21,0x2d7c83).setStrokeStyle(2,0xf4f0dc),this.add.circle(0,-2,4,0xb9f227)]);
+  this.player=this.add.container(435,1030,[shadow,legs,torso,strap,armL,armR,head,hair,cap,brim,eyes,paddle]).setDepth(1030);
   this.body=head;
  }
  private makePeopleAndPlaces(){
@@ -107,18 +160,39 @@ class ClubWorld extends Phaser.Scene{
  }
  private addBuilding(x:number,y:number,label:string,color:number){
   const g=this.add.graphics().setDepth(y-10);
-  g.fillStyle(0x31533d,.22);g.fillEllipse(x,y+62,210,42);
-  g.fillStyle(0x9c704d);g.fillRect(x-77,y-48,154,105);
-  g.fillStyle(color);g.fillPoints([{x:x-90,y:y-48},{x,y:y-115},{x:x+90,y:y-48}],true);
-  g.fillStyle(0xf0dfbb);g.fillRect(x-23,y+5,46,52);
-  g.fillStyle(0x416b65);g.fillRect(x-59,y-30,34,32);g.fillRect(x+25,y-30,34,32);
-  g.lineStyle(3,0x654a36);g.strokeRect(x-77,y-48,154,105);
-  this.add.text(x,y+76,label,{fontFamily:'Arial',fontSize:'13px',fontStyle:'bold',color:'#fff8df',stroke:'#38543b',strokeThickness:4}).setOrigin(.5).setDepth(y+80);
+  // drop shadow, terrace and walls
+  g.fillStyle(0x29462e,.22);g.fillEllipse(x+10,y+75,220,48);
+  g.fillStyle(0x9b805d);g.fillRoundedRect(x-104,y-52,208,142,13);
+  g.fillStyle(0xe9d7b3);g.fillRoundedRect(x-95,y-58,190,132,10);
+  g.fillStyle(0xd8c09a);g.fillRect(x-86,y-43,172,110);
+  // facade panels and windows
+  g.fillStyle(color);g.fillRect(x-87,y-48,174,14);
+  g.fillStyle(0x477b7b);g.fillRoundedRect(x-70,y-27,43,39,5);g.fillRoundedRect(x+27,y-27,43,39,5);
+  g.lineStyle(3,0xf7e8c9);g.strokeRoundedRect(x-70,y-27,43,39,5);g.strokeRoundedRect(x+27,y-27,43,39,5);
+  g.lineStyle(2,0xf7e8c9);g.lineBetween(x-49,y-27,x-49,y+12);g.lineBetween(x+48,y-27,x+48,y+12);
+  g.fillStyle(0x8d6545);g.fillRoundedRect(x-20,y+5,40,62,5);
+  g.fillStyle(0xf1dcae);g.fillCircle(x+11,y+38,2);
+  // roof silhouette with highlights
+  g.fillStyle(0x78513e);g.fillPoints([{x:x-110,y:y-48},{x,y:y-128},{x:x+110,y:y-48}],true);
+  g.fillStyle(color);g.fillPoints([{x:x-98,y:y-50},{x,y:y-119},{x:x+98,y:y-50}],true);
+  g.lineStyle(4,0xffffff,.25);g.lineBetween(x-80,y-62,x,y-116);g.lineBetween(x,y-116,x+80,y-62);
+  // sign board
+  g.fillStyle(0x294b40);g.fillRoundedRect(x-68,y+78,136,25,7);
+  this.add.text(x,y+90,label,{fontFamily:'Arial',fontSize:'11px',fontStyle:'bold',color:'#f8f1db'}).setOrigin(.5).setDepth(y+100);
  }
  private addNpc(x:number,y:number,name:string,color:number){
   const c=this.add.container(x,y).setDepth(y+20);
-  c.add([this.add.ellipse(0,15,34,13,0x263b2c,.25),this.add.rectangle(0,0,25,31,color).setStrokeStyle(2,0x354a3a),this.add.circle(0,-24,13,0xdba77d).setStrokeStyle(2,0x654a37),this.add.arc(0,-28,13,185,355,false,0x49372e)]);
-  this.add.text(x,y+35,name,{fontFamily:'Arial',fontSize:'11px',fontStyle:'bold',color:'#fff',stroke:'#3c5a3c',strokeThickness:4}).setOrigin(.5).setDepth(y+40);
+  const shadow=this.add.ellipse(0,19,40,17,0x263e2c,.25);
+  const legs=this.add.container(0,8,[this.add.ellipse(-6,10,9,15,0x293b43),this.add.ellipse(6,10,9,15,0x293b43),this.add.ellipse(-7,17,12,6,0xf1eadb),this.add.ellipse(7,17,12,6,0xf1eadb)]);
+  const body=this.add.ellipse(0,-3,32,35,color).setStrokeStyle(2,0x344e3b);
+  const collar=this.add.triangle(0,-15,0,0,10,10,-10,10,0xf2e9d2);
+  const head=this.add.circle(0,-31,14,0xd9a77e).setStrokeStyle(2,0x684a37);
+  const hair=this.add.arc(0,-36,14,185,355,false,name.startsWith('MARCUS')?0x392f2a:0x4a3028);
+  const eyes=this.add.container(0,-30,[this.add.circle(-5,0,1.8,0x26302b),this.add.circle(5,0,1.8,0x26302b)]);
+  const tag=this.add.rectangle(0,27,64,18,0x233c32,.94).setStrokeStyle(1,0xffffff,.4);
+  const text=this.add.text(0,27,name,{fontFamily:'Arial',fontSize:'9px',fontStyle:'bold',color:'#fff8e7'}).setOrigin(.5);
+  c.add([shadow,legs,body,collar,head,hair,eyes,tag,text]);
+  this.tweens.add({targets:c,y:y-3,duration:900+Math.random()*250,yoyo:true,repeat:-1,ease:'Sine.easeInOut'});
  }
  private addSign(x:number,y:number,label:string,open:boolean){
   const g=this.add.graphics().setDepth(y);
