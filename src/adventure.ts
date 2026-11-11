@@ -17,6 +17,7 @@ class ClubWorld extends Phaser.Scene{
  private hud!:HTMLElement;
  private messageUntil=0;
  private facing=1;
+ private readonly treeObstacles:Array<{x:number;y:number;r:number}>=[{x:75,y:130,r:31},{x:175,y:300,r:31},{x:790,y:145,r:31},{x:790,y:360,r:31},{x:80,y:530,r:31},{x:110,y:900,r:31},{x:780,y:960,r:31},{x:690,y:1120,r:31},{x:250,y:1080,r:31},{x:840,y:780,r:31},{x:560,y:90,r:31},{x:55,y:1100,r:31},{x:520,y:570,r:31},{x:180,y:850,r:31},{x:835,y:1110,r:31}];
  constructor(){super('club-world');}
  create(){
   this.cameras.main.setBackgroundColor('#91bd83');
@@ -63,10 +64,10 @@ class ClubWorld extends Phaser.Scene{
   for(let y=950;y<1180;y+=34)g.lineBetween(393,y,477,y);
   for(let y=650;y<780;y+=30)g.lineBetween(260,y,340,y);
   // Central court terrace
-  g.fillStyle(0x45684c,.24);g.fillEllipse(300,455,390,80);
-  g.fillStyle(0xd5c49b);g.fillRoundedRect(104,275,392,260,28);
-  g.fillStyle(0xeee0bd);g.fillRoundedRect(113,284,374,242,22);
-  this.drawCourt(g,300,330);
+  g.fillStyle(0x45684c,.24);g.fillEllipse(300,420,300,90);
+  g.fillStyle(0xd5c49b);g.fillRoundedRect(160,170,280,500,28);
+  g.fillStyle(0xeee0bd);g.fillRoundedRect(169,179,262,482,22);
+  this.drawCourt(g,300,420);
   // Clubhouse garden plaza
   g.fillStyle(0x45684c,.2);g.fillEllipse(450,240,270,70);
   // Pond and stone rim
@@ -78,7 +79,7 @@ class ClubWorld extends Phaser.Scene{
   // Flower beds
   for(const [x,y] of [[180,205],[730,230],[820,500],[110,760],[760,1050],[250,1120],[550,1000]] as number[][])this.drawFlowerBed(g,x,y);
   // trees and shrubs
-  for(const [x,y] of [[75,130],[175,300],[790,145],[790,360],[80,530],[110,900],[780,960],[690,1120],[250,1080],[840,780],[560,90],[55,1100],[520,570],[180,850],[835,1110]] as number[][])this.drawTree(g,x,y);
+  for(const p of this.treeObstacles)this.drawTree(g,p.x,p.y);
   // Decorative fence with posts
   g.lineStyle(5,0x536c48,.85);g.strokeRoundedRect(24,24,852,1202,30);
   for(let x=65;x<850;x+=65){g.fillStyle(0xe2d4ad);g.fillCircle(x,28,4);g.fillCircle(x,1222,4);}
@@ -86,26 +87,25 @@ class ClubWorld extends Phaser.Scene{
   this.add.text(300,260,'CENTRAL COURTS',{fontFamily:'Arial',fontSize:'11px',fontStyle:'bold',color:'#fff8df',stroke:'#45684c',strokeThickness:4}).setOrigin(.5).setDepth(4);
  }
  private drawCourt(g:Phaser.GameObjects.Graphics,x:number,y:number){
-  // Court shadow, raised timber frame and blue playing surface
-  g.fillStyle(0x294b38,.25);g.fillRoundedRect(x-157,y+9,314,224,20);
-  g.fillStyle(0x765c43);g.fillRoundedRect(x-153,y-10,306,222,18);
-  g.fillStyle(0x426c51);g.fillRoundedRect(x-145,y-5,290,210,14);
-  g.fillStyle(0x477eae);g.fillRoundedRect(x-134,y+1,268,194,8);
-  g.fillStyle(0x548db9,.45);g.fillRoundedRect(x-125,y+9,250,178,5);
-  // court linework
-  g.lineStyle(4,0xf8f4e5,1);g.strokeRect(x-126,y+8,252,180);
-  g.lineStyle(3,0xf8f4e5,.95);g.lineBetween(x,y+8,x,y+188);g.lineBetween(x-126,y+98,x+126,y+98);
-  g.lineStyle(2,0xf8f4e5,.9);g.lineBetween(x-126,y+62,x+126,y+62);g.lineBetween(x-126,y+134,x+126,y+134);
-  // kitchen tint
-  g.fillStyle(0x315d83,.22);g.fillRect(x-126,y+62,252,72);
-  // net with posts and cord
-  g.fillStyle(0xf0ead7);g.fillRoundedRect(x-3,y+89,6,17,2);g.fillStyle(0x334b49);g.fillRect(x-137,y+91,5,13);g.fillRect(x+132,y+91,5,13);
-  g.lineStyle(3,0xf6f0dc);g.lineBetween(x-136,y+94,x+136,y+94);
-  // perimeter lights and ball basket
-  g.fillStyle(0x303f38);g.fillRoundedRect(x-166,y+18,12,35,4);g.fillRoundedRect(x+154,y+18,12,35,4);
-  g.fillStyle(0xd9e5e8);g.fillCircle(x-160,y+16,6);g.fillCircle(x+160,y+16,6);
-  g.fillStyle(0x9a704d);g.fillRoundedRect(x+145,y+157,25,28,5);
-  for(let i=0;i<3;i++){g.fillStyle(0xd9f05a);g.fillCircle(x+151+i*7,y+166,3);}
+  // Medidas reglamentarias: 20 x 44 ft, representadas a escala 1:2,2.
+  const w=180,h=396,left=x-w/2,top=y-h/2,netY=y;
+  g.fillStyle(0x294b38,.25);g.fillRoundedRect(left-18,top+12,w+36,h+20,15);
+  g.fillStyle(0x765c43);g.fillRoundedRect(left-12,top-12,w+24,h+24,13);
+  g.fillStyle(0x426c51);g.fillRoundedRect(left-7,top-7,w+14,h+14,10);
+  g.fillStyle(0x477eae);g.fillRoundedRect(left,top,w,h,4);
+  g.fillStyle(0x548db9,.35);g.fillRect(left+5,top+5,w-10,h-10);
+  g.lineStyle(3,0xf8f4e5,1);g.strokeRect(left+2,top+2,w-4,h-4);
+  const kitchen=63; // 7 ft de zona de no volea a esta escala
+  g.lineStyle(2.5,0xf8f4e5,1);
+  g.lineBetween(left,netY-kitchen,left+w,netY-kitchen);
+  g.lineBetween(left,netY+kitchen,left+w,netY+kitchen);
+  g.lineBetween(x,top+2,x,netY-kitchen);
+  g.lineBetween(x,netY+kitchen,x,top+h-2);
+  g.fillStyle(0x334b49);g.fillRoundedRect(left-5,netY-5,5,10,2);g.fillRoundedRect(left+w,netY-5,5,10,2);
+  g.lineStyle(4,0xf6f0dc,1);g.lineBetween(left-3,netY,left+w+3,netY);
+  g.lineStyle(1,0xdce8df,.8);g.lineBetween(left,netY-4,left+w,netY-4);
+  g.fillStyle(0x9a704d);g.fillRoundedRect(left+w+19,top+h-52,22,28,5);
+  for(let i=0;i<3;i++){g.fillStyle(0xd9f05a);g.fillCircle(left+w+25+i*6,top+h-42,3);}
  }
  private drawTree(g:Phaser.GameObjects.Graphics,x:number,y:number){
   // Soft cast shadow and layered canopy
@@ -140,17 +140,17 @@ class ClubWorld extends Phaser.Scene{
   this.body=head;
  }
  private makePeopleAndPlaces(){
-  this.addBuilding(450,205,'CLUBHOUSE',0xd9a56d);
+  this.addBuilding(650,205,'CLUBHOUSE',0xd9a56d);
   this.addBuilding(120,610,'TALLER',0xb4a2d7);
   this.addBuilding(670,420,'CAFÉ DINK',0xf0b36c);
-  this.addNpc(365,470,'MARCUS',0xff795e);
+  this.addNpc(470,500,'MARCUS',0xff795e);
   this.addNpc(575,820,'NAOMI',0x70a9d7);
   this.addNpc(720,565,'SOFÍA',0xd58cb5);
   this.addSign(435,900,'PORTÓN · ZONA 2',this.progress.gateOpen);
   this.places=[
-   {x:450,y:245,name:'Clubhouse',kind:'club',body:'Tu base. Aquí se reúnen los miembros y se preparan las próximas aventuras.'},
+   {x:650,y:245,name:'Clubhouse',kind:'club',body:'Tu base. Aquí se reúnen los miembros y se preparan las próximas aventuras.'},
    {x:300,y:420,name:'Pista central',kind:'court',body:'La pista necesita una pequeña puesta a punto. ¡Vamos a devolverle la vida!'},
-   {x:365,y:470,name:'Marcus · Entrenador',kind:'npc',body:'¡Ey, rookie! Bienvenido al club. Antes de abrir la pista, necesito que recojas tres pelotas perdidas por el recinto.'},
+   {x:470,y:500,name:'Marcus · Entrenador',kind:'npc',body:'¡Ey, rookie! Bienvenido al club. Antes de abrir la pista, necesito que recojas tres pelotas perdidas por el recinto.'}
    {x:120,y:610,name:'Taller',kind:'shop',body:'Aquí podrás personalizar tu equipo y reparar instalaciones. Pronto habrá nuevas mejoras.'},
    {x:670,y:420,name:'Café Dink',kind:'cafe',body:'El punto de encuentro del club. Escucharás rumores, conocerás gente y descubrirás retos.'},
    {x:575,y:820,name:'Naomi · Comunidad',kind:'npc',body:'¡Qué alegría tenerte aquí! Cuando el club crezca, podremos organizar eventos para todos.'},
@@ -208,6 +208,18 @@ class ClubWorld extends Phaser.Scene{
   });
  }
  private nearestPlace(x:number,y:number,max:number){let best:Place|undefined,dist=max;for(const p of this.places){const d=Phaser.Math.Distance.Between(x,y,p.x,p.y);if(d<dist){dist=d;best=p;}}return best;}
+ private blocked(x:number,y:number){
+  const lake=((x-670)/105)**2+((y-670)/72)**2;
+  if(lake<1)return true;
+  const buildings=[{x:650,y:205},{x:120,y:610},{x:670,y:420}];
+  for(const b of buildings)if(x>b.x-112&&x<b.x+112&&y>b.y-128&&y<b.y+76)return true;
+  for(const t of this.treeObstacles){const dx=x-t.x,dy=y-(t.y-5);if(dx*dx+dy*dy<t.r*t.r)return true;}
+  const beds=[[180,205],[730,230],[820,500],[110,760],[760,1050],[250,1120],[550,1000]];
+  for(const [bx,by] of beds)if(Math.abs(x-bx)<39&&Math.abs(y-by)<17)return true;
+  const left=192,right=408,top=204,bottom=636;
+  if(x>left&&x<right&&y>top&&y<bottom)return true;
+  return false;
+ }
  private moveTo(x:number,y:number){this.player.setData('target',{x:Phaser.Math.Clamp(x,50,850),y:Phaser.Math.Clamp(y,80,1180)});}
  update(_t:number,dt:number){
   const target=this.player.getData('target') as {x:number;y:number}|undefined;
@@ -215,8 +227,10 @@ class ClubWorld extends Phaser.Scene{
   if(Math.hypot(dx,dy)<.08&&target){dx=target.x-this.player.x;dy=target.y-this.player.y;const d=Math.hypot(dx,dy);if(d<10){this.player.setData('target',null);dx=0;dy=0;}else{dx/=d;dy/=d;}}
   const len=Math.hypot(dx,dy);if(len>1){dx/=len;dy/=len;}
   const speed=dt*.23;
-  this.player.x=Phaser.Math.Clamp(this.player.x+dx*speed,45,855);
-  this.player.y=Phaser.Math.Clamp(this.player.y+dy*speed,70,1180);
+  const nextX=Phaser.Math.Clamp(this.player.x+dx*speed,45,855);
+  const nextY=Phaser.Math.Clamp(this.player.y+dy*speed,70,1180);
+  if(!this.blocked(nextX,this.player.y))this.player.x=nextX;else this.player.setData('target',null);
+  if(!this.blocked(this.player.x,nextY))this.player.y=nextY;else this.player.setData('target',null);
   if(Math.abs(dx)>.05)this.facing=Math.sign(dx);
   this.player.setScale(this.facing<0?-1:1,1);
   this.player.setDepth(this.player.y+30);
