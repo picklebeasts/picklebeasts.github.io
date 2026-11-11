@@ -11,9 +11,9 @@ function save(p:Progress){localStorage.setItem(SAVE_KEY,JSON.stringify(p));}
 type Place={x:number;y:number;name:string;kind:string;body:string;done?:boolean};
 class ClubWorld extends Phaser.Scene{
  private player!:Phaser.GameObjects.Container;
- private body!:Phaser.GameObjects.Arc;
+ private body!:Phaser.GameObjects.Ellipse;
  private playerShirt!:Phaser.GameObjects.Ellipse;
- private playerHair!:Phaser.GameObjects.Arc;
+ private playerHair!:Phaser.GameObjects.Ellipse;
  private playerSkinParts:Array<Phaser.GameObjects.Arc|Phaser.GameObjects.Ellipse>=[];
  private move={x:0,y:0};
  private progress=readSave();
