@@ -27,7 +27,7 @@ class ClubWorld extends Phaser.Scene{
  private readonly treeObstacles:Array<{x:number;y:number;r:number}>=[{x:75,y:130,r:45},{x:175,y:300,r:45},{x:790,y:145,r:45},{x:790,y:360,r:45},{x:80,y:530,r:45},{x:110,y:900,r:45},{x:780,y:960,r:45},{x:690,y:1120,r:45},{x:250,y:1080,r:45},{x:840,y:780,r:45},{x:560,y:90,r:45},{x:55,y:1100,r:45},{x:520,y:570,r:45},{x:180,y:850,r:45},{x:835,y:1110,r:45}];
  constructor(){super('club-world');}
  create(){
-  this.cameras.main.setBackgroundColor('#91bd83');
+  this.cameras.main.setBackgroundColor('#2459b8');
   this.drawWorld();
   this.makePlayer();
   this.makePeopleAndPlaces();
@@ -55,15 +55,15 @@ class ClubWorld extends Phaser.Scene{
  private drawWorld(){
   const g=this.add.graphics();
   // Rich landscaped base with soft terrain variation
-  g.fillStyle(0x7da96d);g.fillRect(0,0,900,1250);
+  g.fillStyle(0x285bb5);g.fillRect(0,0,900,1250);
   for(let i=0;i<90;i++){
    const x=Phaser.Math.Between(25,875),y=Phaser.Math.Between(25,1225),r=Phaser.Math.Between(12,36);
-   g.fillStyle(i%3===0?0x9ac17b:i%3===1?0x6e9e64:0x87b675,.2);
+   g.fillStyle(i%3===0?0x3c78d0:i%3===1?0x1d4d9d:0x6d9de0,.22);
    g.fillEllipse(x,y,r*2,r);
   }
   // Park border and flower beds
-  g.fillStyle(0x557e50);g.fillRoundedRect(12,12,876,1226,40);
-  g.fillStyle(0x8bb978);g.fillRoundedRect(24,24,852,1202,32);
+  g.fillStyle(0x173f89);g.fillRoundedRect(12,12,876,1226,40);
+  g.fillStyle(0x3470c8);g.fillRoundedRect(24,24,852,1202,32);
   // Main plaza path with layered edges
   const path=(color:number,width:number)=>{g.lineStyle(width,color,1);g.beginPath();g.moveTo(435,1190);g.lineTo(435,920);g.lineTo(300,790);g.lineTo(300,600);g.lineTo(450,465);g.lineTo(450,220);g.strokePath();};
   path(0xb69a70,96);path(0xe4d1a8,82);path(0xf0dfbd,3);
@@ -72,16 +72,16 @@ class ClubWorld extends Phaser.Scene{
   for(let y=950;y<1180;y+=34)g.lineBetween(393,y,477,y);
   for(let y=650;y<780;y+=30)g.lineBetween(260,y,340,y);
   // Central court terrace
-  g.fillStyle(0x45684c,.24);g.fillEllipse(300,420,300,90);
+  g.fillStyle(0x102f70,.24);g.fillEllipse(300,420,300,90);
   g.fillStyle(0xd5c49b);g.fillRoundedRect(160,170,280,500,28);
   g.fillStyle(0xeee0bd);g.fillRoundedRect(169,179,262,482,22);
   this.drawCourt(g,300,420);
   // Clubhouse garden plaza
-  g.fillStyle(0x45684c,.2);g.fillEllipse(450,240,270,70);
+  g.fillStyle(0x102f70,.2);g.fillEllipse(450,240,270,70);
   // Pond and stone rim
-  g.fillStyle(0x547d57);g.fillEllipse(670,680,202,140);
+  g.fillStyle(0x173f89);g.fillEllipse(670,680,202,140);
   g.fillStyle(0xd9c99f);g.fillEllipse(670,674,190,126);
-  g.fillStyle(0x55a7a7);g.fillEllipse(670,670,170,108);
+  g.fillStyle(0x38c5d8);g.fillEllipse(670,670,170,108);
   g.lineStyle(3,0xc6eeee,.5);g.strokeEllipse(670,670,130,76);g.strokeEllipse(670,670,90,50);
   for(let i=0;i<8;i++){const a=i*Math.PI/4;g.fillStyle(0x3d7d4d);g.fillEllipse(670+Math.cos(a)*112,680+Math.sin(a)*75,34,23);g.fillStyle(0x9fcf73);g.fillCircle(670+Math.cos(a)*112,680+Math.sin(a)*75,7);}
   // Flower beds
@@ -119,9 +119,9 @@ class ClubWorld extends Phaser.Scene{
   // Soft cast shadow and layered canopy
   g.fillStyle(0x29472e,.22);g.fillEllipse(x+8,y+24,72,34);
   g.fillStyle(0x75583d);g.fillRoundedRect(x-7,y-2,14,42,5);
-  g.fillStyle(0x3c7047);g.fillCircle(x,y-12,34);
-  g.fillStyle(0x4d8951);g.fillCircle(x-13,y-22,23);g.fillCircle(x+13,y-23,22);
-  g.fillStyle(0x69a75d);g.fillCircle(x-8,y-32,15);g.fillCircle(x+12,y-34,13);
+  g.fillStyle(0x155b65);g.fillCircle(x,y-12,34);
+  g.fillStyle(0x208c75);g.fillCircle(x-13,y-22,23);g.fillCircle(x+13,y-23,22);
+  g.fillStyle(0x54b98a);g.fillCircle(x-8,y-32,15);g.fillCircle(x+12,y-34,13);
   g.fillStyle(0x9acb70,.8);g.fillCircle(x-12,y-38,5);g.fillCircle(x+8,y-42,4);
   g.fillStyle(0x315f3c,.35);g.fillEllipse(x+10,y-2,23,12);
  }
@@ -132,46 +132,58 @@ class ClubWorld extends Phaser.Scene{
   for(let i=0;i<7;i++){const px=x-23+i*7;g.fillStyle(i%2?0xf4c5a0:0xe9d87c);g.fillCircle(px,y-5-(i%3)*4,4);g.fillStyle(0xe9e5ca);g.fillCircle(px+2,y-8-(i%3)*4,2);}
  }
  private makePlayer(){
-  const shadow=this.add.ellipse(0,20,48,20,0x1d3428,.34);
-  const shoes=this.add.container(0,12,[
-   this.add.ellipse(-9,17,17,8,0x263c43),this.add.ellipse(9,17,17,8,0x263c43),
-   this.add.ellipse(-9,15,14,5,0xf4eee0),this.add.ellipse(9,15,14,5,0xf4eee0),
-   this.add.line(-9,14,-13,14,-5,14,0x6b7c75),this.add.line(9,14,5,14,13,14,0x6b7c75)
+  // Mascota cítrica: proporciones art-toy, ropa urbana y formas sin contorno duro.
+  const shadow=this.add.ellipse(0,22,54,19,0x102b58,.28);
+  const backpack=this.add.container(-18,-5,[
+   this.add.ellipse(0,0,25,37,0x202b3b),
+   this.add.ellipse(-2,-2,18,29,0x303e51),
+   this.add.roundedRect(-8,-9,15,4,2,0x66758a),
+   this.add.ellipse(10,4,6,23,0x111d2d)
+  ]);
+  const shoes=this.add.container(0,13,[
+   this.add.ellipse(-10,17,21,10,0x172d48),this.add.ellipse(10,17,21,10,0x172d48),
+   this.add.ellipse(-10,14,19,9,0xf8f5ed),this.add.ellipse(10,14,19,9,0xf8f5ed),
+   this.add.ellipse(-10,17,9,3,0x398bd0),this.add.ellipse(10,17,9,3,0x398bd0),
+   this.add.line(-10,12,-16,12,-5,12,0x397db5),this.add.line(10,12,5,12,16,12,0x397db5)
   ]);
   const legs=this.add.container(0,8,[
-   this.add.ellipse(-7,8,10,18,0x34434a),this.add.ellipse(7,8,10,18,0x34434a),
-   this.add.ellipse(0,-1,28,19,0x34434a).setStrokeStyle(2,0x253a3d)
+   this.add.ellipse(-8,7,11,18,0x252b39),this.add.ellipse(8,7,11,18,0x252b39),
+   this.add.ellipse(0,-2,33,19,0x202635)
   ]);
-  const neck=this.add.rectangle(0,-20,10,12,0xe0b58e);
-  const torso=this.add.ellipse(0,-3,34,37,0xb9f227).setStrokeStyle(3,0x405a36);this.playerShirt=torso;
-  const jerseySide=this.add.ellipse(-12,-2,7,25,0x7b9c32,.8);
-  const jerseyStripe=this.add.rectangle(1,-3,4,25,0xf2f5d8,.72);
-  const collar=this.add.triangle(0,-17,0,0,7,8,-7,8,0xf3ecd7);
-  const crest=this.add.circle(-9,-7,4,0xffe16a).setStrokeStyle(1,0x52693b);
-  const crestDot=this.add.circle(-9,-7,1.5,0xff795e);
-  const armL=this.add.ellipse(-19,1,11,23,0xe0b58e).setAngle(-15);
-  const armR=this.add.ellipse(19,1,11,23,0xe0b58e).setAngle(15);
-  const bandL=this.add.ellipse(-21,7,11,5,0xf1e8ce).setAngle(-15);
-  const bandR=this.add.ellipse(21,7,11,5,0xf1e8ce).setAngle(15);
-  const head=this.add.circle(0,-30,15,0xe0b58e).setStrokeStyle(2,0x694b38);
-  const ears=this.add.container(0,-29,[this.add.circle(-15,0,4,0xd49c77),this.add.circle(15,0,4,0xd49c77)]);
-  const hair=this.add.arc(0,-36,15,185,355,false,[0x49372e,0x241d1a,0x9b633c,0x6c4934][this.progress.hair]);this.playerHair=hair;
-  const cap=this.add.ellipse(0,-44,32,10,0x243a38);
-  const brim=this.add.ellipse(7,-42,22,4,0x172b2b);
-  const brows=this.add.container(0,-33,[this.add.rectangle(-5,0,5,1.8,0x49372e),this.add.rectangle(5,0,5,1.8,0x49372e)]);
-  const eyes=this.add.container(0,-28,[this.add.ellipse(-5,0,3,4,0xffffff),this.add.ellipse(5,0,3,4,0xffffff),this.add.circle(-5,0,1.5,0x25302c),this.add.circle(5,0,1.5,0x25302c)]);
-  const nose=this.add.circle(0,-25,1.4,0xb77f60);
-  const smile=this.add.arc(0,-23,4,15,165,false,0x754d3c);
-  const paddle=this.add.container(25,-4,[
-   this.add.rectangle(0,11,6,18,0x80563c).setAngle(-18),
-   this.add.ellipse(0,-3,17,23,0x2d7c83).setStrokeStyle(2,0xf4f0dc),
-   this.add.ellipse(0,-3,10,15,0x3f9b91),
-   this.add.circle(0,-3,3.5,0xb9f227)
+  const hoodie=this.add.ellipse(0,-5,42,43,0x247bd0);
+  const hood=this.add.arc(0,-18,18,180,360,false,0x1765b4);
+  const pocket=this.add.roundedRect(0,5,23,10,4,0x1768b7);
+  const strings=this.add.container(0,-12,[this.add.line(-4,0,-4,0,-4,13,0xd8efff),this.add.line(4,0,4,0,4,13,0xd8efff)]);
+  const hem=this.add.rectangle(0,13,40,4,0x155a9c);
+  const arms=this.add.container(0,-5,[
+   this.add.ellipse(-23,-1,12,25,0x247bd0).setAngle(-18),
+   this.add.ellipse(23,-1,12,25,0x247bd0).setAngle(18),
+   this.add.ellipse(-27,10,10,8,0xffd32e),this.add.ellipse(27,10,10,8,0xffd32e)
   ]);
-  this.player=this.add.container(435,1030,[shadow,shoes,legs,neck,torso,jerseySide,jerseyStripe,collar,crest,crestDot,armL,armR,bandL,bandR,head,ears,hair,brows,eyes,nose,smile,cap,brim,paddle]).setDepth(1030);
+  const head=this.add.ellipse(0,-39,52,55,0xffcf24);
+  const fruitShade=this.add.ellipse(3,-30,43,35,0xffdf49,.62);
+  const pores=this.add.container(0,-40,Array.from({length:15},(_,i)=>this.add.circle(Math.cos(i*2.4)*17,Math.sin(i*2.4)*19,1.1,i%2?0xf5a91b:0xffef8a,.58)));
+  const blush=this.add.container(0,-35,[this.add.ellipse(-15,5,10,7,0xf28a55,.78),this.add.ellipse(15,5,10,7,0xf28a55,.78)]);
+  const eyes=this.add.container(0,-41,[this.add.circle(-8,0,2.7,0x202535),this.add.circle(8,0,2.7,0x202535)]);
+  const smile=this.add.arc(0,-33,4,15,165,false,0x8b4b37).setStrokeStyle(1.5,0x8b4b37);
+  const leaf=this.add.ellipse(3,-69,17,8,0x4eaa50).setAngle(-35);
+  const leafVein=this.add.line(0,-69,-3,-70,10,-65,0xd3ed9a);
+  const cap=this.add.container(0,-65,[
+   this.add.ellipse(0,0,39,15,0xf8f7ef),
+   this.add.ellipse(8,5,28,6,0xe5e9e9),
+   this.add.text(-1,-1,'PB',{fontFamily:'Arial',fontSize:'8px',fontStyle:'bold',color:'#2877bb'}).setOrigin(.5)
+  ]);
+  const paddle=this.add.container(29,0,[
+   this.add.rectangle(0,15,6,19,0x8b5c3d).setAngle(-18),
+   this.add.ellipse(0,-2,19,25,0x226db0),
+   this.add.ellipse(0,-2,12,17,0x48a3df),
+   this.add.circle(0,-2,3,0xffd32e)
+  ]);
+  this.player=this.add.container(435,1030,[shadow,backpack,shoes,legs,hoodie,hood,pocket,strings,hem,arms,head,fruitShade,pores,blush,eyes,smile,leaf,leafVein,cap,paddle]).setDepth(1030);
   this.body=head;
-  this.playerSkinParts=[head,armL,armR];
-  this.applySkin();
+  this.playerShirt=hoodie;
+  this.playerHair=leaf;
+  this.playerSkinParts=[];
  }
  private makePeopleAndPlaces(){
   this.addBuilding(650,205,'CLUBHOUSE',0xd9a56d);
@@ -272,13 +284,9 @@ class ClubWorld extends Phaser.Scene{
   else this.say('El entrenador se ha llevado el reto ('+result.score+'). Ajusta tus golpes y vuelve a intentarlo.');
  }
  private applySkin(){
-  const shirts=[0xb9f227,0xff795e,0x70a9d7,0x9b83d5];
-  const tones=[0xe0b58e,0xf1c8a5,0xb97852,0x80543e];
-  const hairs=[0x49372e,0x241d1a,0x9b633c,0x6c4934];
+  const shirts=[0x247bd0,0xff795e,0x70a9d7,0x9b83d5];
   this.playerShirt?.setFillStyle(shirts[this.progress.shirt]??shirts[0]);
-  this.body?.setFillStyle(tones[this.progress.skinTone]??tones[0]);
-  this.playerSkinParts.forEach(part=>part.setFillStyle(tones[this.progress.skinTone]??tones[0]));
-  this.playerHair?.setFillStyle(hairs[this.progress.hair]??hairs[0]);
+  this.body?.setFillStyle(0xffcf24);
  }
  private openSkin=()=>{
   const box=document.getElementById('pb-dialog');if(!box)return;
