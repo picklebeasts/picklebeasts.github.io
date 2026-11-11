@@ -14,7 +14,7 @@ class ClubWorld extends Phaser.Scene{
  private body!:Phaser.GameObjects.Arc;
  private playerShirt!:Phaser.GameObjects.Ellipse;
  private playerHair!:Phaser.GameObjects.Arc;
- private playerSkinParts:Phaser.GameObjects.Arc[]=[];
+ private playerSkinParts:Array<Phaser.GameObjects.Arc|Phaser.GameObjects.Ellipse>=[];
  private move={x:0,y:0};
  private progress=readSave();
  private places:Place[]=[];
