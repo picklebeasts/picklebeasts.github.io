@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import {CourtScene,MatchResult} from './game';
 
 type Progress={talked:boolean;balls:number;courtFixed:boolean;gateOpen:boolean;visited:string[];shirt:number;skinTone:number;hair:number};
 const SAVE_KEY='picklebeasts-adventure-v1';
@@ -19,6 +20,8 @@ class ClubWorld extends Phaser.Scene{
  private hud!:HTMLElement;
  private messageUntil=0;
  private facing=1;
+ private matchGame?:Phaser.Game;
+ private matchScene?:CourtScene;
  private readonly treeObstacles:Array<{x:number;y:number;r:number}>=[{x:75,y:130,r:45},{x:175,y:300,r:45},{x:790,y:145,r:45},{x:790,y:360,r:45},{x:80,y:530,r:45},{x:110,y:900,r:45},{x:780,y:960,r:45},{x:690,y:1120,r:45},{x:250,y:1080,r:45},{x:840,y:780,r:45},{x:560,y:90,r:45},{x:55,y:1100,r:45},{x:520,y:570,r:45},{x:180,y:850,r:45},{x:835,y:1110,r:45}];
  constructor(){super('club-world');}
  create(){
@@ -211,6 +214,26 @@ class ClubWorld extends Phaser.Scene{
    this.pickups.push({x,y,used:false,g:c});
   });
  }
+ private startChallenge(){
+  if(this.matchGame)return;
+  const world=document.querySelector('.pb-world');if(!world)return;
+  const wrap=document.createElement('div');wrap.className='pb-match-overlay';
+  wrap.innerHTML='<div class="pb-match-head"><div><b>RETO DE ENTRENAMIENTO</b><small>Dobles · Primero a 11 · Diferencia de 2</small></div><button id="pb-match-close">×</button></div><div id="pb-match-canvas"></div><div class="pb-match-tools"><button data-shot="drive" class="selected">DRIVE</button><button data-shot="dink">DINK</button><button data-shot="lob">GLOBO</button><button id="pb-match-serve">SACAR</button></div><p class="pb-match-help">Muévete con el joystick. Cuando la pelota se acerque, toca y arrastra para dirigir el golpe.</p>';
+  world.appendChild(wrap);
+  const game=new Phaser.Game({type:Phaser.AUTO,parent:'pb-match-canvas',backgroundColor:'#182326',scale:{mode:Phaser.Scale.RESIZE,width:390,height:680},render:{antialias:true,pixelArt:false,roundPixels:false},audio:{noAudio:true},scene:[]});
+  const scene=new CourtScene();this.matchGame=game;this.matchScene=scene;
+  game.scene.add('training-court',scene,false);
+  game.scene.start('training-court',{finish:(result:MatchResult)=>this.finishChallenge(result),handicap:8});
+  wrap.querySelector('#pb-match-close')?.addEventListener('click',()=>this.closeChallenge());
+  wrap.querySelector('#pb-match-serve')?.addEventListener('click',()=>scene.serveNow());
+  wrap.querySelectorAll<HTMLButtonElement>('[data-shot]').forEach(btn=>btn.addEventListener('click',()=>{const shot=btn.dataset.shot as 'drive'|'dink'|'lob';scene.setShot(shot);wrap.querySelectorAll('[data-shot]').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');}));
+ }
+ private closeChallenge(){this.matchGame?.destroy(true);this.matchGame=undefined;this.matchScene=undefined;document.querySelector('.pb-match-overlay')?.remove();}
+ private finishChallenge(result:MatchResult){
+  this.closeChallenge();
+  if(result.won){this.progress.courtFixed=true;this.progress.gateOpen=true;save(this.progress);this.refreshHud();this.addSign(435,900,'PORTÓN',true);this.say('¡RETO SUPERADO! Has ganado '+result.score+' y desbloqueado el portón del parque. ¡La siguiente zona te espera!');}
+  else this.say('El entrenador se ha llevado el reto ('+result.score+'). Ajusta tus golpes y vuelve a intentarlo.');
+ }
  private applySkin(){
   const shirts=[0xb9f227,0xff795e,0x70a9d7,0x9b83d5];
   const tones=[0xe0b58e,0xf1c8a5,0xb97852,0x80543e];
@@ -262,12 +285,12 @@ class ClubWorld extends Phaser.Scene{
   if(p.kind==='npc'&&p.name.startsWith('Marcus')){
    if(!this.progress.talked){this.progress.talked=true;this.say(p.body);}
    else if(this.progress.balls<3)this.say('¡Buen trabajo! Aún faltan '+(3-this.progress.balls)+' pelotas. Busca los destellos amarillos por el club.');
-   else if(!this.progress.courtFixed)this.say('¡Las tenemos! Ahora acércate a la pista central y pulsa INTERACTUAR para repararla.');
+   else if(!this.progress.courtFixed)this.say('¡Las tenemos! Ahora ve a la pista central y supera el reto de entrenamiento.');
    else this.say('¡La pista está como nueva! La aventura acaba de empezar, rookie.');
   }else if(p.kind==='court'){
    if(!this.progress.talked)this.say('Parece que alguien del club debería explicarte qué hacer primero.');
    else if(this.progress.balls<3)this.say('Necesitamos las tres pelotas perdidas antes de preparar la pista. Te faltan '+(3-this.progress.balls)+'.');
-   else if(!this.progress.courtFixed){this.progress.courtFixed=true;this.progress.gateOpen=true;save(this.progress);this.refreshHud();this.say('¡PISTA RECUPERADA! Has desbloqueado el portón del parque. ¡Nueva zona disponible próximamente!');this.addSign(435,900,'PORTÓN',true);}
+   else if(!this.progress.courtFixed){this.startChallenge();}
    else this.say('La pista está lista. Aquí llegarán los próximos desafíos.');
   }else if(p.kind==='gate'){
    this.say(this.progress.gateOpen?'¡Zona 2 desbloqueada! La siguiente área llegará en la próxima expansión.':'El portón está cerrado. Completa la misión de Marcus para abrirlo.');
@@ -281,8 +304,8 @@ class ClubWorld extends Phaser.Scene{
  }
  private refreshHud(){
   const mission=document.getElementById('pb-mission');if(mission){
-   const title=!this.progress.talked?'HABLA CON MARCUS':this.progress.balls<3?'RECUPERA LAS PELOTAS':!this.progress.courtFixed?'REPARA LA PISTA':'¡MISIÓN COMPLETADA!';
-   const sub=!this.progress.talked?'Busca al entrenador junto a la pista':this.progress.balls<3?'Pelotas encontradas: '+this.progress.balls+'/3':!this.progress.courtFixed?'Vuelve a la pista central':'Has devuelto la vida al club';
+   const title=!this.progress.talked?'HABLA CON MARCUS':this.progress.balls<3?'RECUPERA LAS PELOTAS':!this.progress.courtFixed?'SUPERA EL RETO DE PISTA':'¡MISIÓN COMPLETADA!';
+   const sub=!this.progress.talked?'Busca al entrenador junto a la pista':this.progress.balls<3?'Pelotas encontradas: '+this.progress.balls+'/3':!this.progress.courtFixed?'Juega el reto de dobles para abrir la zona 2':'Has devuelto la vida al club';
    mission.innerHTML='<b>'+title+'</b><small>'+sub+'</small>';
   }
   const count=document.getElementById('pb-balls');if(count)count.textContent=String(this.progress.balls)+'/3';
