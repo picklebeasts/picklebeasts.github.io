@@ -137,7 +137,7 @@ class ClubWorld extends Phaser.Scene{
   const backpack=this.add.container(-18,-5,[
    this.add.ellipse(0,0,25,37,0x202b3b),
    this.add.ellipse(-2,-2,18,29,0x303e51),
-   this.add.roundedRect(-8,-9,15,4,2,0x66758a),
+   this.add.rectangle(-8,-9,15,4,0x66758a),
    this.add.ellipse(10,4,6,23,0x111d2d)
   ]);
   const shoes=this.add.container(0,13,[
@@ -152,7 +152,7 @@ class ClubWorld extends Phaser.Scene{
   ]);
   const hoodie=this.add.ellipse(0,-5,42,43,0x247bd0);
   const hood=this.add.arc(0,-18,18,180,360,false,0x1765b4);
-  const pocket=this.add.roundedRect(0,5,23,10,4,0x1768b7);
+  const pocket=this.add.ellipse(0,5,23,10,0x1768b7);
   const strings=this.add.container(0,-12,[this.add.line(-4,0,-4,0,-4,13,0xd8efff),this.add.line(4,0,4,0,4,13,0xd8efff)]);
   const hem=this.add.rectangle(0,13,40,4,0x155a9c);
   const arms=this.add.container(0,-5,[
