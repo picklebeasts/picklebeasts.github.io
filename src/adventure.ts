@@ -14,6 +14,7 @@ class ClubWorld extends Phaser.Scene{
  private body!:Phaser.GameObjects.Arc;
  private playerShirt!:Phaser.GameObjects.Ellipse;
  private playerHair!:Phaser.GameObjects.Arc;
+ private playerSkinParts:Phaser.GameObjects.Arc[]=[];
  private move={x:0,y:0};
  private progress=readSave();
  private places:Place[]=[];
@@ -169,6 +170,7 @@ class ClubWorld extends Phaser.Scene{
   ]);
   this.player=this.add.container(435,1030,[shadow,shoes,legs,neck,torso,jerseySide,jerseyStripe,collar,crest,crestDot,armL,armR,bandL,bandR,head,ears,hair,brows,eyes,nose,smile,cap,brim,paddle]).setDepth(1030);
   this.body=head;
+  this.playerSkinParts=[head,armL,armR];
   this.applySkin();
  }
  private makePeopleAndPlaces(){
@@ -275,6 +277,7 @@ class ClubWorld extends Phaser.Scene{
   const hairs=[0x49372e,0x241d1a,0x9b633c,0x6c4934];
   this.playerShirt?.setFillStyle(shirts[this.progress.shirt]??shirts[0]);
   this.body?.setFillStyle(tones[this.progress.skinTone]??tones[0]);
+  this.playerSkinParts.forEach(part=>part.setFillStyle(tones[this.progress.skinTone]??tones[0]));
   this.playerHair?.setFillStyle(hairs[this.progress.hair]??hairs[0]);
  }
  private openSkin=()=>{
