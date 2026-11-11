@@ -3,3 +3,26 @@
 .pb-skin-btn{pointer-events:auto;border:1px solid #e7f4c36e;background:#213b2feF;color:#f7f5e9;border-radius:11px;padding:9px 11px;font-size:8px;font-weight:1000;letter-spacing:.8px;box-shadow:0 3px 12px #12251c55}.pb-skin-card h2{font-size:22px;margin:12px 0 2px;color:#25382d}.pb-skin-card> b{display:block;font-size:10px;color:#607b4b;margin:13px 0 7px}.pb-skin-options{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.pb-skin-option{border:1px solid #cfc7ad;border-radius:9px;background:#f2ead5;color:#334536;padding:10px 3px;font-size:9px;font-weight:800}.pb-skin-option.selected{border:2px solid #779c3c;background:#e1efb9;color:#294126}.pb-skin-done{margin-top:18px}
 
 .pb-match-overlay{position:absolute;z-index:9;inset:0;background:#17251f;display:flex;flex-direction:column}.pb-match-head{display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top) + 10px) 13px 9px;background:#20362b;color:#f7f5e9}.pb-match-head b{display:block;font-size:10px;letter-spacing:1px;color:#d8ff59}.pb-match-head small{display:block;font-size:9px;color:#c3cdbd;margin-top:4px}.pb-match-head button{width:34px;height:34px;border:1px solid #60715e;border-radius:50%;background:#2c4436;color:white;font-size:21px}.pb-match-overlay #pb-match-canvas{flex:1;min-height:0;touch-action:none}.pb-match-overlay canvas{display:block;width:100%;height:100%;touch-action:none}.pb-match-tools{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px 10px;background:#20362b}.pb-match-tools button{min-height:40px;border:1px solid #536451;border-radius:9px;background:#304538;color:#f5f2e7;font-size:9px;font-weight:900}.pb-match-tools button.selected,.pb-match-tools #pb-match-serve{background:#d8ff59;color:#243728;border-color:#d8ff59}.pb-match-help{margin:0;padding:3px 12px calc(env(safe-area-inset-bottom) + 9px);background:#20362b;color:#c7d1c5;text-align:center;font-size:9px;line-height:1.4}
+
+
+/* PickleBeasts — Citrus Club visual identity */
+.pb-world{background:#285bb5;box-shadow:0 0 80px #09245d88}
+.pb-world-top{background:linear-gradient(180deg,#12377df2 0%,#174895d1 58%,transparent 100%)}
+.pb-wordmark span{color:#ffd22e}
+.pb-world-stats span{background:#173f89;border-color:#8bbdff66}
+.pb-world-stats span:first-child{color:#ffd22e}
+.pb-world-bottom{background:linear-gradient(180deg,transparent 0%,#153d87b8 25%,#123477f5 68%)}
+.pb-mission{background:linear-gradient(135deg,#1c56a9f5,#173b80f5);border:1px solid #ffd22e88;box-shadow:0 8px 25px #08285f88,inset 0 1px #ffffff25}
+.pb-mission:before{background:#ffd22e;color:#234b91}
+.pb-mission b{color:#ffdb4e}
+.pb-mission small{color:#edf4ff}
+.pb-joystick{background:radial-gradient(circle,#5c8bd188 0%,#173f89db 68%);border-color:#dceaff9c;box-shadow:0 7px 20px #09265f99,inset 0 2px 8px #ffffff2b}
+.pb-stick-knob{background:linear-gradient(145deg,#fff1a3,#ffd22e);border-color:#fffdf0;box-shadow:0 4px 10px #102b5b99,inset 0 -3px 4px #bb8e19}
+.pb-interact{border-color:#fff2a4;background:linear-gradient(180deg,#ffe778,#ffc928);color:#193d7c;box-shadow:0 5px 0 #b27b13,0 8px 15px #09265f99}
+.pb-interact:active{box-shadow:0 2px 0 #b27b13}
+.pb-map-btn,.pb-skin-btn{border-color:#dceaff75;background:#173f89eF;color:#fff}
+.pb-nearby{color:#fff;text-shadow:0 2px 5px #0b2c67}
+.pb-dialog{background:linear-gradient(#08245a66,#08245ac9)}
+.pb-dialog-tag{color:#2868b5}
+.pb-dialog-ok{background:linear-gradient(180deg,#ffe778,#ffc928);color:#193d7c;box-shadow:0 4px 0 #b27b13}
+.pb-skin-option.selected{border-color:#2868b5;background:#dcecff;color:#17417f}
