@@ -1,15 +1,17 @@
 import Phaser from 'phaser';
 
-type Progress={talked:boolean;balls:number;courtFixed:boolean;gateOpen:boolean;visited:string[]};
+type Progress={talked:boolean;balls:number;courtFixed:boolean;gateOpen:boolean;visited:string[];shirt:number;skinTone:number;hair:number};
 const SAVE_KEY='picklebeasts-adventure-v1';
-const fresh=():Progress=>({talked:false,balls:0,courtFixed:false,gateOpen:false,visited:[]});
-function readSave():Progress{try{const v=JSON.parse(localStorage.getItem(SAVE_KEY)||'null') as Progress|null;if(v&&typeof v.balls==='number')return {...fresh(),...v};}catch{}return fresh();}
+const fresh=():Progress=>({talked:false,balls:0,courtFixed:false,gateOpen:false,visited:[],shirt:0,skinTone:0,hair:0});
+function readSave():Progress{try{const v=JSON.parse(localStorage.getItem(SAVE_KEY)||'null') as Progress|null;if(v&&typeof v.balls==='number')return {...fresh(),...v,balls:Phaser.Math.Clamp(Math.floor(v.balls),0,3),shirt:[0xb9f227,0xff795e,0x70a9d7,0x9b83d5][v.shirt]!==undefined?v.shirt:0,skinTone:Phaser.Math.Clamp(v.skinTone||0,0,3),hair:Phaser.Math.Clamp(v.hair||0,0,3)};}catch{}return fresh();}
 function save(p:Progress){localStorage.setItem(SAVE_KEY,JSON.stringify(p));}
 
 type Place={x:number;y:number;name:string;kind:string;body:string;done?:boolean};
 class ClubWorld extends Phaser.Scene{
  private player!:Phaser.GameObjects.Container;
  private body!:Phaser.GameObjects.Arc;
+ private playerShirt!:Phaser.GameObjects.Ellipse;
+ private playerHair!:Phaser.GameObjects.Arc;
  private move={x:0,y:0};
  private progress=readSave();
  private places:Place[]=[];
@@ -38,8 +40,9 @@ class ClubWorld extends Phaser.Scene{
   window.addEventListener('pb-joystick',this.onJoystick as EventListener);
   window.addEventListener('pb-interact',this.onInteract as EventListener);
   window.addEventListener('pb-map',this.onMap as EventListener);
+  window.addEventListener('pb-skin',this.openSkin as EventListener);
   this.refreshHud();
-  this.events.once(Phaser.Scenes.Events.SHUTDOWN,()=>{window.removeEventListener('pb-joystick',this.onJoystick as EventListener);window.removeEventListener('pb-interact',this.onInteract as EventListener);window.removeEventListener('pb-map',this.onMap as EventListener);});
+  this.events.once(Phaser.Scenes.Events.SHUTDOWN,()=>{window.removeEventListener('pb-joystick',this.onJoystick as EventListener);window.removeEventListener('pb-interact',this.onInteract as EventListener);window.removeEventListener('pb-map',this.onMap as EventListener);window.removeEventListener('pb-skin',this.openSkin as EventListener);});
  }
  private onJoystick=(e:CustomEvent<{x:number;y:number}>)=>{this.move=e.detail;};
  private onInteract=()=>{const p=this.nearestPlace(this.player.x,this.player.y,120);if(p)this.interact(p);else this.say('Acércate a alguien o a un lugar para interactuar.');};
@@ -126,18 +129,19 @@ class ClubWorld extends Phaser.Scene{
  private makePlayer(){
   const shadow=this.add.ellipse(0,18,42,19,0x1f3829,.3);
   const legs=this.add.container(0,9,[this.add.ellipse(-7,9,10,15,0x263b48),this.add.ellipse(7,9,10,15,0x263b48),this.add.ellipse(-9,17,13,7,0xf4eee0),this.add.ellipse(9,17,13,7,0xf4eee0)]);
-  const torso=this.add.ellipse(0,-3,31,34,0xb9f227).setStrokeStyle(3,0x405a36);
+  const torso=this.add.ellipse(0,-3,31,34,0xb9f227).setStrokeStyle(3,0x405a36);this.playerShirt=torso;
   const strap=this.add.rectangle(7,-2,6,26,0x263e40).setAngle(-16);
   const armL=this.add.ellipse(-17,1,10,21,0xd9a77d).setAngle(-15);
   const armR=this.add.ellipse(17,1,10,21,0xd9a77d).setAngle(15);
-  const head=this.add.circle(0,-29,14,0xe0b58e).setStrokeStyle(2,0x694b38);
-  const hair=this.add.arc(0,-34,14,185,355,false,0x49372e);
+  const head=this.add.circle(0,-29,14,[0xe0b58e,0xf1c8a5,0xb97852,0x80543e][this.progress.skinTone]).setStrokeStyle(2,0x694b38);
+  const hair=this.add.arc(0,-34,14,185,355,false,[0x49372e,0x241d1a,0x9b633c,0x6c4934][this.progress.hair]);this.playerHair=hair;
   const cap=this.add.ellipse(0,-41,30,9,0x243a38);
   const brim=this.add.ellipse(7,-39,20,4,0x172b2b);
   const eyes=this.add.container(0,-28,[this.add.circle(-5,0,1.8,0x25302c),this.add.circle(5,0,1.8,0x25302c)]);
   const paddle=this.add.container(23,-3,[this.add.rectangle(0,10,5,17,0x80563c).setAngle(-18),this.add.ellipse(0,-2,15,21,0x2d7c83).setStrokeStyle(2,0xf4f0dc),this.add.circle(0,-2,4,0xb9f227)]);
   this.player=this.add.container(435,1030,[shadow,legs,torso,strap,armL,armR,head,hair,cap,brim,eyes,paddle]).setDepth(1030);
   this.body=head;
+  this.applySkin();
  }
  private makePeopleAndPlaces(){
   this.addBuilding(650,205,'CLUBHOUSE',0xd9a56d);
@@ -201,12 +205,30 @@ class ClubWorld extends Phaser.Scene{
  }
  private makePickups(){
   const coords=[[210,770],[610,300],[760,880]];
-  coords.forEach(([x,y],i)=>{
+  coords.slice(this.progress.balls,3).forEach(([x,y],i)=>{
    const c=this.add.container(x,y).setDepth(y+5);
    c.add([this.add.ellipse(0,6,25,10,0x253c2d,.25),this.add.circle(0,0,9,0xd8f34c).setStrokeStyle(2,0x50652f),this.add.circle(-3,-3,2,0xffffff)]);
    this.pickups.push({x,y,used:false,g:c});
   });
  }
+ private applySkin(){
+  const shirts=[0xb9f227,0xff795e,0x70a9d7,0x9b83d5];
+  const tones=[0xe0b58e,0xf1c8a5,0xb97852,0x80543e];
+  const hairs=[0x49372e,0x241d1a,0x9b633c,0x6c4934];
+  this.playerShirt?.setFillStyle(shirts[this.progress.shirt]??shirts[0]);
+  this.body?.setFillStyle(tones[this.progress.skinTone]??tones[0]);
+  this.playerHair?.setFillStyle(hairs[this.progress.hair]??hairs[0]);
+ }
+ private openSkin=()=>{
+  const box=document.getElementById('pb-dialog');if(!box)return;
+  const options=(kind:string,values:string[],selected:number)=>values.map((v,i)=>'<button class="pb-skin-option '+(i===selected?'selected':'')+'" data-kind="'+kind+'" data-value="'+i+'">'+v+'</button>').join('');
+  box.innerHTML='<div class="pb-dialog-card pb-skin-card"><button class="pb-dialog-close" aria-label="Cerrar">×</button><div class="pb-dialog-tag">TU PERSONAJE</div><h2>Personaliza tu skin</h2><p>Combina colores y rasgos para darle identidad a tu jugador.</p><b>Camiseta</b><div class="pb-skin-options">'+options('shirt',['Lima','Coral','Azul','Violeta'],this.progress.shirt)+'</div><b>Tono de piel</b><div class="pb-skin-options">'+options('skinTone',['Claro','Melocotón','Bronce','Oscuro'],this.progress.skinTone)+'</div><b>Cabello</b><div class="pb-skin-options">'+options('hair',['Castaño','Negro','Cobrizo','Chocolate'],this.progress.hair)+'</div><button class="pb-dialog-ok pb-skin-done">GUARDAR LOOK</button></div>';
+  box.classList.add('show');
+  const close=()=>box.classList.remove('show');
+  box.querySelector('.pb-dialog-close')?.addEventListener('click',close);
+  box.querySelector('.pb-skin-done')?.addEventListener('click',close);
+  box.querySelectorAll<HTMLButtonElement>('.pb-skin-option').forEach(btn=>btn.addEventListener('click',()=>{const kind=btn.dataset.kind as 'shirt'|'skinTone'|'hair';const value=Number(btn.dataset.value);if(['shirt','skinTone','hair'].includes(kind)){this.progress[kind]=value;save(this.progress);this.applySkin();box.querySelectorAll('.pb-skin-option[data-kind="'+kind+'"]').forEach(el=>el.classList.remove('selected'));btn.classList.add('selected');}}));
+ };
  private nearestPlace(x:number,y:number,max:number){let best:Place|undefined,dist=max;for(const p of this.places){const d=Phaser.Math.Distance.Between(x,y,p.x,p.y);if(d<dist){dist=d;best=p;}}return best;}
  private blocked(x:number,y:number){
   const lake=((x-670)/125)**2+((y-670)/90)**2;
@@ -232,7 +254,7 @@ class ClubWorld extends Phaser.Scene{
   if(Math.abs(dx)>.05)this.facing=Math.sign(dx);
   this.player.setScale(this.facing<0?-1:1,1);
   this.player.setDepth(this.player.y+30);
-  this.pickups.forEach(p=>{if(!p.used&&Phaser.Math.Distance.Between(this.player.x,this.player.y,p.x,p.y)<36){p.used=true;p.g.destroy();this.progress.balls++;save(this.progress);this.refreshHud();this.say('¡Pelota recuperada! '+this.progress.balls+'/3');}});
+  this.pickups.forEach(p=>{if(!p.used&&Phaser.Math.Distance.Between(this.player.x,this.player.y,p.x,p.y)<36){p.used=true;p.g.destroy();this.progress.balls=Math.min(3,this.progress.balls+1);save(this.progress);this.refreshHud();this.say('¡Pelota recuperada! '+this.progress.balls+'/3');}});
   const near=this.nearestPlace(this.player.x,this.player.y,125);
   const label=document.getElementById('pb-nearby');if(label)label.textContent=near?'CERCA: '+near.name.toUpperCase():'EXPLORA EL CLUB';
  }
@@ -269,7 +291,7 @@ class ClubWorld extends Phaser.Scene{
 export function startAdventure(root:HTMLElement){
  root.innerHTML=`
  <div class="pb-world">
-  <header class="pb-world-top"><div class="pb-wordmark">PICKLE<span>BEASTS</span></div><div class="pb-world-stats"><span>★ ROOKIE</span><span>● <b id="pb-balls">0/3</b></span></div></header>
+  <header class="pb-world-top"><div class="pb-wordmark">PICKLE<span>BEASTS</span></div><button id="pb-skin-btn" class="pb-skin-btn">MI AVATAR</button><div class="pb-world-stats"><span>★ ROOKIE</span><span>● <b id="pb-balls">0/3</b></span></div></header>
   <div id="pb-game" class="pb-game-canvas"></div>
   <div class="pb-world-bottom">
    <div class="pb-mission" id="pb-mission"><b>HABLA CON MARCUS</b><small>Busca al entrenador junto a la pista</small></div>
@@ -277,7 +299,7 @@ export function startAdventure(root:HTMLElement){
   </div>
   <div class="pb-dialog" id="pb-dialog"></div>
  </div>`;
- const game=new Phaser.Game({type:Phaser.AUTO,parent:'pb-game',backgroundColor:'#83b978',scale:{mode:Phaser.Scale.RESIZE,width:390,height:780},render:{antialias:true,pixelArt:false,roundPixels:false},resolution:Math.min(window.devicePixelRatio||1,2),scene:[ClubWorld],audio:{noAudio:true}});
+ const game=new Phaser.Game({type:Phaser.AUTO,parent:'pb-game',backgroundColor:'#83b978',scale:{mode:Phaser.Scale.RESIZE,width:390,height:780},render:{antialias:true,pixelArt:false,roundPixels:false},scene:[ClubWorld],audio:{noAudio:true}});
  const stick=root.querySelector<HTMLElement>('#pb-stick')!,knob=root.querySelector<HTMLElement>('#pb-knob')!;
  let active=-1,origin={x:0,y:0};
  const move=(e:PointerEvent)=>{if(e.pointerId!==active)return;const dx=e.clientX-origin.x,dy=e.clientY-origin.y,len=Math.max(1,Math.hypot(dx,dy)),mag=Math.min(1,len/42),x=dx/len*mag,y=dy/len*mag;knob.style.transform='translate('+x*34+'px,'+y*34+'px)';window.dispatchEvent(new CustomEvent('pb-joystick',{detail:{x,y}}));};
@@ -287,6 +309,7 @@ export function startAdventure(root:HTMLElement){
  stick.addEventListener('pointerup',stop);stick.addEventListener('pointercancel',stop);
  root.querySelector('#pb-interact-btn')?.addEventListener('click',()=>window.dispatchEvent(new Event('pb-interact')));
  root.querySelector('#pb-map-btn')?.addEventListener('click',()=>window.dispatchEvent(new Event('pb-map')));
+ root.querySelector('#pb-skin-btn')?.addEventListener('click',()=>window.dispatchEvent(new Event('pb-skin')));
  window.addEventListener('keydown',e=>{const keys:Record<string,{x:number;y:number}>={ArrowUp:{x:0,y:-1},w:{x:0,y:-1},ArrowDown:{x:0,y:1},s:{x:0,y:1},ArrowLeft:{x:-1,y:0},a:{x:-1,y:0},ArrowRight:{x:1,y:0},d:{x:1,y:0}};if(keys[e.key])window.dispatchEvent(new CustomEvent('pb-joystick',{detail:keys[e.key]}));});
  window.addEventListener('keyup',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','w','a','s','d'].includes(e.key))window.dispatchEvent(new CustomEvent('pb-joystick',{detail:{x:0,y:0}}));});
  return game;
