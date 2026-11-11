@@ -265,7 +265,7 @@ export function startAdventure(root:HTMLElement){
   </div>
   <div class="pb-dialog" id="pb-dialog"></div>
  </div>`;
- const game=new Phaser.Game({type:Phaser.AUTO,parent:'pb-game',backgroundColor:'#83b978',scale:{mode:Phaser.Scale.RESIZE,width:390,height:780},render:{antialias:true,pixelArt:false},scene:[ClubWorld],audio:{noAudio:true}});
+ const game=new Phaser.Game({type:Phaser.AUTO,parent:'pb-game',backgroundColor:'#83b978',scale:{mode:Phaser.Scale.RESIZE,width:390,height:780},render:{antialias:true,antialiasGL:true,pixelArt:false,roundPixels:false},resolution:Math.min(window.devicePixelRatio||1,2),scene:[ClubWorld],audio:{noAudio:true}});
  const stick=root.querySelector<HTMLElement>('#pb-stick')!,knob=root.querySelector<HTMLElement>('#pb-knob')!;
  let active=-1,origin={x:0,y:0};
  const move=(e:PointerEvent)=>{if(e.pointerId!==active)return;const dx=e.clientX-origin.x,dy=e.clientY-origin.y,len=Math.max(1,Math.hypot(dx,dy)),mag=Math.min(1,len/42),x=dx/len*mag,y=dy/len*mag;knob.style.transform='translate('+x*34+'px,'+y*34+'px)';window.dispatchEvent(new CustomEvent('pb-joystick',{detail:{x,y}}));};
