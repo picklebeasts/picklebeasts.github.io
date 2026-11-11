@@ -150,7 +150,7 @@ class ClubWorld extends Phaser.Scene{
   this.places=[
    {x:650,y:245,name:'Clubhouse',kind:'club',body:'Tu base. Aquí se reúnen los miembros y se preparan las próximas aventuras.'},
    {x:300,y:420,name:'Pista central',kind:'court',body:'La pista necesita una pequeña puesta a punto. ¡Vamos a devolverle la vida!'},
-   {x:470,y:500,name:'Marcus · Entrenador',kind:'npc',body:'¡Ey, rookie! Bienvenido al club. Antes de abrir la pista, necesito que recojas tres pelotas perdidas por el recinto.'}
+   {x:470,y:500,name:'Marcus · Entrenador',kind:'npc',body:'¡Ey, rookie! Bienvenido al club. Antes de abrir la pista, necesito que recojas tres pelotas perdidas por el recinto.'},
    {x:120,y:610,name:'Taller',kind:'shop',body:'Aquí podrás personalizar tu equipo y reparar instalaciones. Pronto habrá nuevas mejoras.'},
    {x:670,y:420,name:'Café Dink',kind:'cafe',body:'El punto de encuentro del club. Escucharás rumores, conocerás gente y descubrirás retos.'},
    {x:575,y:820,name:'Naomi · Comunidad',kind:'npc',body:'¡Qué alegría tenerte aquí! Cuando el club crezca, podremos organizar eventos para todos.'},
