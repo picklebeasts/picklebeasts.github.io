@@ -20,7 +20,6 @@ class ClubWorld extends Phaser.Scene{
  constructor(){super('club-world');}
  create(){
   this.cameras.main.setBackgroundColor('#91bd83');
-  this.physics.world.setBounds(0,0,900,1250);
   this.drawWorld();
   this.makePlayer();
   this.makePeopleAndPlaces();
