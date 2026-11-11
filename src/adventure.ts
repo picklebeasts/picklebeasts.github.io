@@ -131,19 +131,43 @@ class ClubWorld extends Phaser.Scene{
   for(let i=0;i<7;i++){const px=x-23+i*7;g.fillStyle(i%2?0xf4c5a0:0xe9d87c);g.fillCircle(px,y-5-(i%3)*4,4);g.fillStyle(0xe9e5ca);g.fillCircle(px+2,y-8-(i%3)*4,2);}
  }
  private makePlayer(){
-  const shadow=this.add.ellipse(0,18,42,19,0x1f3829,.3);
-  const legs=this.add.container(0,9,[this.add.ellipse(-7,9,10,15,0x263b48),this.add.ellipse(7,9,10,15,0x263b48),this.add.ellipse(-9,17,13,7,0xf4eee0),this.add.ellipse(9,17,13,7,0xf4eee0)]);
-  const torso=this.add.ellipse(0,-3,31,34,0xb9f227).setStrokeStyle(3,0x405a36);this.playerShirt=torso;
-  const strap=this.add.rectangle(7,-2,6,26,0x263e40).setAngle(-16);
-  const armL=this.add.ellipse(-17,1,10,21,0xd9a77d).setAngle(-15);
-  const armR=this.add.ellipse(17,1,10,21,0xd9a77d).setAngle(15);
-  const head=this.add.circle(0,-29,14,[0xe0b58e,0xf1c8a5,0xb97852,0x80543e][this.progress.skinTone]).setStrokeStyle(2,0x694b38);
-  const hair=this.add.arc(0,-34,14,185,355,false,[0x49372e,0x241d1a,0x9b633c,0x6c4934][this.progress.hair]);this.playerHair=hair;
-  const cap=this.add.ellipse(0,-41,30,9,0x243a38);
-  const brim=this.add.ellipse(7,-39,20,4,0x172b2b);
-  const eyes=this.add.container(0,-28,[this.add.circle(-5,0,1.8,0x25302c),this.add.circle(5,0,1.8,0x25302c)]);
-  const paddle=this.add.container(23,-3,[this.add.rectangle(0,10,5,17,0x80563c).setAngle(-18),this.add.ellipse(0,-2,15,21,0x2d7c83).setStrokeStyle(2,0xf4f0dc),this.add.circle(0,-2,4,0xb9f227)]);
-  this.player=this.add.container(435,1030,[shadow,legs,torso,strap,armL,armR,head,hair,cap,brim,eyes,paddle]).setDepth(1030);
+  const shadow=this.add.ellipse(0,20,48,20,0x1d3428,.34);
+  const shoes=this.add.container(0,12,[
+   this.add.ellipse(-9,17,17,8,0x263c43),this.add.ellipse(9,17,17,8,0x263c43),
+   this.add.ellipse(-9,15,14,5,0xf4eee0),this.add.ellipse(9,15,14,5,0xf4eee0),
+   this.add.line(-9,14,-13,14,-5,14,0x6b7c75),this.add.line(9,14,5,14,13,14,0x6b7c75)
+  ]);
+  const legs=this.add.container(0,8,[
+   this.add.ellipse(-7,8,10,18,0x34434a),this.add.ellipse(7,8,10,18,0x34434a),
+   this.add.ellipse(0,-1,28,19,0x34434a).setStrokeStyle(2,0x253a3d)
+  ]);
+  const neck=this.add.rectangle(0,-20,10,12,0xe0b58e);
+  const torso=this.add.ellipse(0,-3,34,37,0xb9f227).setStrokeStyle(3,0x405a36);this.playerShirt=torso;
+  const jerseySide=this.add.ellipse(-12,-2,7,25,0x7b9c32,.8);
+  const jerseyStripe=this.add.rectangle(1,-3,4,25,0xf2f5d8,.72);
+  const collar=this.add.triangle(0,-17,0,0,7,8,-7,8,0xf3ecd7);
+  const crest=this.add.circle(-9,-7,4,0xffe16a).setStrokeStyle(1,0x52693b);
+  const crestDot=this.add.circle(-9,-7,1.5,0xff795e);
+  const armL=this.add.ellipse(-19,1,11,23,0xe0b58e).setAngle(-15);
+  const armR=this.add.ellipse(19,1,11,23,0xe0b58e).setAngle(15);
+  const bandL=this.add.ellipse(-21,7,11,5,0xf1e8ce).setAngle(-15);
+  const bandR=this.add.ellipse(21,7,11,5,0xf1e8ce).setAngle(15);
+  const head=this.add.circle(0,-30,15,0xe0b58e).setStrokeStyle(2,0x694b38);
+  const ears=this.add.container(0,-29,[this.add.circle(-15,0,4,0xd49c77),this.add.circle(15,0,4,0xd49c77)]);
+  const hair=this.add.arc(0,-36,15,185,355,false,[0x49372e,0x241d1a,0x9b633c,0x6c4934][this.progress.hair]);this.playerHair=hair;
+  const cap=this.add.ellipse(0,-44,32,10,0x243a38);
+  const brim=this.add.ellipse(7,-42,22,4,0x172b2b);
+  const brows=this.add.container(0,-33,[this.add.rectangle(-5,0,5,1.8,0x49372e),this.add.rectangle(5,0,5,1.8,0x49372e)]);
+  const eyes=this.add.container(0,-28,[this.add.ellipse(-5,0,3,4,0xffffff),this.add.ellipse(5,0,3,4,0xffffff),this.add.circle(-5,0,1.5,0x25302c),this.add.circle(5,0,1.5,0x25302c)]);
+  const nose=this.add.circle(0,-25,1.4,0xb77f60);
+  const smile=this.add.arc(0,-23,4,15,165,false,0x754d3c);
+  const paddle=this.add.container(25,-4,[
+   this.add.rectangle(0,11,6,18,0x80563c).setAngle(-18),
+   this.add.ellipse(0,-3,17,23,0x2d7c83).setStrokeStyle(2,0xf4f0dc),
+   this.add.ellipse(0,-3,10,15,0x3f9b91),
+   this.add.circle(0,-3,3.5,0xb9f227)
+  ]);
+  this.player=this.add.container(435,1030,[shadow,shoes,legs,neck,torso,jerseySide,jerseyStripe,collar,crest,crestDot,armL,armR,bandL,bandR,head,ears,hair,brows,eyes,nose,smile,cap,brim,paddle]).setDepth(1030);
   this.body=head;
   this.applySkin();
  }
@@ -190,16 +214,26 @@ class ClubWorld extends Phaser.Scene{
  }
  private addNpc(x:number,y:number,name:string,color:number){
   const c=this.add.container(x,y).setDepth(y+20);
-  const shadow=this.add.ellipse(0,19,40,17,0x263e2c,.25);
-  const legs=this.add.container(0,8,[this.add.ellipse(-6,10,9,15,0x293b43),this.add.ellipse(6,10,9,15,0x293b43),this.add.ellipse(-7,17,12,6,0xf1eadb),this.add.ellipse(7,17,12,6,0xf1eadb)]);
-  const body=this.add.ellipse(0,-3,32,35,color).setStrokeStyle(2,0x344e3b);
-  const collar=this.add.triangle(0,-15,0,0,10,10,-10,10,0xf2e9d2);
-  const head=this.add.circle(0,-31,14,0xd9a77e).setStrokeStyle(2,0x684a37);
-  const hair=this.add.arc(0,-36,14,185,355,false,name.startsWith('MARCUS')?0x392f2a:0x4a3028);
-  const eyes=this.add.container(0,-30,[this.add.circle(-5,0,1.8,0x26302b),this.add.circle(5,0,1.8,0x26302b)]);
-  const tag=this.add.rectangle(0,27,64,18,0x233c32,.94).setStrokeStyle(1,0xffffff,.4);
-  const text=this.add.text(0,27,name,{fontFamily:'Arial',fontSize:'9px',fontStyle:'bold',color:'#fff8e7'}).setOrigin(.5);
-  c.add([shadow,legs,body,collar,head,hair,eyes,tag,text]);
+  const shadow=this.add.ellipse(0,21,46,18,0x263e2c,.28);
+  const shoes=this.add.container(0,12,[this.add.ellipse(-8,17,15,7,0x263b43),this.add.ellipse(8,17,15,7,0x263b43),this.add.ellipse(-8,15,12,4,0xf1eadb),this.add.ellipse(8,15,12,4,0xf1eadb)]);
+  const legs=this.add.container(0,8,[this.add.ellipse(-6,9,9,17,0x35434a),this.add.ellipse(6,9,9,17,0x35434a),this.add.ellipse(0,-1,27,17,0x35434a)]);
+  const torso=this.add.ellipse(0,-3,35,37,color).setStrokeStyle(2,0x344e3b);
+  const shirtLine=this.add.rectangle(0,-3,4,24,0xffffff,.28);
+  const collar=this.add.triangle(0,-17,0,0,8,8,-8,8,0xf2e9d2);
+  const badge=this.add.circle(-10,-5,4,name.startsWith('MARCUS')?0xd8ff59:0xf6d58b).setStrokeStyle(1,0x38513e);
+  const arms=this.add.container(0,0,[this.add.ellipse(-19,1,11,22,0xd9a77e).setAngle(-15),this.add.ellipse(19,1,11,22,0xd9a77e).setAngle(15),this.add.ellipse(-21,8,11,5,0xf2e9d2),this.add.ellipse(21,8,11,5,0xf2e9d2)]);
+  const skin=name.startsWith('NAOMI')?0xb97852:name.startsWith('SOFÍA')?0xf1c8a5:0xe0b58e;
+  const head=this.add.circle(0,-31,15,skin).setStrokeStyle(2,0x684a37);
+  const hairColor=name.startsWith('NAOMI')?0x241d1a:name.startsWith('SOFÍA')?0x6c4934:0x392f2a;
+  const hair=this.add.arc(0,-37,15,180,360,false,hairColor);
+  const hairSide=this.add.ellipse(-12,-28,6,18,hairColor);
+  const brows=this.add.container(0,-34,[this.add.rectangle(-5,0,5,2,0x392f2a),this.add.rectangle(5,0,5,2,0x392f2a)]);
+  const eyes=this.add.container(0,-29,[this.add.ellipse(-5,0,3,4,0xffffff),this.add.ellipse(5,0,3,4,0xffffff),this.add.circle(-5,0,1.5,0x26302b),this.add.circle(5,0,1.5,0x26302b)]);
+  const nose=this.add.circle(0,-25,1.4,0xb77f60);
+  const smile=this.add.arc(0,-22,4,15,165,false,0x754d3c);
+  const tag=this.add.rectangle(0,29,72,19,0x233c32,.96).setStrokeStyle(1,0xffffff,.45);
+  const text=this.add.text(0,29,name,{fontFamily:'Arial',fontSize:'9px',fontStyle:'bold',color:'#fff8e7'}).setOrigin(.5);
+  c.add([shadow,shoes,legs,torso,shirtLine,collar,badge,arms,head,hair,hairSide,brows,eyes,nose,smile,tag,text]);
   this.tweens.add({targets:c,y:y-3,duration:900+Math.random()*250,yoyo:true,repeat:-1,ease:'Sine.easeInOut'});
  }
  private addSign(x:number,y:number,label:string,open:boolean){
